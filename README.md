@@ -6,10 +6,6 @@
 [![Flutter CI](https://github.com/darksky6666/CalPal/actions/workflows/flutter-apk-autobuild.yml/badge.svg)](https://github.com/darksky6666/CalPal/actions/workflows/flutter-apk-autobuild.yml)
 
 
-# Descriptions
-Use **Issues** to discuss any issues and submit **Pull Requests** to contribute.
-
-
 ## **LANGUAGE, APIs & DB**
 - Flutter
 - Tensorflow Lite

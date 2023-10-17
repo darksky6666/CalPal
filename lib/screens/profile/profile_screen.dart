@@ -3,6 +3,7 @@ import 'package:calpal/controllers/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -28,8 +29,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       setState(() {
         errorMessage = e.toString();
       });
-    } 
-    
+    }
   }
 
   // Future<void> createUserWithEmailAndPassword() async {
@@ -152,7 +152,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
             GestureDetector(
               onTap: () {
                 // Implement the logic for 'Forgot Password' action here.
-                print("Forgot Password clicked");
+                Fluttertoast.showToast(
+                    msg: "Forgot Password Clicked",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: Colors.black,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
               },
               child: const Text(
                 'Forgot Password?',
@@ -171,8 +178,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: ElevatedButton(
           onPressed: () {
             // Implement the login logic here.
-            print("Login button clicked");
             signInWithEmailAndPassword();
+            Fluttertoast.showToast(
+                    msg: ("Login Clicked ") + (emailController.text) + (" ") + (passwordController.text) + (" ") + (errorMessage!),
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: Colors.black,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: primaryColor,
@@ -202,7 +216,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
                   // Implement the Sign Up action here.
-                  print("Sign Up clicked");
+                  Fluttertoast.showToast(
+                    msg: "Sign Up Clicked",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: Colors.black,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
                 },
             ),
           ],

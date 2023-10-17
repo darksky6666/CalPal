@@ -1,4 +1,4 @@
-package com.example.calpal
+package com.noel.calpal
 
 import io.flutter.embedding.android.FlutterActivity
 

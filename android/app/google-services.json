@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "370662930446",
+    "project_id": "calpal-3bfaf",
+    "storage_bucket": "calpal-3bfaf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:370662930446:android:e7efcc40a849335342245f",
+        "android_client_info": {
+          "package_name": "com.noel.calpal"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUrGXDn4IaGhTKFielntB2YTYT5MPwnqk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

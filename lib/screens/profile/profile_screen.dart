@@ -1,4 +1,6 @@
 import 'package:calpal/constants.dart';
+import 'package:calpal/controllers/auth_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +14,41 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   // Variables
   bool _obscureText = true;
+  String? errorMessage = '';
+  bool _isSigningIn = false;
+  final AuthService authService = AuthService();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  Future<void> signInWithEmailAndPassword() async {
+    try {
+      await authService.signInWithEmailAndPassword(
+          email: emailController.text, password: passwordController.text);
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        errorMessage = e.toString();
+      });
+    } 
+    
+  }
+
+  // Future<void> createUserWithEmailAndPassword() async {
+  //   setState(() {
+  //     _isSigningIn = true;
+  //   });
+  //   try {
+  //     await authService.createUserWithEmailAndPassword(
+  //         email: emailController.text, password: passwordController.text);
+  //   } on FirebaseAuthException catch (e) {
+  //     setState(() {
+  //       errorMessage = e.toString();
+  //     });
+  //   } finally {
+  //     setState(() {
+  //       _isSigningIn = false;
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +94,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       FractionallySizedBox(
         widthFactor: 0.8,
         child: TextField(
+          controller: emailController,
           decoration: InputDecoration(
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(17.0),
@@ -77,6 +115,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       FractionallySizedBox(
         widthFactor: 0.8,
         child: TextField(
+          controller: passwordController,
           decoration: InputDecoration(
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(17.0),
@@ -133,6 +172,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           onPressed: () {
             // Implement the login logic here.
             print("Login button clicked");
+            signInWithEmailAndPassword();
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: primaryColor,

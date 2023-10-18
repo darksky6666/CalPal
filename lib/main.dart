@@ -1,4 +1,5 @@
-import 'package:calpal/widget_tree.dart';
+import 'package:calpal/screens/home/home_screen.dart';
+import 'package:calpal/controllers/login_state.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,12 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const WidgetTree(),
+      // Define your routes
+      routes: {
+        '/': (context) => const LoginState(),// Replace FirstScreen with your starting screen
+        '/home': (context) => const HomeScreen(), // Replace HomeScreen with your home screen
+      },
+      initialRoute: '/', // Set the initial route
     );
   }
 }

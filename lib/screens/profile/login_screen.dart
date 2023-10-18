@@ -5,14 +5,14 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _LoginScreenState extends State<LoginScreen> {
   // Variables
   bool _obscureText = true;
   String? errorMessage = '';
@@ -180,13 +180,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
             // Implement the login logic here.
             signInWithEmailAndPassword();
             Fluttertoast.showToast(
-                    msg: ("Login Clicked ") + (emailController.text) + (" ") + (passwordController.text) + (" ") + (errorMessage!),
-                    toastLength: Toast.LENGTH_LONG,
-                    gravity: ToastGravity.BOTTOM,
-                    timeInSecForIosWeb: 1,
-                    backgroundColor: Colors.black,
-                    textColor: Colors.white,
-                    fontSize: 16.0);
+                msg: ("Login Clicked ") +
+                    (emailController.text) +
+                    (" ") +
+                    (passwordController.text) +
+                    (" ") +
+                    (errorMessage!),
+                toastLength: Toast.LENGTH_LONG,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.black,
+                textColor: Colors.white,
+                fontSize: 16.0);
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: primaryColor,
@@ -217,13 +222,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ..onTap = () {
                   // Implement the Sign Up action here.
                   Fluttertoast.showToast(
-                    msg: "Sign Up Clicked",
-                    toastLength: Toast.LENGTH_SHORT,
-                    gravity: ToastGravity.BOTTOM,
-                    timeInSecForIosWeb: 1,
-                    backgroundColor: Colors.black,
-                    textColor: Colors.white,
-                    fontSize: 16.0);
+                      msg: "Sign Up Clicked",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.black,
+                      textColor: Colors.white,
+                      fontSize: 16.0);
                 },
             ),
           ],

@@ -33,6 +33,14 @@ class _HomePageState extends State<HomePage> {
     return Text(user?.uid ?? 'No user ID');
   }
 
+  Widget _navigateToHome() {
+    return ElevatedButton(
+      onPressed: () {
+        Navigator.pushNamed(context, '/home');
+      },
+      child: const Text('Home'),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +54,7 @@ class _HomePageState extends State<HomePage> {
           children: [
             _userId(),
             _signOutButton(),
+            _navigateToHome(),
           ],
         ),
       ),

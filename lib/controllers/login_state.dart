@@ -1,16 +1,16 @@
 import 'package:calpal/controllers/auth_service.dart';
 import 'package:calpal/screens/home.dart';
-import 'package:calpal/screens/profile/profile_screen.dart';
+import 'package:calpal/screens/profile/login_screen.dart';
 import 'package:flutter/material.dart';
 
-class WidgetTree extends StatefulWidget {
-  const WidgetTree({super.key});
+class LoginState extends StatefulWidget {
+  const LoginState({super.key});
 
   @override
-  State<WidgetTree> createState() => _WidgetTreeState();
+  State<LoginState> createState() => _LoginState();
 }
 
-class _WidgetTreeState extends State<WidgetTree> {
+class _LoginState extends State<LoginState> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -19,7 +19,7 @@ class _WidgetTreeState extends State<WidgetTree> {
         if (snapshot.hasData) {
           return const HomePage();
         } else {
-          return const ProfileScreen();
+          return const LoginScreen();
         }
       },
     );

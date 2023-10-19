@@ -2,14 +2,14 @@ import 'package:calpal/controllers/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class AfterSignIn extends StatefulWidget {
+  const AfterSignIn({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<AfterSignIn> createState() => _AfterSignInState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _AfterSignInState extends State<AfterSignIn> {
   final User? user = AuthService().currentUser;
 
   Future<void> signOut() async {

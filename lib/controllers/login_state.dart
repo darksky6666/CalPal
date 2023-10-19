@@ -17,7 +17,7 @@ class _LoginState extends State<LoginState> {
       stream: AuthService().authStateChanges,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return const HomePage();
+          return const AfterSignIn();
         } else {
           return const LoginScreen();
         }

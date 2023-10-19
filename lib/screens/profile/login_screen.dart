@@ -16,7 +16,7 @@ class _LoginScreenState extends State<LoginScreen> {
   // Variables
   bool _obscureText = true;
   String? errorMessage = '';
-  bool _isSigningIn = false;
+  // bool _isSigningIn = false;
   final AuthService authService = AuthService();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -28,6 +28,14 @@ class _LoginScreenState extends State<LoginScreen> {
     } on FirebaseAuthException catch (e) {
       setState(() {
         errorMessage = e.toString();
+        Fluttertoast.showToast(
+            msg: errorMessage!,
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.black,
+            textColor: Colors.white,
+            fontSize: 16.0);
       });
     }
   }
@@ -69,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           children: [
             Image.asset(
-              'assets/calpal_icon.png',
+              'assets/icons/calpal_icon.png',
               width: 150,
               height: 50,
             ),
@@ -179,19 +187,19 @@ class _LoginScreenState extends State<LoginScreen> {
           onPressed: () {
             // Implement the login logic here.
             signInWithEmailAndPassword();
-            Fluttertoast.showToast(
-                msg: ("Login Clicked ") +
-                    (emailController.text) +
-                    (" ") +
-                    (passwordController.text) +
-                    (" ") +
-                    (errorMessage!),
-                toastLength: Toast.LENGTH_LONG,
-                gravity: ToastGravity.BOTTOM,
-                timeInSecForIosWeb: 1,
-                backgroundColor: Colors.black,
-                textColor: Colors.white,
-                fontSize: 16.0);
+            //   Fluttertoast.showToast(
+            //       msg: ("Login Clicked ") +
+            //           (emailController.text) +
+            //           (" ") +
+            //           (passwordController.text) +
+            //           (" ") +
+            //           (errorMessage!),
+            //       toastLength: Toast.LENGTH_LONG,
+            //       gravity: ToastGravity.BOTTOM,
+            //       timeInSecForIosWeb: 1,
+            //       backgroundColor: Colors.black,
+            //       textColor: Colors.white,
+            //       fontSize: 16.0);
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: primaryColor,

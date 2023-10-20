@@ -33,7 +33,7 @@ class _HomeViewState extends State<HomeView> {
               // Handle menu item selection here
               if (choice == 'Log Out') {
                 AuthService().signOut();
-                Navigator.pushNamed(context, '/');
+                Navigator.popAndPushNamed(context, '/');
               } else if (choice == 'Settings') {
                 Fluttertoast.showToast(
                     msg: ("Settings Clicked"),
@@ -42,6 +42,7 @@ class _HomeViewState extends State<HomeView> {
                     backgroundColor: Colors.black,
                     textColor: Colors.white,
                     fontSize: 16.0);
+                Navigator.pushNamed(context, '/test');
               }
             },
             itemBuilder: (BuildContext context) {

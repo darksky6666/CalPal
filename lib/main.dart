@@ -1,3 +1,4 @@
+import 'package:calpal/screens/home/home_view.dart';
 import 'package:calpal/screens/home/navigation_screen.dart';
 import 'package:calpal/controllers/login_state.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -27,7 +28,8 @@ class MyApp extends StatelessWidget {
       // Define your routes
       routes: {
         '/': (context) => const LoginState(),// Replace FirstScreen with your starting screen
-        '/home': (context) => const NavigationScreen(), // Replace HomeScreen with your home screen
+        '/home': (context) => const NavigationScreen(),
+        '/test':(context) => HomeView(), // Replace HomeScreen with your home screen
       },
       initialRoute: '/', // Set the initial route
     );

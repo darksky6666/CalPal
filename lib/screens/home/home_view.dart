@@ -1,5 +1,7 @@
 import 'package:calpal/constants.dart';
 import 'package:calpal/controllers/auth_service.dart';
+import 'package:calpal/screens/home/component/text_styling.dart';
+import 'package:calpal/screens/home/day_view.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:heroicons_flutter/heroicons_flutter.dart';
@@ -65,207 +67,199 @@ class _HomeViewState extends State<HomeView> {
       //   ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: <Widget>[
-            ToggleButtons(
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            clipBehavior: Clip.none,
+            child: Column(
               children: <Widget>[
-                Container(
-                  width: MediaQuery.of(context).size.width / 2.3,
-                  child: Center(
-                      child: Text(
-                    'Day',
-                    style: TextStyle(fontWeight: FontWeight.w600),
-                  )),
+                ToggleButtons(
+                  children: <Widget>[
+                    Container(
+                      width: MediaQuery.of(context).size.width / 2.3,
+                      child: Center(
+                          child: Text(
+                        'Day',
+                        style: TextStyle(fontWeight: FontWeight.w600),
+                      )),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width / 2.3,
+                      child: Center(
+                          child: Text(
+                        'Week',
+                        style: TextStyle(fontWeight: FontWeight.w600),
+                      )),
+                    ),
+                  ],
+                  isSelected: isSelected,
+                  onPressed: (int index) {
+                    setState(() {
+                      // Toggle the selection
+                      for (int buttonIndex = 0;
+                          buttonIndex < isSelected.length;
+                          buttonIndex++) {
+                        isSelected[buttonIndex] = buttonIndex == index;
+                      }
+                      // Handle view change based on the selected index
+                      if (index == 0) {
+                        // Day view selected, update your UI accordingly
+                      } else {
+                        // Week view selected, update your UI accordingly
+                      }
+                    });
+                  },
+                  selectedColor: Colors.white,
+                  fillColor: Color.fromRGBO(64, 78, 108, 1),
+                  borderRadius: BorderRadius.circular(10),
+                  disabledColor: Color.fromRGBO(241, 246, 249, 1),
                 ),
-                Container(
-                  width: MediaQuery.of(context).size.width / 2.3,
-                  child: Center(
-                      child: Text(
-                    'Week',
-                    style: TextStyle(fontWeight: FontWeight.w600),
-                  )),
-                ),
-              ],
-              isSelected: isSelected,
-              onPressed: (int index) {
-                setState(() {
-                  // Toggle the selection
-                  for (int buttonIndex = 0;
-                      buttonIndex < isSelected.length;
-                      buttonIndex++) {
-                    isSelected[buttonIndex] = buttonIndex == index;
-                  }
-                  // Handle view change based on the selected index
-                  if (index == 0) {
-                    // Day view selected, update your UI accordingly
-                  } else {
-                    // Week view selected, update your UI accordingly
-                  }
-                });
-              },
-              selectedColor: Colors.white,
-              fillColor: Color.fromRGBO(64, 78, 108, 1),
-              borderRadius: BorderRadius.circular(10),
-              disabledColor: Color.fromRGBO(241, 246, 249, 1),
-            ),
-            // Your content for the selected view goes here
-            if (isSelected[0]) // Day view
-              SingleChildScrollView(
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Column(
-                      children: [
-                        // Change Picker View
-                        Text("day"),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        // Overview Container
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: purpleColor,
+                // Your content for the selected view goes here
+                if (isSelected[0]) // Day view
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        children: [
+                          // Change Picker View
+                          Text("day"),
+                          SizedBox(
+                            height: 20,
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 1),
-                                  child: Align(
-                                    alignment: Alignment.topLeft,
-                                    child: Text(
-                                      'Overview',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.white,
-                                          fontSize: 16),
-                                    ),
-                                  ),
+                          // Overview Container
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: purpleColor,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 0,
+                                  blurRadius: 5,
+                                  offset: Offset(
+                                      0, 3), // changes position of shadow
                                 ),
-                                // Calorie in Overview
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Container(
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Container(
-                                        width: 20,
-                                        child: Icon(HeroiconsSolid.fire,
-                                            color: Colors.white),
-                                      ),
-                                      Container(
-                                          width: 55,
-                                          child: textNoBold(
-                                            text: 'Calorie',
-                                          )),
-                                      Container(
-                                        width: 200,
-                                        child: Wrap(
-                                          direction: Axis.horizontal,
-                                          crossAxisAlignment: WrapCrossAlignment
-                                              .center, // WrapAlignment.center,
-                                          textDirection: TextDirection.ltr,
-                                          children: [
-                                            textBold(text: '1200'),
-                                            textNoBold(
-                                                text: ' / ' + '1900 ' + 'Cal')
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                // Nutrient in Overview
-                                Container(
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Container(
-                                        width: 20,
-                                        child: ImageIcon(
-                                          AssetImage(
-                                              'assets/icons/watermelon_icon.png'),
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      Container(
-                                          width: 55,
-                                          child: textNoBold(text: 'Nutrient')),
-                                      Container(
-                                        width: 200,
-                                        child: Wrap(
-                                          direction: Axis.horizontal,
-                                          crossAxisAlignment: WrapCrossAlignment
-                                              .center, // WrapAlignment.center,
-                                          textDirection: TextDirection.ltr,
-                                          children: [
-                                            textBold(text: '1200'),
-                                            textNoBold(text: ' g Carbs,'),
-                                            textBold(text: '100'),
-                                            textNoBold(text: ' g Fat,'),
-                                            textBold(text: '1600'),
-                                            textNoBold(text: ' g Protein'),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                )
                               ],
                             ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 5, bottom: 5, top: 5),
+                                    child: Align(
+                                      alignment: Alignment.topLeft,
+                                      child: titleText(
+                                        text: 'Overview',
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                  // Calorie in Overview
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Container(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          width: 20,
+                                          child: Icon(HeroiconsSolid.fire,
+                                              color: Colors.white),
+                                        ),
+                                        Container(
+                                            width: 60,
+                                            child: textNoBold(
+                                              text: 'Calories',
+                                            )),
+                                        Container(
+                                          width: 200,
+                                          child: Wrap(
+                                            direction: Axis.horizontal,
+                                            crossAxisAlignment: WrapCrossAlignment
+                                                .center, // WrapAlignment.center,
+                                            textDirection: TextDirection.ltr,
+                                            children: [
+                                              textBold(text: '1200'),
+                                              textNoBold(
+                                                  text: ' / ' + '1900 ' + 'Cal')
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  // Nutrient in Overview
+                                  Container(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          width: 20,
+                                          child: ImageIcon(
+                                            AssetImage(
+                                                'assets/icons/watermelon_icon.png'),
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        Container(
+                                            width: 60,
+                                            child:
+                                                textNoBold(text: 'Nutrients')),
+                                        Container(
+                                          width: 200,
+                                          child: Wrap(
+                                            direction: Axis.horizontal,
+                                            crossAxisAlignment: WrapCrossAlignment
+                                                .center, // WrapAlignment.center,
+                                            textDirection: TextDirection.ltr,
+                                            children: [
+                                              textBold(text: '1200'),
+                                              textNoBold(text: ' g Carbs,'),
+                                              textBold(text: '100'),
+                                              textNoBold(text: ' g Fat,'),
+                                              textBold(text: '1600'),
+                                              textNoBold(text: ' g Protein'),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
-                      ],
+                          SizedBox(
+                            height: 20,
+                          ),
+                          DayViewPage(date: DateTime.now()),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ),
-            if (isSelected[1]) // Week view
-              Center(
-                child: Text('Week View Content'),
-              ),
-          ],
+                if (isSelected[1]) // Week view
+                  Center(
+                    child: Text('Week View Content'),
+                  ),
+              ],
+            ),
+          ),
         ),
       ),
-    );
-  }
-}
-
-class textBold extends StatelessWidget {
-  final String text;
-  const textBold({
-    Key? key,
-    required this.text,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: TextStyle(fontWeight: FontWeight.w700, color: Colors.white),
-    );
-  }
-}
-
-class textNoBold extends StatelessWidget {
-  final String text;
-  const textNoBold({
-    Key? key,
-    required this.text,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: TextStyle(fontWeight: FontWeight.w400, color: Colors.white),
     );
   }
 }

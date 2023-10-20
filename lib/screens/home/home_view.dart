@@ -1,7 +1,7 @@
 import 'package:calpal/constants.dart';
 import 'package:calpal/controllers/auth_service.dart';
 import 'package:calpal/screens/home/component/text_styling.dart';
-import 'package:calpal/screens/home/day_view.dart';
+import 'package:calpal/screens/home/meals_view.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:heroicons_flutter/heroicons_flutter.dart';
@@ -165,27 +165,35 @@ class _HomeViewState extends State<HomeView> {
                                   ),
                                   Container(
                                     child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
+                                        SizedBox(
+                                          width: 10,
+                                        ),
                                         Container(
                                           width: 20,
                                           child: Icon(HeroiconsSolid.fire,
                                               color: Colors.white),
+                                        ),
+                                        SizedBox(
+                                          width: 20,
                                         ),
                                         Container(
                                             width: 60,
                                             child: textNoBold(
                                               text: 'Calories',
                                             )),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
                                         Container(
-                                          width: 200,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.47,
                                           child: Wrap(
                                             direction: Axis.horizontal,
-                                            crossAxisAlignment: WrapCrossAlignment
-                                                .center, // WrapAlignment.center,
                                             textDirection: TextDirection.ltr,
                                             children: [
                                               textBold(text: '1200'),
@@ -203,25 +211,33 @@ class _HomeViewState extends State<HomeView> {
                                   // Nutrient in Overview
                                   Container(
                                     child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
+                                        SizedBox(
+                                          width: 10,
+                                        ),
                                         Container(
                                             width: 20,
                                             child: Icon(Ionicons.pizza_outline,
                                                 color: Colors.white)),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
                                         Container(
                                             width: 60,
                                             child:
                                                 textNoBold(text: 'Nutrients')),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
                                         Container(
-                                          width: 200,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.47,
                                           child: Wrap(
                                             direction: Axis.horizontal,
-                                            crossAxisAlignment: WrapCrossAlignment
-                                                .center, // WrapAlignment.center,
                                             textDirection: TextDirection.ltr,
                                             children: [
                                               textBold(text: '1200'),
@@ -243,7 +259,18 @@ class _HomeViewState extends State<HomeView> {
                           SizedBox(
                             height: 20,
                           ),
-                          DayViewPage(date: DateTime.now()),
+                          MealsViewPage(meals: "Breakfast"),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          MealsViewPage(meals: "Lunch"),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          MealsViewPage(meals: "Dinner"),
+                          SizedBox(
+                            height: 20,
+                          ),
                         ],
                       ),
                     ),

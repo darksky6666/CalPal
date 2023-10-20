@@ -5,6 +5,7 @@ import 'package:calpal/screens/home/day_view.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:heroicons_flutter/heroicons_flutter.dart';
+import 'package:ionicons/ionicons.dart';
 
 class HomeView extends StatefulWidget {
   @override
@@ -208,13 +209,9 @@ class _HomeViewState extends State<HomeView> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Container(
-                                          width: 20,
-                                          child: ImageIcon(
-                                            AssetImage(
-                                                'assets/icons/watermelon_icon.png'),
-                                            color: Colors.white,
-                                          ),
-                                        ),
+                                            width: 20,
+                                            child: Icon(Ionicons.pizza_outline,
+                                                color: Colors.white)),
                                         Container(
                                             width: 60,
                                             child:

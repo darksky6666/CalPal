@@ -2,6 +2,7 @@ import 'package:calpal/screens/home/home_view.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:heroicons_flutter/heroicons_flutter.dart';
+import 'package:ionicons/ionicons.dart';
 
 class NavigationScreen extends StatefulWidget {
   const NavigationScreen({super.key});
@@ -45,11 +46,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
               activeIcon: HeroiconsSolid.fire,
               title: 'Analysis'),
           TabItem(
-            icon: Image.asset(
-              'assets/icons/food_icon.png',
-              height: 30,
-              width: 30,
-            ),
+            icon: Ionicons.fast_food_outline,
+            activeIcon: Ionicons.fast_food,
           ),
           TabItem(
               icon: HeroiconsOutline.flag,

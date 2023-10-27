@@ -1,4 +1,4 @@
-import 'package:calpal/screens/home/component/text_styling.dart';
+import 'package:calpal/screens/components/text_styling.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 

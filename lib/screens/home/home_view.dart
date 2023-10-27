@@ -1,6 +1,8 @@
 import 'package:calpal/constants.dart';
 import 'package:calpal/controllers/auth_service.dart';
-import 'package:calpal/screens/home/component/text_styling.dart';
+import 'package:calpal/controllers/date_picker.dart';
+import 'package:calpal/screens/components/bottom_navigation.dart';
+import 'package:calpal/screens/components/text_styling.dart';
 import 'package:calpal/screens/home/meals_view.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -13,6 +15,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  DateLogic dateLogic = DateLogic();
   List<bool> isSelected = [true, false];
   @override
   Widget build(BuildContext context) {
@@ -125,7 +128,33 @@ class _HomeViewState extends State<HomeView> {
                       child: Column(
                         children: [
                           // Change Picker View
-                          Text("day"),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                icon: Icon(HeroiconsSolid.chevronLeft),
+                                onPressed: () {
+                                  setState(() {
+                                    dateLogic.navigateToPreviousDay();
+                                  });
+                                },
+                              ),
+                              Spacer(),
+                              Text(
+                                "${dateLogic.currentDate.day}/${dateLogic.currentDate.month}/${dateLogic.currentDate.year}",
+                                style: TextStyle(fontSize: 18),
+                              ),
+                              Spacer(),
+                              IconButton(
+                                icon: Icon(HeroiconsSolid.chevronRight),
+                                onPressed: () {
+                                  setState(() {
+                                    dateLogic.navigateToNextDay();
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
                           SizedBox(
                             height: 20,
                           ),
@@ -270,7 +299,7 @@ class _HomeViewState extends State<HomeView> {
                           ),
                           MealsViewPage(meals: "Dinner"),
                           SizedBox(
-                            height: 20,
+                            height: 10,
                           ),
                         ],
                       ),
@@ -285,6 +314,7 @@ class _HomeViewState extends State<HomeView> {
           ),
         ),
       ),
+      bottomNavigationBar: BottomNav(currentIndex: 0),
     );
   }
 }

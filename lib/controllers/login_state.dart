@@ -1,5 +1,5 @@
 import 'package:calpal/controllers/auth_service.dart';
-import 'package:calpal/screens/home/navigation_screen.dart';
+import 'package:calpal/screens/home/home_view.dart';
 import 'package:calpal/screens/profile/login_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +17,7 @@ class _LoginState extends State<LoginState> {
       stream: AuthService().authStateChanges,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return NavigationScreen();
+          return HomeView();
         } else {
           return const LoginScreen();
         }

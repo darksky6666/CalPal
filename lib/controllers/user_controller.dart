@@ -1,9 +1,7 @@
 import 'package:calpal/repositories/user_repository.dart';
 import 'package:calpal/models/users.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 class UserController{

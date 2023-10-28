@@ -25,6 +25,7 @@ class UserRepository extends GetxController {
               fontSize: 16.0,
             
         ))
+        // ignore: body_might_complete_normally_catch_error
         .catchError((error, stackTrace) {
       Fluttertoast.showToast(
           msg: "Failed to store: $error",

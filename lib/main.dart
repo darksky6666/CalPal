@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
       // Define your routes
       routes: {
         '/': (context) => LoginState(),
-        '/test': (context) => DateRow(),
+        '/test': (context) => UserFormWidget(),
         '/home': (context) => HomeView(),
         '/analysis': (context) => AnalysisView(),
         '/food': (context) => FoodView(),

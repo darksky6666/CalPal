@@ -5,23 +5,29 @@ os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
 import tensorflow as tf
 from tensorflow.keras.applications import MobileNetV2
 from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Input, GlobalAveragePooling2D, Dense
+from tensorflow.keras.layers import Input, GlobalAveragePooling2D, Dense, Dropout
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.losses import CategoricalCrossentropy
 from tensorflow.keras.metrics import CategoricalAccuracy
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 from tensorflow.keras.callbacks import EarlyStopping, LambdaCallback, ModelCheckpoint, LearningRateScheduler
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
-import os
 
 # Define the path to your dataset (each subfolder is a food category)
 data_dir = './dataset'
 
-# Define the data generator
+# Define the data generator with data augmentation
 batch_size = 20
 data_generator = ImageDataGenerator(
     preprocessing_function=preprocess_input,
-    validation_split=0.2
+    validation_split=0.2,
+    rotation_range=40,  # Rotate images
+    width_shift_range=0.2,  # Shift width
+    height_shift_range=0.2,  # Shift height
+    shear_range=0.2,  # Shear transformations
+    zoom_range=0.2,  # Zoom in/out
+    horizontal_flip=True,  # Flip horizontally
+    fill_mode='nearest'  # Fill missing pixels
 )
 
 train_data = data_generator.flow_from_directory(
@@ -43,8 +49,13 @@ validation_data = data_generator.flow_from_directory(
 # Define the base MobileNetV2 model
 base_model = MobileNetV2(input_shape=(224, 224, 3), include_top=False, weights='imagenet')
 
-# Add a custom head for classification
+# Fine-tune the base model
+for layer in base_model.layers:
+    layer.trainable = True
+
+# Add a custom head for classification with dropout
 x = GlobalAveragePooling2D()(base_model.output)
+x = Dropout(0.5)(x)  # Add dropout
 x = Dense(train_data.num_classes, activation='softmax')(x)
 
 # Create the model
@@ -60,9 +71,9 @@ else:
     # Start a new training session
     resume_training = False
 
-# Compile the model with a lower learning rate
-initial_learning_rate = 0.001
-lr_schedule = LearningRateScheduler(lambda epoch: initial_learning_rate / (10 ** (epoch // 10)))
+# Use an aggressive learning rate schedule
+initial_learning_rate = 0.01
+lr_schedule = LearningRateScheduler(lambda epoch: initial_learning_rate / (10 ** (epoch // 5)))
 model.compile(optimizer=Adam(learning_rate=initial_learning_rate),
               loss=CategoricalCrossentropy(from_logits=True),
               metrics=[CategoricalAccuracy()])

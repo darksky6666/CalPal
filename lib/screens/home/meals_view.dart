@@ -72,6 +72,8 @@ class MealsViewPage extends StatelessWidget {
                               // color: Colors.black,
                             ),
                             child: Image(
+                                height: 60,
+                                width: 60,
                                 image: AssetImage(
                                     'assets/icons/calpal_icon.png'))), // Food image
                         SizedBox(

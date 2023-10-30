@@ -1,4 +1,4 @@
-import 'package:calpal/constants.dart';
+import 'package:calpal/screens/components/constants.dart';
 import 'package:calpal/controllers/auth_service.dart';
 import 'package:calpal/controllers/date_picker.dart';
 import 'package:calpal/screens/components/bottom_navigation.dart';
@@ -25,7 +25,8 @@ class _HomeViewState extends State<HomeView> {
           padding: const EdgeInsets.only(left: 10),
           child: const Text(
             'Home',
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.w800),
+            style: TextStyle(
+                color: Colors.black, fontWeight: FontWeight.w800, fontSize: 25),
           ),
         ),
         automaticallyImplyLeading: false,
@@ -139,7 +140,7 @@ class _HomeViewState extends State<HomeView> {
                             ),
                             Spacer(),
                             Text(
-                              "${dateLogic.currentDate.day}/${dateLogic.currentDate.month}/${dateLogic.currentDate.year}",
+                              "${dateLogic.currentDate.day}/${dateLogic.currentDate.month}",
                               style: TextStyle(fontSize: 18),
                             ),
                             Spacer(),
@@ -167,8 +168,8 @@ class _HomeViewState extends State<HomeView> {
                                 color: Colors.grey.withOpacity(0.5),
                                 spreadRadius: 0,
                                 blurRadius: 5,
-                                offset: Offset(
-                                    0, 3), // changes position of shadow
+                                offset:
+                                    Offset(0, 3), // changes position of shadow
                               ),
                             ],
                           ),
@@ -216,10 +217,9 @@ class _HomeViewState extends State<HomeView> {
                                         width: 20,
                                       ),
                                       Container(
-                                        width: MediaQuery.of(context)
-                                                .size
-                                                .width *
-                                            0.47,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.47,
                                         child: Wrap(
                                           direction: Axis.horizontal,
                                           textDirection: TextDirection.ltr,
@@ -254,16 +254,14 @@ class _HomeViewState extends State<HomeView> {
                                       ),
                                       Container(
                                           width: 60,
-                                          child:
-                                              textNoBold(text: 'Nutrients')),
+                                          child: textNoBold(text: 'Nutrients')),
                                       SizedBox(
                                         width: 20,
                                       ),
                                       Container(
-                                        width: MediaQuery.of(context)
-                                                .size
-                                                .width *
-                                            0.47,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.47,
                                         child: Wrap(
                                           direction: Axis.horizontal,
                                           textDirection: TextDirection.ltr,

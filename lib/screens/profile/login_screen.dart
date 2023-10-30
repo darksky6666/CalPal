@@ -1,4 +1,4 @@
-import 'package:calpal/constants.dart';
+import 'package:calpal/screens/components/constants.dart';
 import 'package:calpal/controllers/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';

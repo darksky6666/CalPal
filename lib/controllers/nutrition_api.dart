@@ -27,6 +27,7 @@ class NutritionixController {
         final foods = data['foods'];
         if (foods.isNotEmpty) {
           final foodInfo = foods[0];
+          final foodName = foodInfo['food_name'];
           final servingWeightGrams = foodInfo['serving_weight_grams'];
           final calories = foodInfo['nf_calories'];
           final totalFat = foodInfo['nf_total_fat'];
@@ -34,6 +35,7 @@ class NutritionixController {
           final totalCarbohydrate = foodInfo['nf_total_carbohydrate'];
 
           return {
+            'food_name': foodName,
             'serving_weight_grams': servingWeightGrams,
             'nf_calories': calories,
             'nf_total_fat': totalFat,

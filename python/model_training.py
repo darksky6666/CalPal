@@ -12,7 +12,6 @@ from tensorflow.keras.metrics import CategoricalAccuracy
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 from tensorflow.keras.callbacks import EarlyStopping, LambdaCallback, ModelCheckpoint, LearningRateScheduler
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
-import os
 
 # Define the path to your dataset (each subfolder is a food category)
 data_dir = './dataset'

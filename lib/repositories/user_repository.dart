@@ -11,20 +11,20 @@ class UserRepository extends GetxController {
 
   final _db = FirebaseFirestore.instance;
 
-  createUser(UserModel user) async {
+  createOrUpdateUser(UserModel user) async {
     await _db
         .collection('Users')
-        .add(user.toJson())
+        .doc(uid)
+        .set(user.toJson())
         .whenComplete(() => Fluttertoast.showToast(
-              msg: "Item stored successfully",
+              msg: "Successfully stored",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1,
               backgroundColor: Colors.greenAccent.withOpacity(0.1),
               textColor: Colors.green,
               fontSize: 16.0,
-            
-        ))
+            ))
         // ignore: body_might_complete_normally_catch_error
         .catchError((error, stackTrace) {
       Fluttertoast.showToast(
@@ -38,17 +38,19 @@ class UserRepository extends GetxController {
     });
   }
 
-  // Fetch single user data
+  // Fetch user data
   Future<UserModel> getUserDetails(String uid) async {
-    final snapshot = await _db.collection('Users').where("uid", isEqualTo: uid).get();
-    final userData = snapshot.docs.map((e) => UserModel.fromSnapshot(e)).single;
+    final snapshot =
+        await _db.collection('Users').doc(uid).get();
+    final userData = UserModel.fromSnapshot(snapshot);
     return userData;
   }
 
   // Fetch all users data
   Future<List<UserModel>> getAllUserDetails(String uid) async {
     final snapshot = await _db.collection('Users').get();
-    final userData = snapshot.docs.map((e) => UserModel.fromSnapshot(e)).toList();
+    final userData =
+        snapshot.docs.map((e) => UserModel.fromSnapshot(e)).toList();
     return userData;
   }
 }

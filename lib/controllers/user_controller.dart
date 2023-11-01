@@ -4,22 +4,23 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class UserController{
+class UserController {
   static UserController get instance => Get.find();
+
   // Text editing controllers
   final nameController = TextEditingController();
   final heightController = TextEditingController();
   final weightController = TextEditingController();
   final ageController = TextEditingController();
-  final biologicalSexController = TextEditingController();
-  final medicalConditionController = TextEditingController();
   final targetWeightController = TextEditingController();
   final targetDateController = TextEditingController();
+  String gender = '';
+  String medical = "None";
 
   final userRepo = Get.put(UserRepository());
 
-  Future<void> createUserInfo(UserModel user) async {
-    await userRepo.createUser(user);
+  Future<void> createOrUpdateUserInfo(UserModel user) async {
+    await userRepo.createOrUpdateUser(user);
   }
 
   // Fetch single user data

@@ -1,9 +1,13 @@
 import 'package:calpal/controllers/auth_service.dart';
+import 'package:calpal/controllers/user_controller.dart';
+import 'package:calpal/models/users.dart';
 import 'package:calpal/screens/components/bottom_navigation.dart';
 import 'package:calpal/screens/components/constants.dart';
+import 'package:calpal/screens/profile/user_profile.dart';
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:heroicons_flutter/heroicons_flutter.dart';
 
 class ProfileView extends StatefulWidget {
@@ -14,6 +18,20 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
+  final controller = Get.put(UserController());
+  String name = " ";
+  @override
+  void initState() {
+    super.initState();
+    // Fetch the user data and populate the form fields
+    // Fetch the user data and populate the name
+    controller.getUserData().then((UserModel userData) {
+      setState(() {
+        name = userData.name;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,14 +59,8 @@ class _ProfileViewState extends State<ProfileView> {
               ),
               InkWell(
                 onTap: () {
-                  Fluttertoast.showToast(
-                      msg: "Edit Profile Clicked",
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.CENTER,
-                      timeInSecForIosWeb: 1,
-                      backgroundColor: purpleColor,
-                      textColor: Colors.white,
-                      fontSize: 16.0);
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => UserProfile()));
                 },
                 child: Container(
                   height: MediaQuery.of(context).size.height * 0.1,
@@ -81,7 +93,7 @@ class _ProfileViewState extends State<ProfileView> {
                                 showInitialTextAbovePicture: true,
                                 imageFit: BoxFit.cover,
                                 initialsText: Text(
-                                  'N',
+                                  name[0],
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w700),
@@ -95,7 +107,7 @@ class _ProfileViewState extends State<ProfileView> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    'noelfoo',
+                                    name,
                                     style: TextStyle(
                                       color: Colors.white,
                                     ),

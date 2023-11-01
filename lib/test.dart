@@ -1,5 +1,6 @@
 import 'package:calpal/controllers/user_controller.dart';
 import 'package:calpal/models/users.dart';
+import 'package:calpal/screens/test/testmain.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -70,27 +71,7 @@ class _UserFormWidgetState extends State<UserFormWidget> {
                       ),
                       ElevatedButton(
                           onPressed: () {
-                            if (formKey.currentState!.validate()) {
-                              final user = UserModel(
-                                  uid: uid,
-                                  name: controller.nameController.text.trim(),
-                                  height: double.parse(
-                                      controller.heightController.text.trim()),
-                                  weight: double.parse(
-                                      controller.weightController.text.trim()),
-                                  age: int.parse(
-                                      controller.ageController.text.trim()));
-                              UserController.instance.createUserInfo(user);
-                              Fluttertoast.showToast(
-                                  msg: "User created successfully",
-                                  toastLength: Toast.LENGTH_SHORT,
-                                  gravity: ToastGravity.BOTTOM,
-                                  timeInSecForIosWeb: 1,
-                                  backgroundColor:
-                                      Colors.green.withOpacity(0.1),
-                                  textColor: Colors.green,
-                                  fontSize: 16.0);
-                            }
+                            
                           },
                           child: Text('Submit'))
                     ],
@@ -145,7 +126,17 @@ class _UserFormWidgetState extends State<UserFormWidget> {
             Container(
               height: 300,
               color: Colors.red,
-            )
+            ),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const TestApp(),
+                    ),
+                  );
+                },
+                child: Text('Test Food Recognition'))
           ],
         ),
       ),

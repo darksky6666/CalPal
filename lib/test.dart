@@ -3,7 +3,6 @@ import 'package:calpal/models/users.dart';
 import 'package:calpal/screens/test/testmain.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 class UserFormWidget extends StatefulWidget {

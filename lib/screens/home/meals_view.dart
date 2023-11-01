@@ -1,13 +1,23 @@
+import 'package:calpal/controllers/food_controller.dart';
+import 'package:calpal/models/foods.dart';
+import 'package:calpal/screens/components/constants.dart';
 import 'package:calpal/screens/components/text_styling.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 
-class MealsViewPage extends StatelessWidget {
-  // Get meals from parameter
-  const MealsViewPage({Key? key, required this.meals}) : super(key: key);
+class MealsViewPage extends StatefulWidget {
+  MealsViewPage({Key? key, required this.mealType, required this.dTime}) : super(key: key);
 
-  final String meals;
+  final String mealType;
+  final String dTime;
 
+  @override
+  State<MealsViewPage> createState() => _MealsViewPageState();
+}
+
+class _MealsViewPageState extends State<MealsViewPage> {
+  final controller = Get.put(FoodController());
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -37,7 +47,7 @@ class MealsViewPage extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.topLeft,
                   child: titleText(
-                    text: meals,
+                    text: widget.mealType,
                     color: Colors.black,
                   ),
                 ),
@@ -49,70 +59,93 @@ class MealsViewPage extends StatelessWidget {
                 padding: const EdgeInsets.all(5.0),
 
                 // Food item
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: 3,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                      onTap: () {
-                        Fluttertoast.showToast(
-                            msg: "This is Center Short Toast",
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.CENTER,
-                            timeInSecForIosWeb: 1,
-                            backgroundColor: Colors.black,
-                            textColor: Colors.white,
-                            fontSize: 16.0);
-                      },
-                      child: Row(children: [
-                        Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              // color: Colors.black,
-                            ),
-                            child: Image(
-                                height: 60,
-                                width: 60,
-                                image: AssetImage(
-                                    'assets/icons/calpal_icon.png'))), // Food image
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Container(
-                          alignment: Alignment.topLeft,
-                          width: MediaQuery.of(context).size.width * 0.6,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Wrap(
-                                children: [
-                                  Text(
-                                    "Brown Bread", // Food name
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.w600),
-                                    textAlign: TextAlign.left,
+                child: FutureBuilder<List<FoodItem>>(
+                  future: FoodController.instance.getMealDetails(
+                      widget.dTime, widget.mealType),
+                  builder: (context, snapshot) {
+                    // print("Debug data: " "${dateLogic.currentDate.year}${dateLogic.currentDate.month}${dateLogic.currentDate.day}");
+                    // print("Debug: " + snapshot.data!.length.toString());
+                    print("Debug meal view: " + widget.dTime);
+                    if (snapshot.hasData) {
+                      if (snapshot.data!.isEmpty) {
+                        return Container(
+                            child: Text('No data',
+                                style: TextStyle(
+                                    fontSize: 20, color: primaryColor)));
+                      } else {
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: snapshot.data?.length,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return InkWell(
+                              onTap: () {
+                                Fluttertoast.showToast(
+                                    msg: "This is Center Short Toast",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.CENTER,
+                                    timeInSecForIosWeb: 1,
+                                    backgroundColor: Colors.black,
+                                    textColor: Colors.white,
+                                    fontSize: 16.0);
+                              },
+                              child: Row(children: [
+                                Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      // color: Colors.black,
+                                    ),
+                                    child: Image(
+                                        height: 60,
+                                        width: 60,
+                                        image: AssetImage(
+                                            'assets/icons/calpal_icon.png'))), // Food image
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                Container(
+                                  alignment: Alignment.topLeft,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.6,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Wrap(
+                                        children: [
+                                          Text(
+                                            snapshot.data![index]
+                                                .name, // Food name from Firebase
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w600),
+                                            textAlign: TextAlign.left,
+                                          ),
+                                        ],
+                                      ),
+                                      Wrap(
+                                        children: [
+                                          Text(
+                                            "${snapshot.data![index].servingSize} ${snapshot.data![index].servingUnit} - ${snapshot.data![index].calories} Cal", // Food weight, serving unit, and calories
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w200),
+                                            textAlign: TextAlign.left,
+                                          ),
+                                        ],
+                                      )
+                                    ],
                                   ),
-                                ],
-                              ),
-                              Wrap(
-                                children: [
-                                  Text(
-                                    "172"
-                                    " g - "
-                                    "440"
-                                    " Cal", // Food weight and calories
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.w200),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                        )
-                      ]),
-                    );
+                                )
+                              ]),
+                            );
+                          },
+                        );
+                      }
+                    } else {
+                      return Container(
+                        child: Text('Error',
+                            style: TextStyle(fontSize: 20, color: Colors.red)),
+                      );
+                    }
                   },
                 ),
               )

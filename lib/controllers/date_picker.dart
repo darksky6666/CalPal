@@ -1,5 +1,7 @@
 // date_logic.dart
 
+import 'package:intl/intl.dart';
+
 class DateLogic {
   DateTime currentDate;
 
@@ -17,5 +19,10 @@ class DateLogic {
 
   void navigateToNextDay() {
     currentDate = currentDate.add(Duration(days: 1));
+  }
+
+  String getCurrentDate() {
+    String formattedDate = DateFormat('yyyyMMdd').format(currentDate);
+    return formattedDate;
   }
 }

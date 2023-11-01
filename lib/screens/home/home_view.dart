@@ -1,3 +1,4 @@
+import 'package:calpal/controllers/food_controller.dart';
 import 'package:calpal/screens/components/constants.dart';
 import 'package:calpal/controllers/auth_service.dart';
 import 'package:calpal/controllers/date_picker.dart';
@@ -6,6 +7,7 @@ import 'package:calpal/screens/components/text_styling.dart';
 import 'package:calpal/screens/home/meals_view.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:heroicons_flutter/heroicons_flutter.dart';
 import 'package:ionicons/ionicons.dart';
 
@@ -15,8 +17,10 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  final controller = Get.put(FoodController());
   DateLogic dateLogic = DateLogic();
   List<bool> isSelected = [true, false];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -149,6 +153,8 @@ class _HomeViewState extends State<HomeView> {
                               onPressed: () {
                                 setState(() {
                                   dateLogic.navigateToNextDay();
+                                  print("Debug home view: " +
+                                      dateLogic.getCurrentDate());
                                 });
                               },
                             ),
@@ -285,15 +291,25 @@ class _HomeViewState extends State<HomeView> {
                         SizedBox(
                           height: 20,
                         ),
-                        MealsViewPage(meals: "Breakfast"),
+
+                        MealsViewPage(
+                          mealType: "Breakfast",
+                          dTime: dateLogic.getCurrentDate(),
+                        ),
                         SizedBox(
                           height: 20,
                         ),
-                        MealsViewPage(meals: "Lunch"),
+                        MealsViewPage(
+                          mealType: "Lunch",
+                          dTime: dateLogic.getCurrentDate(),
+                        ),
                         SizedBox(
                           height: 20,
                         ),
-                        MealsViewPage(meals: "Dinner"),
+                        MealsViewPage(
+                          mealType: "Dinner",
+                          dTime: dateLogic.getCurrentDate(),
+                        ),
                         SizedBox(
                           height: 10,
                         ),

@@ -3,7 +3,7 @@ import 'package:calpal/controllers/user_controller.dart';
 import 'package:calpal/models/users.dart';
 import 'package:calpal/screens/components/bottom_navigation.dart';
 import 'package:calpal/screens/components/constants.dart';
-import 'package:calpal/screens/profile/user_profile.dart';
+import 'package:calpal/screens/profile/edit_user.dart';
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';

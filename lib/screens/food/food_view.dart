@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:calpal/controllers/food_controller.dart';
+import 'package:calpal/controllers/image_classification_helper.dart';
 import 'package:calpal/screens/components/bottom_navigation.dart';
 import 'package:calpal/screens/components/constants.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +9,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:heroicons_flutter/heroicons_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:image/image.dart' as img;
 
 class FoodView extends StatefulWidget {
   const FoodView({Key? key}) : super(key: key);
@@ -15,11 +19,78 @@ class FoodView extends StatefulWidget {
 }
 
 class _FoodViewState extends State<FoodView> {
+  ImageClassificationHelper? imageClassificationHelper;
+  Map<String, double>? classification;
+  String? imagePath;
+  final imagePicker = ImagePicker();
+  img.Image? image;
+
   final controller = Get.put(FoodController());
+
+  @override
+  void initState() {
+    imageClassificationHelper = ImageClassificationHelper();
+    imageClassificationHelper!.initHelper();
+    super.initState();
+  }
+
+  // Clean old results when press some take picture button
+  void cleanResult() {
+    imagePath = null;
+    image = null;
+    classification = null;
+    setState(() {});
+  }
+
+  // Process picked image
+  Future<void> processImage() async {
+    MapEntry<String, double> eresult = MapEntry('', 0.0);
+    if (imagePath != null) {
+      // Read image bytes from file
+      final imageData = File(imagePath!).readAsBytesSync();
+
+      // Decode image using package:image/image.dart (https://pub.dev/image)
+      image = img.decodeImage(imageData);
+      setState(() {});
+      classification = await imageClassificationHelper?.inferenceImage(image!);
+      setState(() {});
+    }
+    if (classification != null) {
+      (classification!.entries.toList()
+            ..sort(
+              (a, b) => a.value.compareTo(b.value),
+            ))
+          .reversed
+          .take(1)
+          .forEach(
+            (e) => eresult = e,
+          );
+
+      print("Debug eresult: " + eresult.key.toString());
+      print("Debug eresult value: " + eresult.value.toString());
+      if (eresult.value > 0.5) {
+        controller.searchController.text = eresult.key.trim();
+        controller.filterSuggestions(eresult.key.trim());
+      } else {
+        controller.searchController.text = "";
+        controller.filterSuggestions("");
+        Fluttertoast.showToast(
+          msg: "No food detected",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.redAccent.withOpacity(0.1),
+          textColor: Colors.red,
+          fontSize: 16.0,
+        );
+      }
+    }
+  }
 
   @override
   void dispose() {
     controller.searchController.dispose();
+    imageClassificationHelper?.close();
     super.dispose();
   }
 
@@ -99,13 +170,17 @@ class _FoodViewState extends State<FoodView> {
         ),
         GestureDetector(
           onTap: () async {
-            final ImagePicker picker = ImagePicker();
-            final XFile? photo =
-                await picker.pickImage(source: ImageSource.camera);
+            cleanResult();
+            final result = await imagePicker.pickImage(
+              source: ImageSource.camera,
+            );
 
-            if (photo != null) {
+            imagePath = result?.path;
+            setState(() {});
+            processImage();
+            if (imagePath != null) {
               Fluttertoast.showToast(
-                msg: "Image selected: ${photo.path}",
+                msg: "Image selected: $imagePath",
                 toastLength: Toast.LENGTH_SHORT,
                 gravity: ToastGravity.BOTTOM,
                 timeInSecForIosWeb: 1,
@@ -115,7 +190,7 @@ class _FoodViewState extends State<FoodView> {
               );
             } else {
               Fluttertoast.showToast(
-                msg: "No image selected",
+                msg: "Camera Error",
                 gravity: ToastGravity.BOTTOM,
                 timeInSecForIosWeb: 1,
                 backgroundColor: Colors.redAccent.withOpacity(0.1),

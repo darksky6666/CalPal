@@ -1,6 +1,5 @@
 import 'package:calpal/controllers/user_controller.dart';
 import 'package:calpal/models/users.dart';
-import 'package:calpal/screens/test/testmain.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -126,16 +125,6 @@ class _UserFormWidgetState extends State<UserFormWidget> {
               height: 300,
               color: Colors.red,
             ),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const TestApp(),
-                    ),
-                  );
-                },
-                child: Text('Test Food Recognition'))
           ],
         ),
       ),

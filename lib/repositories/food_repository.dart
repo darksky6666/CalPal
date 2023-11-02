@@ -48,8 +48,6 @@ class FoodRepository extends GetxController {
 
   // Fetch all meal data for a particular day
   Future<List<FoodItem>> getMealDetails(String date, String mealType) async {
-    print("Debug food repo: " + date);
-    // print("Debug: " + getFormattedDateTime());
     final snapshot = await _db
         .collection('Meals')
         .doc(uid)
@@ -59,5 +57,14 @@ class FoodRepository extends GetxController {
     final mealData = snapshot.docs.map((e) => FoodItem.fromSnapshot(e)).toList();
     return mealData;
   }
-  
+
+  Future<List<FoodItem>> getFoodInfo(String date) async {
+    final snapshot = await _db
+        .collection('Meals')
+        .doc(uid)
+        .collection(date)
+        .get();
+    final mealData = snapshot.docs.map((e) => FoodItem.fromSnapshot(e)).toList();
+    return mealData;
+  }
 }

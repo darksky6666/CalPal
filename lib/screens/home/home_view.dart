@@ -1,4 +1,5 @@
 import 'package:calpal/controllers/food_controller.dart';
+import 'package:calpal/models/foods.dart';
 import 'package:calpal/screens/components/constants.dart';
 import 'package:calpal/controllers/auth_service.dart';
 import 'package:calpal/controllers/date_picker.dart';
@@ -20,6 +21,35 @@ class _HomeViewState extends State<HomeView> {
   final controller = Get.put(FoodController());
   DateLogic dateLogic = DateLogic();
   List<bool> isSelected = [true, false];
+  double totalCalories = 0.0;
+  double totalCarbs = 0.0;
+  double totalFat = 0.0;
+  double totalProtein = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+    updateNutrientTotals();
+  }
+
+  // Fetch the food info for the current date and total up the value for each nutrient
+  void updateNutrientTotals() {
+    totalCalories = 0.0;
+    totalCarbs = 0.0;
+    totalFat = 0.0;
+    totalProtein = 0.0;
+
+    controller.getFoodInfo(dateLogic.getCurrentDate()).then((value) {
+      for (FoodItem food in value) {
+        setState(() {
+          totalCalories += food.calories ?? 0;
+          totalCarbs += food.carbs ?? 0;
+          totalFat += food.fat ?? 0;
+          totalProtein += food.protein ?? 0;
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -139,6 +169,7 @@ class _HomeViewState extends State<HomeView> {
                               onPressed: () {
                                 setState(() {
                                   dateLogic.navigateToPreviousDay();
+                                  updateNutrientTotals();
                                 });
                               },
                             ),
@@ -153,8 +184,7 @@ class _HomeViewState extends State<HomeView> {
                               onPressed: () {
                                 setState(() {
                                   dateLogic.navigateToNextDay();
-                                  print("Debug home view: " +
-                                      dateLogic.getCurrentDate());
+                                  updateNutrientTotals();
                                 });
                               },
                             ),
@@ -230,7 +260,8 @@ class _HomeViewState extends State<HomeView> {
                                           direction: Axis.horizontal,
                                           textDirection: TextDirection.ltr,
                                           children: [
-                                            textBold(text: '1200'),
+                                            textBold(
+                                                text: totalCalories.toString()),
                                             textNoBold(
                                                 text: ' / ' + '1900 ' + 'Cal')
                                           ],
@@ -272,11 +303,13 @@ class _HomeViewState extends State<HomeView> {
                                           direction: Axis.horizontal,
                                           textDirection: TextDirection.ltr,
                                           children: [
-                                            textBold(text: '1200'),
+                                            textBold(
+                                                text: totalCarbs.toString()),
                                             textNoBold(text: ' g Carbs,'),
-                                            textBold(text: '100'),
+                                            textBold(text: totalFat.toString()),
                                             textNoBold(text: ' g Fat,'),
-                                            textBold(text: '1600'),
+                                            textBold(
+                                                text: totalProtein.toString()),
                                             textNoBold(text: ' g Protein'),
                                           ],
                                         ),

@@ -66,8 +66,6 @@ class _FoodViewState extends State<FoodView> {
             (e) => eresult = e,
           );
 
-      print("Debug eresult: " + eresult.key.toString());
-      print("Debug eresult value: " + eresult.value.toString());
       if (eresult.value > 0.5) {
         controller.searchController.text = eresult.key.trim();
         controller.filterSuggestions(eresult.key.trim());

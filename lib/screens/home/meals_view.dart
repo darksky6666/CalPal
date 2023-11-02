@@ -63,9 +63,6 @@ class _MealsViewPageState extends State<MealsViewPage> {
                   future: FoodController.instance.getMealDetails(
                       widget.dTime, widget.mealType),
                   builder: (context, snapshot) {
-                    // print("Debug data: " "${dateLogic.currentDate.year}${dateLogic.currentDate.month}${dateLogic.currentDate.day}");
-                    // print("Debug: " + snapshot.data!.length.toString());
-                    print("Debug meal view: " + widget.dTime);
                     if (snapshot.hasData) {
                       if (snapshot.data!.isEmpty) {
                         return Container(

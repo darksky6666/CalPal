@@ -17,6 +17,10 @@ class FoodController extends GetxController {
     return foodRepo.getMealDetails(date, mealType);
   }
 
+  getFoodInfo(String date) {
+    return foodRepo.getFoodInfo(date);
+  }
+
   List<FoodItem> suggestions = FoodItem.foodSuggestions
       .map((foodName) => FoodItem(name: foodName))
       .toList();

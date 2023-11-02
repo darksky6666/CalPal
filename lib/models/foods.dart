@@ -36,12 +36,13 @@ class FoodItem {
   }
 
   // Get the data from the snapshot
-  factory FoodItem.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> document) {
+  factory FoodItem.fromSnapshot(
+      DocumentSnapshot<Map<String, dynamic>> document) {
     final data = document.data()!;
     return FoodItem(
       name: data['name'],
       mealType: data['mealType'],
-      servingSize: data['servingSize'],
+      servingSize: data['servingSize'].toDouble(),
       servingUnit: data['servingUnit'],
       calories: data['calories'],
       protein: data['protein'],

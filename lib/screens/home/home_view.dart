@@ -261,7 +261,10 @@ class _HomeViewState extends State<HomeView> {
                                           textDirection: TextDirection.ltr,
                                           children: [
                                             textBold(
-                                                text: totalCalories.toString()),
+                                                text: double.parse(
+                                                        totalCalories
+                                                            .toStringAsFixed(2))
+                                                    .toString()),
                                             textNoBold(
                                                 text: ' / ' + '1900 ' + 'Cal')
                                           ],
@@ -304,12 +307,21 @@ class _HomeViewState extends State<HomeView> {
                                           textDirection: TextDirection.ltr,
                                           children: [
                                             textBold(
-                                                text: totalCarbs.toString()),
-                                            textNoBold(text: ' g Carbs,'),
-                                            textBold(text: totalFat.toString()),
-                                            textNoBold(text: ' g Fat,'),
+                                                text: double.parse(
+                                                        totalCarbs
+                                                            .toStringAsFixed(2))
+                                                    .toString()),
+                                            textNoBold(text: ' g Carbs, '),
+                                            textBold(text: double.parse(
+                                                    totalFat
+                                                        .toStringAsFixed(2))
+                                                .toString()),
+                                            textNoBold(text: ' g Fat, '),
                                             textBold(
-                                                text: totalProtein.toString()),
+                                                text: double.parse(
+                                                        totalProtein
+                                                            .toStringAsFixed(2))
+                                                    .toString()),
                                             textNoBold(text: ' g Protein'),
                                           ],
                                         ),

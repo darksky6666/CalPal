@@ -16,6 +16,8 @@ class UserProfile extends StatefulWidget {
 
 class _UserProfileState extends State<UserProfile> {
   final controller = Get.put(UserController());
+  String gender = 'Male';
+  String medical = 'None';
 
   @override
   void initState() {
@@ -26,6 +28,10 @@ class _UserProfileState extends State<UserProfile> {
       controller.heightController.text = userData.height.toString();
       controller.weightController.text = userData.weight.toString();
       controller.ageController.text = userData.age.toString();
+      gender = userData.biologicalSex.toString();
+      medical = userData.medicalCondition.toString();
+      setState(() {
+      });
     });
   }
 
@@ -47,7 +53,7 @@ class _UserProfileState extends State<UserProfile> {
         actions: [
           TextButton(
             onPressed: () {
-              if (controller.gender == '') {
+              if (gender == '') {
                 Fluttertoast.showToast(
                     msg: "Gender cannot be null",
                     gravity: ToastGravity.BOTTOM,
@@ -61,14 +67,22 @@ class _UserProfileState extends State<UserProfile> {
                   height: double.parse(controller.heightController.text.trim()),
                   weight: double.parse(controller.weightController.text.trim()),
                   age: int.parse(controller.ageController.text.trim()),
-                  biologicalSex: controller.gender.trim(),
-                  medicalCondition: controller.medical.trim(),
+                  biologicalSex: gender.trim(),
+                  medicalCondition: medical.trim(),
                 );
                 UserController.instance.createOrUpdateUserInfo(user);
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const ProfileView()));
+                // Pop until the profile view
+                Navigator.popUntil(context, ModalRoute.withName('/profile'));
+                // Push the profile view with PageRouteBuilder
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation1, animation2) =>
+                        ProfileView(),
+                    transitionDuration: Duration(seconds: 0),
+                    reverseTransitionDuration: Duration(seconds: 0),
+                  ),
+                );
               }
             },
             child: Text(
@@ -147,13 +161,13 @@ class _UserProfileState extends State<UserProfile> {
                       ),
                       const Spacer(),
                       DropdownButton<String>(
-                        value: controller.gender,
+                        value: gender,
                         onChanged: (String? newValue) {
                           setState(() {
-                            controller.gender = newValue!;
+                            gender = newValue!;
                           });
                         },
-                        items: <String>['', 'Male', 'Female']
+                        items: <String>['Male', 'Female']
                             .map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
@@ -180,10 +194,10 @@ class _UserProfileState extends State<UserProfile> {
                       ),
                       const Spacer(),
                       DropdownButton<String>(
-                        value: controller.medical,
+                        value: medical,
                         onChanged: (String? newValue) {
                           setState(() {
-                            controller.medical = newValue!;
+                            medical = newValue!;
                           });
                         },
                         items: <String>['None', 'Heart', 'Diabetes']

@@ -5,7 +5,7 @@ class UserModel {
   final double height;
   final double weight;
   final int age;
-  final String? biologicalSex;
+  final String biologicalSex;
   final String? medicalCondition;
   // final double targetWeight;
   // final DateTime targetDate;
@@ -15,8 +15,8 @@ class UserModel {
     required this.height,
     required this.weight,
     required this.age,
-    this.biologicalSex,
-    this.medicalCondition,
+    required this.biologicalSex,
+    required this.medicalCondition,
     // required this.targetWeight,
     // required this.targetDate,
   });

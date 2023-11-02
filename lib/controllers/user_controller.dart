@@ -14,8 +14,6 @@ class UserController {
   final ageController = TextEditingController();
   final targetWeightController = TextEditingController();
   final targetDateController = TextEditingController();
-  String gender = '';
-  String medical = "None";
 
   final userRepo = Get.put(UserRepository());
 

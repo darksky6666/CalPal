@@ -35,28 +35,23 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Padding(
+          padding: const EdgeInsets.only(top: 20, left: 5),
+          child: Text(
+            'User Profile',
+            style: TextStyle(
+                color: Colors.black, fontWeight: FontWeight.w800, fontSize: 25),
+          ),
+        ),
+        automaticallyImplyLeading: false,
+      ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Padding(
           padding: const EdgeInsets.only(top: 20.0, left: 20, right: 20),
           child: Column(
             children: [
-              SizedBox(
-                height: 30,
-              ),
-              Align(
-                alignment: Alignment.bottomLeft,
-                child: Text(
-                  'User Profile',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w800,
-                      fontSize: 25),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
               InkWell(
                 onTap: () {
                   Navigator.push(context,

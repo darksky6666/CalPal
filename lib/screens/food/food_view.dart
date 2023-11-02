@@ -95,23 +95,21 @@ class _FoodViewState extends State<FoodView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Padding(
+          padding: const EdgeInsets.only(top: 20, left: 5),
+          child: Text(
+            'Meals',
+            style: TextStyle(
+                color: Colors.black, fontWeight: FontWeight.w800, fontSize: 25),
+          ),
+        ),
+        automaticallyImplyLeading: false,
+      ),
       body: Padding(
         padding: const EdgeInsets.only(top: 20.0, left: 20, right: 20),
         child: Column(
           children: [
-            SizedBox(height: 30),
-            Align(
-              alignment: Alignment.bottomLeft,
-              child: Text(
-                'Meals',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w800,
-                  fontSize: 25,
-                ),
-              ),
-            ),
-            SizedBox(height: 20),
             buildSearchBar(),
             SizedBox(height: 15),
             Expanded(

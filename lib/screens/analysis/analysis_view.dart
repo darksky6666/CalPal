@@ -13,7 +13,15 @@ class _AnalysisViewState extends State<AnalysisView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Analysis'),
+        title: Padding(
+          padding: const EdgeInsets.only(top: 20, left: 5),
+          child: Text(
+            'Analysis',
+            style: TextStyle(
+                color: Colors.black, fontWeight: FontWeight.w800, fontSize: 25),
+          ),
+        ),
+        automaticallyImplyLeading: false,
       ),
       body: Center(
         child: Text('Analysis'),

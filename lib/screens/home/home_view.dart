@@ -175,8 +175,9 @@ class _HomeViewState extends State<HomeView> {
                             ),
                             Spacer(),
                             Text(
-                              "${dateLogic.currentDate.day}/${dateLogic.currentDate.month}",
-                              style: TextStyle(fontSize: 18),
+                              "${dateLogic.currentDate.day} / ${dateLogic.currentDate.month}",
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.w600),
                             ),
                             Spacer(),
                             IconButton(
@@ -261,9 +262,8 @@ class _HomeViewState extends State<HomeView> {
                                           textDirection: TextDirection.ltr,
                                           children: [
                                             textBold(
-                                                text: double.parse(
-                                                        totalCalories
-                                                            .toStringAsFixed(2))
+                                                text: double.parse(totalCalories
+                                                        .toStringAsFixed(2))
                                                     .toString()),
                                             textNoBold(
                                                 text: ' / ' + '1900 ' + 'Cal')
@@ -307,20 +307,18 @@ class _HomeViewState extends State<HomeView> {
                                           textDirection: TextDirection.ltr,
                                           children: [
                                             textBold(
-                                                text: double.parse(
-                                                        totalCarbs
-                                                            .toStringAsFixed(2))
+                                                text: double.parse(totalCarbs
+                                                        .toStringAsFixed(2))
                                                     .toString()),
                                             textNoBold(text: ' g Carbs, '),
-                                            textBold(text: double.parse(
-                                                    totalFat
+                                            textBold(
+                                                text: double.parse(totalFat
                                                         .toStringAsFixed(2))
-                                                .toString()),
+                                                    .toString()),
                                             textNoBold(text: ' g Fat, '),
                                             textBold(
-                                                text: double.parse(
-                                                        totalProtein
-                                                            .toStringAsFixed(2))
+                                                text: double.parse(totalProtein
+                                                        .toStringAsFixed(2))
                                                     .toString()),
                                             textNoBold(text: ' g Protein'),
                                           ],

@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:calpal/controllers/food_controller.dart';
 import 'package:calpal/controllers/image_classification_helper.dart';
 import 'package:calpal/screens/components/bottom_navigation.dart';
@@ -31,6 +30,7 @@ class _FoodViewState extends State<FoodView> {
   void initState() {
     imageClassificationHelper = ImageClassificationHelper();
     imageClassificationHelper!.initHelper();
+    controller.filterSuggestions("");
     super.initState();
   }
 
@@ -114,14 +114,12 @@ class _FoodViewState extends State<FoodView> {
               child: Obx(() {
                 return ListView.builder(
                   shrinkWrap: true,
-                  itemCount: controller.filteredSuggestions.length + 1,
+                  itemCount: controller.filteredSuggestions.length,
                   itemBuilder: (context, index) {
                     return Column(
                       children: [
-                        index == 0
-                            ? buildListItem(context, "Create food")
-                            : buildListItem(context,
-                                controller.filteredSuggestions[index - 1].name),
+                        buildListItem(context,
+                            controller.filteredSuggestions[index].name),
                         SizedBox(height: 20),
                       ],
                     );

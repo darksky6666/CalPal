@@ -196,7 +196,7 @@ class _FoodViewState extends State<FoodView> {
   }
 
   Widget buildListItem(BuildContext context, String text) {
-    return GestureDetector(
+    return InkWell(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
           return FoodDetail(foodName: text);

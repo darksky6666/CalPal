@@ -35,21 +35,29 @@ class FoodController extends GetxController {
 
   // Food suggestions
   void filterSuggestions(String query) {
-    filteredSuggestions.clear(); // Clear the previous filtered suggestions
+    try {
+      filteredSuggestions.clear();
+    } catch (e) {
+      print(e);
+    }
 
     // If the query is empty, return all the suggestions
-    if (query.isEmpty) {
-      filteredSuggestions.addAll(suggestions);
-      return;
-    } else {
-      for (FoodItem food in suggestions) {
-        if (food.name.toLowerCase().contains(query.toLowerCase())) {
-          filteredSuggestions.add(food);
-          // if (filteredSuggestions.length >= 5) {
-          //   break; // Limit the suggestions to the first 5 matches
-          // }
+    try {
+      if (query.isEmpty) {
+        filteredSuggestions.addAll(suggestions);
+        return;
+      } else {
+        for (FoodItem food in suggestions) {
+          if (food.name.toLowerCase().contains(query.toLowerCase())) {
+            filteredSuggestions.add(food);
+            // if (filteredSuggestions.length >= 5) {
+            //   break; // Limit the suggestions to the first 5 matches
+            // }
+          }
         }
       }
+    } catch (e) {
+      print(e);
     }
   }
 }

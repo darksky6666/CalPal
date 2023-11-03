@@ -36,12 +36,11 @@ class _FoodDetailState extends State<FoodDetail> {
     final foodName = widget.foodName;
     final query = "$servingSize $servingUnit of $foodName";
 
-    // Call the fetchCalorieInfo method with the constructed query
     final data = await nutritionixController.fetchCalorieInfo(query);
 
-    if (data != null) {
+    if (data != null && mounted) {
       setState(() {
-        foodData = data; // Set the fetched data in the state
+        foodData = data;
       });
     }
   }

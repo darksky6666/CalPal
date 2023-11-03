@@ -1,5 +1,7 @@
 import 'package:calpal/controllers/food_controller.dart';
+import 'package:calpal/controllers/user_controller.dart';
 import 'package:calpal/models/foods.dart';
+import 'package:calpal/models/users.dart';
 import 'package:calpal/screens/components/constants.dart';
 import 'package:calpal/controllers/auth_service.dart';
 import 'package:calpal/controllers/date_picker.dart';
@@ -7,7 +9,6 @@ import 'package:calpal/screens/components/bottom_navigation.dart';
 import 'package:calpal/screens/components/text_styling.dart';
 import 'package:calpal/screens/home/meals_view.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:heroicons_flutter/heroicons_flutter.dart';
 import 'package:ionicons/ionicons.dart';
@@ -18,6 +19,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  final userController = Get.put(UserController());
   final controller = Get.put(FoodController());
   DateLogic dateLogic = DateLogic();
   List<bool> isSelected = [true, false];
@@ -30,6 +32,12 @@ class _HomeViewState extends State<HomeView> {
   void initState() {
     super.initState();
     updateNutrientTotals();
+    // Fetch the user data and populate the form fields
+    userController.getUserData().then((UserModel userData) {
+      setState(() {
+        userController.calBudgetController.text = userData.calBudget.toString();
+      });
+    });
   }
 
   // Fetch the food info for the current date and total up the value for each nutrient
@@ -265,7 +273,11 @@ class _HomeViewState extends State<HomeView> {
                                                         .toStringAsFixed(2))
                                                     .toString()),
                                             textNoBold(
-                                                text: ' / ' + '1900 ' + 'kcal')
+                                                text: ' / ' +
+                                                    userController
+                                                        .calBudgetController
+                                                        .text +
+                                                    ' kcal')
                                           ],
                                         ),
                                       )

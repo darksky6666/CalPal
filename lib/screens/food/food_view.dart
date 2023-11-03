@@ -51,7 +51,6 @@ class _FoodViewState extends State<FoodView> {
 
       // Decode image using package:image/image.dart (https://pub.dev/image)
       image = img.decodeImage(imageData);
-      setState(() {});
       classification = await imageClassificationHelper?.inferenceImage(image!);
       setState(() {});
     }
@@ -228,14 +227,20 @@ class _FoodViewState extends State<FoodView> {
                       width: 60,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: Colors.grey.withOpacity(0.1),
+                        color: text == "Create food"
+                            ? Colors.grey.withOpacity(0.1)
+                            : Colors.transparent,
                       ),
-                      child: Icon(
-                        text == "Create food"
-                            ? HeroiconsSolid.plus
-                            : HeroiconsSolid.plus,
-                        color: primaryColor,
-                      ),
+                      clipBehavior: Clip.antiAlias,
+                      child: text == "Create food"
+                          ? Icon(
+                              HeroiconsSolid.plus,
+                              color: primaryColor,
+                            )
+                          : Image.asset(
+                              controller.getFoodImagePath(text),
+                              fit: BoxFit.cover,
+                            ),
                     ),
                     SizedBox(width: 20),
                     if (text == "Create food")

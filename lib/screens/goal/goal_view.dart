@@ -24,7 +24,6 @@ class _GoalViewState extends State<GoalView> {
   int recommendedCalories = 0;
   double weightDifference = 0;
   bool canReachTargetWeight = false;
-  String track = "You can do it!";
 
   void navigateToEditGoal() {
     Navigator.pushNamed(context, '/edit_goal');

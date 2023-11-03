@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'package:flutter/services.dart';
 import 'package:calpal/models/foods.dart';
 import 'package:calpal/repositories/food_repository.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +21,17 @@ class FoodController extends GetxController {
 
   getFoodInfo(String date) {
     return foodRepo.getFoodInfo(date);
+  }
+
+  // Get food image path from the food name
+  String getFoodImagePath(String foodName) {
+    String imagePath = 'assets/foods/${foodName.toLowerCase()}.jpg';
+    try {
+      rootBundle.load(imagePath);
+      return imagePath;
+    } catch (_) {
+      return 'assets/icons/calpal_icon.png';
+    }
   }
 
   List<FoodItem> suggestions = FoodItem.foodSuggestions

@@ -7,7 +7,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 class MealsViewPage extends StatefulWidget {
-  MealsViewPage({Key? key, required this.mealType, required this.dTime}) : super(key: key);
+  MealsViewPage({Key? key, required this.mealType, required this.dTime})
+      : super(key: key);
 
   final String mealType;
   final String dTime;
@@ -60,8 +61,8 @@ class _MealsViewPageState extends State<MealsViewPage> {
 
                 // Food item
                 child: FutureBuilder<List<FoodItem>>(
-                  future: FoodController.instance.getMealDetails(
-                      widget.dTime, widget.mealType),
+                  future: FoodController.instance
+                      .getMealDetails(widget.dTime, widget.mealType),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       if (snapshot.data!.isEmpty) {
@@ -75,64 +76,80 @@ class _MealsViewPageState extends State<MealsViewPage> {
                           itemCount: snapshot.data?.length,
                           physics: NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
-                            return InkWell(
-                              onTap: () {
-                                Fluttertoast.showToast(
-                                    msg: "This is Center Short Toast",
-                                    toastLength: Toast.LENGTH_SHORT,
-                                    gravity: ToastGravity.CENTER,
-                                    timeInSecForIosWeb: 1,
-                                    backgroundColor: Colors.black,
-                                    textColor: Colors.white,
-                                    fontSize: 16.0);
-                              },
-                              child: Row(children: [
-                                Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      // color: Colors.black,
-                                    ),
-                                    child: Image(
+                            return Column(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    Fluttertoast.showToast(
+                                        msg: "This is Center Short Toast",
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.CENTER,
+                                        timeInSecForIosWeb: 1,
+                                        backgroundColor: Colors.black,
+                                        textColor: Colors.white,
+                                        fontSize: 16.0);
+                                  },
+                                  child: Row(children: [
+                                    Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          // color: Colors.black,
+                                        ),
+                                        clipBehavior: Clip.antiAlias,
                                         height: 60,
                                         width: 60,
-                                        image: AssetImage(
-                                            'assets/icons/calpal_icon.png'))), // Food image
-                                SizedBox(
-                                  width: 20,
-                                ),
-                                Container(
-                                  alignment: Alignment.topLeft,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.6,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Wrap(
+                                        child: Image.asset(
+                                          controller.getFoodImagePath(
+                                              snapshot.data![index].name),
+                                          fit: BoxFit.cover,
+                                        )), // Food image
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    Container(
+                                      alignment: Alignment.topLeft,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.6,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                            snapshot.data![index]
-                                                .name, // Food name from Firebase
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w600),
-                                            textAlign: TextAlign.left,
+                                          Wrap(
+                                            children: [
+                                              Text(
+                                                snapshot.data![index]
+                                                    .name, // Food name from Firebase
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 16),
+                                                textAlign: TextAlign.left,
+                                              ),
+                                            ],
                                           ),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                          Wrap(
+                                            children: [
+                                              Text(
+                                                "${snapshot.data![index].servingSize} ${snapshot.data![index].servingUnit} - ${snapshot.data![index].calories} Cal", // Food weight, serving unit, and calories
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w300,
+                                                    fontSize: 15),
+                                                textAlign: TextAlign.left,
+                                              ),
+                                            ],
+                                          )
                                         ],
                                       ),
-                                      Wrap(
-                                        children: [
-                                          Text(
-                                            "${snapshot.data![index].servingSize} ${snapshot.data![index].servingUnit} - ${snapshot.data![index].calories} Cal", // Food weight, serving unit, and calories
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w200),
-                                            textAlign: TextAlign.left,
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                )
-                              ]),
+                                    )
+                                  ]),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                              ],
                             );
                           },
                         );

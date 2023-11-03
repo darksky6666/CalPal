@@ -4,8 +4,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class NutritionixController {
-  static const String apiId = 'c75bf0ea'; // Replace with your actual API ID
-  static const String apiKey = '410427619a2f2a6b72798b9a66638cc9'; // Replace with your actual API Key
+  static const String apiId = 'c75bf0ea'; 
+  static const String apiKey = '410427619a2f2a6b72798b9a66638cc9'; 
 
   Future<Map<String, dynamic>?> fetchCalorieInfo(String query) async {
     final url = Uri.parse('https://trackapi.nutritionix.com/v2/natural/nutrients');

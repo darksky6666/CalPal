@@ -33,6 +33,13 @@ class NutritionixController {
           final totalFat = foodInfo['nf_total_fat'];
           final protein = foodInfo['nf_protein'];
           final totalCarbohydrate = foodInfo['nf_total_carbohydrate'];
+          final saturatedFat = foodInfo['nf_saturated_fat'];
+          final cholesterol = foodInfo['nf_cholesterol'];
+          final sodium = foodInfo['nf_sodium'];
+          final dietaryFiber = foodInfo['nf_dietary_fiber'];
+          final sugars = foodInfo['nf_sugars'];
+          final potassium = foodInfo['nf_potassium'];
+
 
           return {
             'food_name': foodName,
@@ -41,6 +48,12 @@ class NutritionixController {
             'nf_total_fat': totalFat,
             'nf_protein': protein,
             'nf_total_carbohydrate': totalCarbohydrate,
+            'nf_saturated_fat': saturatedFat,
+            'nf_cholesterol': cholesterol,
+            'nf_sodium': sodium,
+            'nf_dietary_fiber': dietaryFiber,
+            'nf_sugars': sugars,
+            'nf_potassium': potassium,
           };
         }
       }

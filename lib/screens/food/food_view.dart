@@ -3,6 +3,7 @@ import 'package:calpal/controllers/food_controller.dart';
 import 'package:calpal/controllers/image_classification_helper.dart';
 import 'package:calpal/screens/components/bottom_navigation.dart';
 import 'package:calpal/screens/components/constants.dart';
+import 'package:calpal/screens/food/food_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -197,17 +198,9 @@ class _FoodViewState extends State<FoodView> {
   Widget buildListItem(BuildContext context, String text) {
     return GestureDetector(
       onTap: () {
-        Fluttertoast.showToast(
-          msg: text == "Create food"
-              ? "Create food clicked"
-              : "Food $text clicked",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.greenAccent.withOpacity(0.1),
-          textColor: Colors.green,
-          fontSize: 16.0,
-        );
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return FoodDetail(foodName: text);
+        }));
       },
       child: Column(
         children: [

@@ -1,6 +1,10 @@
+import 'package:calpal/controllers/health_controller.dart';
+import 'package:calpal/controllers/user_controller.dart';
+import 'package:calpal/models/users.dart';
 import 'package:calpal/screens/components/bottom_navigation.dart';
 import 'package:calpal/screens/components/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:heroicons_flutter/heroicons_flutter.dart';
 import 'package:ionicons/ionicons.dart';
 
@@ -12,6 +16,70 @@ class GoalView extends StatefulWidget {
 }
 
 class _GoalViewState extends State<GoalView> {
+  final controller = Get.put(UserController());
+  final healthController = Get.put(HealthCalculatorController());
+  String targetDate = "";
+  int calDeficit = 0;
+  int daysToTarget = 0;
+  int recommendedCalories = 0;
+  double weightDifference = 0;
+  bool canReachTargetWeight = false;
+  String track = "You can do it!";
+
+  void navigateToEditGoal() {
+    Navigator.pushNamed(context, '/edit_goal');
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // Fetch the user data and populate the form fields
+    controller.getUserData().then((UserModel userData) {
+      setState(() {
+        controller.ageController.text = userData.age.toString();
+        controller.heightController.text = userData.height.toString();
+        controller.weightController.text = userData.weight.toString();
+        controller.targetWeightController.text =
+            userData.targetWeight.toString();
+        controller.calBudgetController.text = userData.calBudget.toString();
+        targetDate = userData.targetDate.toString();
+
+        // Calculate the weight difference
+        weightDifference = double.parse(controller.weightController.text) -
+            double.parse(controller.targetWeightController.text);
+
+        // Calculate calorie deficit with the retrieved data.
+        calDeficit = healthController.calculateCalorieDeficit(
+          double.parse(controller.weightController.text),
+          double.parse(controller.targetWeightController.text),
+          targetDate,
+        );
+
+        // Calculate the number of days to reach the target date
+        daysToTarget = healthController.calculateTimeToTarget(targetDate);
+
+        // Calculate the recommended daily calorie value
+        recommendedCalories = healthController.calculateRecommendedCalories(
+          userData.biologicalSex.toString(),
+          double.parse(controller.weightController.text),
+          double.parse(controller.heightController.text),
+          int.parse(controller.ageController.text),
+        );
+
+        // Determine if the user can reach the target weight by the target date
+        canReachTargetWeight = healthController.canReachTargetWeight(
+          double.parse(controller.targetWeightController.text),
+          double.parse(controller.weightController.text),
+          targetDate,
+          userData.biologicalSex.toString(),
+          double.parse(controller.heightController.text),
+          int.parse(controller.ageController.text),
+          int.parse(controller.calBudgetController.text),
+        );
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,29 +129,50 @@ class _GoalViewState extends State<GoalView> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Icon(
-                            HeroiconsSolid.faceSmile,
-                            color: Colors.green,
-                            size: 65,
-                          ),
+                          if (canReachTargetWeight)
+                            Icon(
+                              HeroiconsSolid.faceSmile,
+                              color: Colors.green,
+                              size: 65,
+                            )
+                          else
+                            Icon(
+                              HeroiconsSolid.faceFrown,
+                              color: Colors.red,
+                              size: 65,
+                            ),
                           SizedBox(
                             width: 20,
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              if (canReachTargetWeight)
+                                Text(
+                                  "You're on track!",
+                                  style: TextStyle(
+                                      color: Colors.green,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16),
+                                )
+                              else
+                                Text(
+                                  "Keep going! You can do it!",
+                                  style: TextStyle(
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16),
+                                ),
+                              if (canReachTargetWeight)
+                                Text(
+                                  "You can reach your goal at",
+                                )
+                              else
+                                Text(
+                                  "You can't reach your goal at",
+                                ),
                               Text(
-                                "On track",
-                                style: TextStyle(
-                                    color: primaryColor,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 16),
-                              ),
-                              Text(
-                                "You can reach your goal at",
-                              ),
-                              Text(
-                                "22/11/2023",
+                                targetDate,
                                 style: TextStyle(
                                     color: primaryColor,
                                     fontWeight: FontWeight.w500),
@@ -95,8 +184,13 @@ class _GoalViewState extends State<GoalView> {
                       SizedBox(
                         height: 20,
                       ),
-                      Text(
-                          "I plan to lose 1 kg in 14 days by eating less than 1832 calories.")
+                      Text("I plan to keep healthy and lose " +
+                          weightDifference.toString() +
+                          " kg in " +
+                          daysToTarget.toString() +
+                          " days by eating less than " +
+                          recommendedCalories.toString() +
+                          " calories.")
                     ],
                   ),
                 ),
@@ -129,24 +223,36 @@ class _GoalViewState extends State<GoalView> {
                         height: 20,
                       ),
                       InkWell(
-                          onTap: () {},
-                          child: weightGoalRow(Ionicons.scale_outline,
-                              "Current Weight", 70, "kg")),
+                          onTap: () {
+                            navigateToEditGoal();
+                          },
+                          child: weightGoalRow(
+                              Ionicons.scale_outline,
+                              "Current Weight",
+                              controller.weightController.text,
+                              "kg")),
                       SizedBox(
                         height: 20,
                       ),
                       InkWell(
-                        onTap: () {},
-                        child: weightGoalRow(Ionicons.trail_sign_outline,
-                            "Goal Weight", 60, "kg"),
+                        onTap: () {
+                          navigateToEditGoal();
+                        },
+                        child: weightGoalRow(
+                            Ionicons.trail_sign_outline,
+                            "Goal Weight",
+                            controller.targetWeightController.text,
+                            "kg"),
                       ),
                       SizedBox(
                         height: 20,
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          navigateToEditGoal();
+                        },
                         child: weightGoalRow(Ionicons.calendar_outline,
-                            "Target Date", "22/11/2023", ""),
+                            "Target Date", targetDate, ""),
                       ),
                     ],
                   ),
@@ -180,7 +286,9 @@ class _GoalViewState extends State<GoalView> {
                           height: 20,
                         ),
                         InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              navigateToEditGoal();
+                            },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -189,7 +297,7 @@ class _GoalViewState extends State<GoalView> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Text(
-                                      "1900",
+                                      controller.calBudgetController.text,
                                       style: TextStyle(
                                           color: primaryColor,
                                           fontWeight: FontWeight.w700),
@@ -208,64 +316,56 @@ class _GoalViewState extends State<GoalView> {
                         SizedBox(
                           height: 20,
                         ),
-                        InkWell(
-                          onTap: () {},
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text("Daily Calories Deficit"),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "68",
-                                    style: TextStyle(
-                                        color: primaryColor,
-                                        fontWeight: FontWeight.w700),
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Icon(
-                                    HeroiconsSolid.chevronRight,
-                                    color: Colors.transparent,
-                                    size: 20,
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Recommended Calories Deficit"),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  calDeficit.toString(),
+                                  style: TextStyle(
+                                      color: primaryColor,
+                                      fontWeight: FontWeight.w700),
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  "kcal",
+                                  style: TextStyle(fontWeight: FontWeight.w500),
+                                ),
+                              ],
+                            )
+                          ],
                         ),
                         SizedBox(
                           height: 20,
                         ),
-                        InkWell(
-                          onTap: () {},
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text("Recommended Daily Calories"),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "1832",
-                                    style: TextStyle(
-                                        color: primaryColor,
-                                        fontWeight: FontWeight.w700),
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Icon(
-                                    HeroiconsSolid.chevronRight,
-                                    color: Colors.transparent,
-                                    size: 20,
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Recommended Daily Calories"),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  recommendedCalories.toString(),
+                                  style: TextStyle(
+                                      color: primaryColor,
+                                      fontWeight: FontWeight.w700),
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  "kcal",
+                                  style: TextStyle(fontWeight: FontWeight.w500),
+                                ),
+                              ],
+                            )
+                          ],
                         ),
                       ]),
                 ),

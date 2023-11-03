@@ -2,6 +2,7 @@ import 'package:calpal/controllers/user_controller.dart';
 import 'package:calpal/models/users.dart';
 import 'package:calpal/screens/components/bottom_navigation.dart';
 import 'package:calpal/screens/components/constants.dart';
+import 'package:calpal/screens/components/input_row.dart';
 import 'package:calpal/screens/profile/profile_view.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -30,8 +31,7 @@ class _UserProfileState extends State<UserProfile> {
       controller.ageController.text = userData.age.toString();
       gender = userData.biologicalSex.toString();
       medical = userData.medicalCondition.toString();
-      setState(() {
-      });
+      setState(() {});
     });
   }
 
@@ -64,13 +64,13 @@ class _UserProfileState extends State<UserProfile> {
               } else {
                 final user = UserModel(
                   name: controller.nameController.text.trim(),
-                  height: double.parse(controller.heightController.text.trim()),
+                  height: int.parse(controller.heightController.text.trim()),
                   weight: double.parse(controller.weightController.text.trim()),
                   age: int.parse(controller.ageController.text.trim()),
                   biologicalSex: gender.trim(),
                   medicalCondition: medical.trim(),
                 );
-                UserController.instance.createOrUpdateUserInfo(user);
+                UserController.instance.updateUserInfo(user);
                 // Pop until the profile view
                 Navigator.popUntil(context, ModalRoute.withName('/profile'));
                 // Push the profile view with PageRouteBuilder
@@ -79,8 +79,8 @@ class _UserProfileState extends State<UserProfile> {
                   PageRouteBuilder(
                     pageBuilder: (context, animation1, animation2) =>
                         ProfileView(),
-                    transitionDuration: Duration(seconds: 0),
-                    reverseTransitionDuration: Duration(seconds: 0),
+                    transitionDuration: Duration.zero,
+                    reverseTransitionDuration: Duration.zero,
                   ),
                 );
               }
@@ -132,7 +132,7 @@ class _UserProfileState extends State<UserProfile> {
                       label: 'Height',
                       suffixText: 'cm',
                       keyboardType: TextInputType.numberWithOptions(
-                          decimal: true, signed: false)),
+                          decimal: false, signed: false)),
                   SizedBox(height: 20),
                   InputRow(
                       controller: controller.weightController,
@@ -145,7 +145,8 @@ class _UserProfileState extends State<UserProfile> {
                       controller: controller.ageController,
                       label: 'Age',
                       suffixText: 'years',
-                      keyboardType: TextInputType.number),
+                      keyboardType: TextInputType.numberWithOptions(
+                          decimal: false, signed: false)),
                   SizedBox(
                     height: 25,
                   ),
@@ -219,50 +220,6 @@ class _UserProfileState extends State<UserProfile> {
         ),
       ),
       bottomNavigationBar: BottomNav(currentIndex: 4),
-    );
-  }
-}
-
-class InputRow extends StatelessWidget {
-  const InputRow({
-    super.key,
-    required this.controller,
-    required this.label,
-    required this.suffixText,
-    required this.keyboardType,
-  });
-
-  final TextEditingController controller;
-  final String label;
-  final String suffixText;
-  final TextInputType keyboardType;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        Text(
-          label,
-          textAlign: TextAlign.left,
-          style: TextStyle(
-            fontWeight: FontWeight.w800,
-            fontSize: 16,
-          ),
-        ),
-        const Spacer(),
-        SizedBox(
-          width: MediaQuery.of(context).size.width * 0.4,
-          child: TextFormField(
-            controller: controller,
-            keyboardType: keyboardType,
-            decoration: InputDecoration(
-              suffixText: suffixText,
-              suffixStyle: TextStyle(fontSize: 16, color: Colors.black),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

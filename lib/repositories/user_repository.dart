@@ -11,11 +11,22 @@ class UserRepository extends GetxController {
 
   final _db = FirebaseFirestore.instance;
 
-  createOrUpdateUser(UserModel user) async {
+  // Create a user data
+  createUser(UserModel user) async {
     await _db
         .collection('Users')
         .doc(uid)
-        .set(user.toJson())
+        .set({
+          'name': user.name,
+          'height': user.height,
+          'weight': user.weight,
+          'age': user.age,
+          'biologicalSex': user.biologicalSex,
+          'medicalCondition': user.medicalCondition,
+          'targetWeight': user.targetWeight,
+          'targetDate': user.targetDate,
+          'calBudget': user.calBudget,
+        })
         .whenComplete(() => Fluttertoast.showToast(
               msg: "Successfully stored",
               toastLength: Toast.LENGTH_SHORT,
@@ -27,15 +38,83 @@ class UserRepository extends GetxController {
             ))
         // ignore: body_might_complete_normally_catch_error
         .catchError((error, stackTrace) {
-      Fluttertoast.showToast(
-          msg: "Failed to store: $error",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.redAccent.withOpacity(0.1),
-          textColor: Colors.red,
-          fontSize: 16.0);
-    });
+          Fluttertoast.showToast(
+              msg: "Failed to store: $error",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.redAccent.withOpacity(0.1),
+              textColor: Colors.red,
+              fontSize: 16.0);
+        });
+  }
+
+  // Update user data
+  updateUser(UserModel user) async {
+    await _db
+        .collection('Users')
+        .doc(uid)
+        .update({
+          'name': user.name,
+          'height': user.height,
+          'weight': user.weight,
+          'age': user.age,
+          'biologicalSex': user.biologicalSex,
+          'medicalCondition': user.medicalCondition,
+        })
+        .whenComplete(() => Fluttertoast.showToast(
+              msg: "Successfully updated",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.greenAccent.withOpacity(0.1),
+              textColor: Colors.green,
+              fontSize: 16.0,
+            ))
+        // ignore: body_might_complete_normally_catch_error
+        .catchError((error, stackTrace) {
+          Fluttertoast.showToast(
+              msg: "Failed to update: $error",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.redAccent.withOpacity(0.1),
+              textColor: Colors.red,
+              fontSize: 16.0);
+        });
+  }
+
+  // Update goal data
+  updateGoal(UserModel user) async {
+    await _db
+        .collection('Users')
+        .doc(uid)
+        .update({
+          'weight': user.weight,
+          'targetWeight': user.targetWeight,
+          'targetDate': user.targetDate,
+          'calBudget': user.calBudget,
+        })
+        .whenComplete(() => Fluttertoast.showToast(
+              msg: "Successfully updated",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.greenAccent.withOpacity(0.1),
+              textColor: Colors.green,
+              fontSize: 16.0,
+            ))
+        // ignore: body_might_complete_normally_catch_error
+        .catchError((error, stackTrace) {
+          Fluttertoast.showToast(
+              msg: "Failed to update: $error",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.redAccent.withOpacity(0.1),
+              textColor: Colors.red,
+              fontSize: 16.0);
+        });
   }
 
   // Fetch user data

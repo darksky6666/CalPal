@@ -87,7 +87,6 @@ class _FoodViewState extends State<FoodView> {
 
   @override
   void dispose() {
-    controller.searchController.dispose();
     imageClassificationHelper?.close();
     super.dispose();
   }
@@ -174,17 +173,7 @@ class _FoodViewState extends State<FoodView> {
             imagePath = result?.path;
             setState(() {});
             processImage();
-            if (imagePath != null) {
-              Fluttertoast.showToast(
-                msg: "Image selected: $imagePath",
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.BOTTOM,
-                timeInSecForIosWeb: 1,
-                backgroundColor: Colors.greenAccent.withOpacity(0.1),
-                textColor: Colors.green,
-                fontSize: 16.0,
-              );
-            } else {
+            if (imagePath == null) {
               Fluttertoast.showToast(
                 msg: "Camera Error",
                 gravity: ToastGravity.BOTTOM,

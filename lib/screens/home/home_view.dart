@@ -73,22 +73,21 @@ class _HomeViewState extends State<HomeView> {
                 AuthService().signOut();
                 Navigator.popAndPushNamed(context, '/');
               } else if (choice == 'Settings') {
-                Fluttertoast.showToast(
-                    msg: ("Settings Clicked"),
-                    gravity: ToastGravity.BOTTOM,
-                    timeInSecForIosWeb: 1,
-                    backgroundColor: Colors.black,
-                    textColor: Colors.white,
-                    fontSize: 16.0);
-                Navigator.pushNamed(context, '/test');
+                // Fluttertoast.showToast(
+                //     msg: ("Settings Clicked"),
+                //     gravity: ToastGravity.BOTTOM,
+                //     timeInSecForIosWeb: 1,
+                //     backgroundColor: Colors.black,
+                //     textColor: Colors.white,
+                //     fontSize: 16.0);
               }
             },
             itemBuilder: (BuildContext context) {
               return [
-                PopupMenuItem<String>(
-                  value: 'Settings',
-                  child: Text('Settings'),
-                ),
+                // PopupMenuItem<String>(
+                //   value: 'Settings',
+                //   child: Text('Settings'),
+                // ),
                 PopupMenuItem<String>(
                   value: 'Log Out',
                   child: Text('Log Out'),
@@ -266,7 +265,7 @@ class _HomeViewState extends State<HomeView> {
                                                         .toStringAsFixed(2))
                                                     .toString()),
                                             textNoBold(
-                                                text: ' / ' + '1900 ' + 'Cal')
+                                                text: ' / ' + '1900 ' + 'kcal')
                                           ],
                                         ),
                                       )

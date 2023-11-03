@@ -1,10 +1,10 @@
 import 'package:calpal/screens/analysis/analysis_view.dart';
 import 'package:calpal/screens/food/food_view.dart';
+import 'package:calpal/screens/goal/edit_goal.dart';
 import 'package:calpal/screens/goal/goal_view.dart';
 import 'package:calpal/screens/home/home_view.dart';
 import 'package:calpal/controllers/login_state.dart';
 import 'package:calpal/screens/profile/profile_view.dart';
-import 'package:calpal/test.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:flutter/material.dart';
@@ -32,12 +32,12 @@ class MyApp extends StatelessWidget {
       // Define your routes
       routes: {
         '/': (context) => LoginState(),
-        '/test': (context) => UserFormWidget(),
         '/home': (context) => HomeView(),
         '/analysis': (context) => AnalysisView(),
         '/food': (context) => FoodView(),
         '/goal': (context) => GoalView(),
         '/profile': (context) => ProfileView(),
+        '/edit_goal': (context) => EditGoal(),
       },
       initialRoute: '/', // Set the initial route
     );

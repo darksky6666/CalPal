@@ -1,44 +1,33 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserModel {
-  final String name;
-  final double height;
-  final double weight;
-  final int age;
-  final String biologicalSex;
+  final String? name;
+  final int? height;
+  final double? weight;
+  final int? age;
+  final String? biologicalSex;
   final String? medicalCondition;
-  // final double targetWeight;
-  // final DateTime targetDate;
+  final double? targetWeight;
+  final String? targetDate;
+  final int? calBudget;
 
   const UserModel({
-    required this.name,
-    required this.height,
-    required this.weight,
-    required this.age,
-    required this.biologicalSex,
-    required this.medicalCondition,
-    // required this.targetWeight,
-    // required this.targetDate,
+    this.name,
+    this.height,
+    this.weight,
+    this.age,
+    this.biologicalSex,
+    this.medicalCondition,
+    this.targetWeight,
+    this.targetDate,
+    this.calBudget,
   });
 
-  // Convert a User into a Map object
-  toJson(){
-    return {
-      'name': name,
-      'height': height,
-      'weight': weight,
-      'age': age,
-      'biologicalSex': biologicalSex,
-      'medicalCondition': medicalCondition,
-      // 'targetWeight': targetWeight,
-      // 'targetDate': targetDate,
-    };
-  }
-
-
   // Get the data from the snapshot
-  factory UserModel.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> document){
+  factory UserModel.fromSnapshot(
+      DocumentSnapshot<Map<String, dynamic>> document) {
     final data = document.data()!;
+
     return UserModel(
       name: data['name'],
       height: data['height'],
@@ -46,8 +35,9 @@ class UserModel {
       age: data['age'],
       biologicalSex: data['biologicalSex'],
       medicalCondition: data['medicalCondition'],
-      // targetWeight: data['targetWeight'],
-      // targetDate: data['targetDate'],
+      targetWeight: data['targetWeight'],
+      targetDate: data['targetDate'],
+      calBudget: data['calBudget'],
     );
   }
 }

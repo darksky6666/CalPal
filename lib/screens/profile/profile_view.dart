@@ -27,7 +27,7 @@ class _ProfileViewState extends State<ProfileView> {
     // Fetch the user data and populate the name
     controller.getUserData().then((UserModel userData) {
       setState(() {
-        name = userData.name;
+        name = userData.name.toString();
       });
     });
   }

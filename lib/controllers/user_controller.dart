@@ -13,12 +13,23 @@ class UserController {
   final weightController = TextEditingController();
   final ageController = TextEditingController();
   final targetWeightController = TextEditingController();
+  final calBudgetController = TextEditingController();
   final targetDateController = TextEditingController();
 
   final userRepo = Get.put(UserRepository());
 
-  Future<void> createOrUpdateUserInfo(UserModel user) async {
-    await userRepo.createOrUpdateUser(user);
+  Future<void> createUserInfo(UserModel user) async {
+    await userRepo.createUser(user);
+  }
+
+  // Update user data
+  Future<void> updateUserInfo(UserModel user) async {
+    await userRepo.updateUser(user);
+  }
+
+  // Update goal data
+  Future<void> updateGoalInfo(UserModel user) async {
+    await userRepo.updateGoal(user);
   }
 
   // Fetch single user data
@@ -27,9 +38,9 @@ class UserController {
     return userRepo.getUserDetails(uid);
   }
 
-  // Fetch all users data
-  getAllUserData() {
-    final uid = FirebaseAuth.instance.currentUser!.uid.toString().trim();
-    return userRepo.getAllUserDetails(uid);
-  }
+  // // Fetch all users data
+  // getAllUserData() {
+  //   final uid = FirebaseAuth.instance.currentUser!.uid.toString().trim();
+  //   return userRepo.getAllUserDetails(uid);
+  // }
 }

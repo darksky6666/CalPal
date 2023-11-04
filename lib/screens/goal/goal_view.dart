@@ -128,10 +128,27 @@ class _GoalViewState extends State<GoalView> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          if (canReachTargetWeight)
+                          if (controller.weightController.text
+                                  .toString()
+                                  .trim() ==
+                              controller.targetWeightController.text
+                                  .toString()
+                                  .trim())
+                            Icon(
+                              HeroiconsSolid.star,
+                              color: Colors.green,
+                              size: 65,
+                            )
+                          else if (canReachTargetWeight && daysToTarget >= 0)
                             Icon(
                               HeroiconsSolid.faceSmile,
                               color: Colors.green,
+                              size: 65,
+                            )
+                          else if (daysToTarget < 0)
+                            Icon(
+                              HeroiconsSolid.faceFrown,
+                              color: Colors.red,
                               size: 65,
                             )
                           else
@@ -146,11 +163,34 @@ class _GoalViewState extends State<GoalView> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              if (canReachTargetWeight)
+                              // Goal line 1
+                              if (controller.weightController.text
+                                      .toString()
+                                      .trim() ==
+                                  controller.targetWeightController.text
+                                      .toString()
+                                      .trim())
+                                Text(
+                                  "You've reached your goal!",
+                                  style: TextStyle(
+                                      color: Colors.green,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16),
+                                )
+                              else if (canReachTargetWeight &&
+                                  daysToTarget >= 0)
                                 Text(
                                   "You're on track!",
                                   style: TextStyle(
                                       color: Colors.green,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16),
+                                )
+                              else if (daysToTarget < 0)
+                                Text(
+                                  "You're late!",
+                                  style: TextStyle(
+                                      color: Colors.red,
                                       fontWeight: FontWeight.w600,
                                       fontSize: 16),
                                 )
@@ -162,14 +202,36 @@ class _GoalViewState extends State<GoalView> {
                                       fontWeight: FontWeight.w600,
                                       fontSize: 16),
                                 ),
-                              if (canReachTargetWeight)
+
+                              // Goal line 2
+                              if (controller.weightController.text
+                                      .toString()
+                                      .trim() ==
+                                  controller.targetWeightController.text
+                                      .toString()
+                                      .trim())
+                                Text(
+                                  "Congratulations!",
+                                  style: TextStyle(
+                                      color: Colors.green,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16),
+                                )
+                              else if (canReachTargetWeight &&
+                                  daysToTarget >= 0)
                                 Text(
                                   "You can reach your goal at",
+                                )
+                              else if (daysToTarget < 0)
+                                Text(
+                                  "Target date has passed!",
                                 )
                               else
                                 Text(
                                   "You can't reach your goal at",
                                 ),
+
+                              // Goal line 3
                               Text(
                                 targetDate,
                                 style: TextStyle(
@@ -183,13 +245,31 @@ class _GoalViewState extends State<GoalView> {
                       SizedBox(
                         height: 20,
                       ),
-                      Text("I plan to keep healthy and lose " +
-                          weightDifference.toString() +
-                          " kg in " +
-                          daysToTarget.toString() +
-                          " days by eating less than " +
-                          recommendedCalories.toString() +
-                          " calories.")
+                      // Goal summary
+                      if (controller.weightController.text.toString().trim() ==
+                          controller.targetWeightController.text
+                              .toString()
+                              .trim())
+                        Text(
+                          "Keep up the good work! Congratulations on reaching your goal! You can set a new goal by editing your goal.",
+                          textAlign: TextAlign.justify,
+                        )
+                      else if (daysToTarget < 0)
+                        Text(
+                          "Please set a new target date to view summary.",
+                          textAlign: TextAlign.justify,
+                        )
+                      else
+                        Text(
+                          "I plan to keep healthy and lose " +
+                              weightDifference.toString() +
+                              " kg in " +
+                              daysToTarget.toString() +
+                              " days by eating less than " +
+                              recommendedCalories.toString() +
+                              " calories.",
+                          textAlign: TextAlign.justify,
+                        ),
                     ],
                   ),
                 ),

@@ -3,35 +3,51 @@ import 'package:calpal/controllers/nutrition_api.dart';
 import 'package:calpal/models/foods.dart';
 import 'package:calpal/screens/components/bottom_navigation.dart';
 import 'package:calpal/screens/components/constants.dart';
-import 'package:calpal/screens/food/food_view.dart';
+import 'package:calpal/screens/home/home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
-class FoodDetail extends StatefulWidget {
-  FoodDetail({super.key, required this.foodName});
+class EditMeal extends StatefulWidget {
+  EditMeal(
+      {super.key,
+      required this.docId,
+      required this.date,
+      required this.foodName});
 
+  final String docId;
+  final String date;
   final String foodName;
 
   @override
-  State<FoodDetail> createState() => _FoodDetailState();
+  State<EditMeal> createState() => _EditMealState();
 }
 
-class _FoodDetailState extends State<FoodDetail> {
+class _EditMealState extends State<EditMeal> {
   final controller = Get.put(FoodController());
   final nutritionixController = NutritionixController();
   Map<String, dynamic>? foodData;
   String mealType = 'Breakfast';
   final servingSizeController = TextEditingController(text: "10");
   String servingUnit = 'g';
+  String foodNameDB = '';
   final FocusNode _focusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
 
-    // Fetch data when the widget is initialized
-    fetchFoodData();
+    // Fetch food data from database with date and docId
+    controller.getFoodFromID(widget.date, widget.docId).then((FoodItem food) {
+      setState(() {
+        foodNameDB = food.name.toString();
+        servingSizeController.text = food.servingSize.toString();
+        servingUnit = food.servingUnit.toString();
+        mealType = food.mealType.toString();
+      });
+    }).catchError((e) {
+      print(e);
+    });
 
     _focusNode.addListener(() {
       if (_focusNode.hasFocus) {
@@ -53,7 +69,7 @@ class _FoodDetailState extends State<FoodDetail> {
   void fetchFoodData() async {
     // Construct the query based on user selections
     String servingSize = servingSizeController.text;
-    String foodName = controller.setPredefinedFood(widget.foodName);
+    String foodName = controller.setPredefinedFood(foodNameDB);
 
     final data = await nutritionixController.fetchCalorieInfo(
         servingSize, servingUnit, foodName);
@@ -67,12 +83,16 @@ class _FoodDetailState extends State<FoodDetail> {
 
   @override
   Widget build(BuildContext context) {
+    // Fetch data from Nutritionix API
+    setState(() {
+      fetchFoodData();
+    });
     return Scaffold(
       appBar: AppBar(
         title: Padding(
           padding: const EdgeInsets.only(left: 10),
           child: Text(
-            widget.foodName,
+            foodNameDB,
             style: TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.w800,
@@ -84,30 +104,23 @@ class _FoodDetailState extends State<FoodDetail> {
           TextButton(
             onPressed: () {
               try {
+                // Update the food data
                 final food = FoodItem(
-                  name: widget.foodName,
-                  mealType: mealType,
-                  servingSize:
-                      double.tryParse(servingSizeController.text.trim()) ?? 0.0,
+                  docId: widget.docId,
+                  servingSize: double.parse(servingSizeController.text.trim()),
                   servingUnit: servingUnit,
-                  calories:
-                      (foodData?['nf_calories'] as num?)?.toDouble() ?? 0.0,
-                  protein: (foodData?['nf_protein'] as num?)?.toDouble() ?? 0.0,
-                  fat: (foodData?['nf_total_fat'] as num?)?.toDouble() ?? 0.0,
-                  carbs: (foodData?['nf_total_carbohydrate'] as num?)
-                          ?.toDouble() ??
-                      0.0,
+                  mealType: mealType,
                 );
-                controller.createFood(food);
-                Navigator.pop(context); // Pop the current screen from the
+                controller.updateFood(food, widget.date);
+                Navigator.pop(context);
                 Navigator.pushReplacement(
                     context,
                     PageRouteBuilder(
                       pageBuilder: (context, animation1, animation2) =>
-                          FoodView(),
+                          HomeView(),
                       transitionDuration: Duration.zero,
                       reverseTransitionDuration: Duration.zero,
-                    )); // Push the profile view with PageRouteBuilder
+                    ));
               } catch (e) {
                 print(e);
                 Fluttertoast.showToast(
@@ -120,7 +133,7 @@ class _FoodDetailState extends State<FoodDetail> {
               }
             },
             child: Text(
-              'Add',
+              'Save',
               style: TextStyle(
                   color: primaryColor,
                   fontSize: 20,
@@ -325,6 +338,40 @@ class _FoodDetailState extends State<FoodDetail> {
                       NutrientInfoRow(
                           "Potassium", "${foodData?['nf_potassium']}", "mg"),
                     ]),
+              ),
+            ),
+            SizedBox(height: 30),
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+                minimumSize: MaterialStateProperty.all<Size>(Size(
+                    MediaQuery.of(context).size.width * 0.9,
+                    40)), // Set the width and height
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.circular(20.0), // Set the border radius
+                  ),
+                ),
+              ),
+              onPressed: () {
+                // Delete the food data
+                controller.deleteFood(widget.docId, widget.date);
+                Navigator.pop(context);
+                Navigator.pushReplacement(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation1, animation2) =>
+                          HomeView(),
+                      transitionDuration: Duration.zero,
+                      reverseTransitionDuration: Duration.zero,
+                    ));
+              },
+              child: Text(
+                'Delete food',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
               ),
             ),
             SizedBox(height: 30),

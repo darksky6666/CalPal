@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FoodItem {
-  final String name;
+  final String? name;
   final String? mealType;
   final double? servingSize;
   final String? servingUnit;
@@ -9,9 +9,10 @@ class FoodItem {
   final double? protein;
   final double? fat;
   final double? carbs;
+  final String? docId;
 
   FoodItem({
-    required this.name,
+    this.name,
     this.mealType,
     this.servingSize,
     this.servingUnit,
@@ -19,6 +20,7 @@ class FoodItem {
     this.protein,
     this.fat,
     this.carbs,
+    this.docId,
   });
 
   // Convert a FoodItem into a Map object
@@ -48,6 +50,7 @@ class FoodItem {
       protein: (data['protein'] as num?)?.toDouble() ?? 0.0,
       fat: (data['fat'] as num?)?.toDouble() ?? 0.0,
       carbs: (data['carbs'] as num?)?.toDouble() ?? 0.0,
+      docId: data['docId'],
     );
   }
 

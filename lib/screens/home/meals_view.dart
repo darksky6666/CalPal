@@ -2,8 +2,8 @@ import 'package:calpal/controllers/food_controller.dart';
 import 'package:calpal/models/foods.dart';
 import 'package:calpal/screens/components/constants.dart';
 import 'package:calpal/screens/components/text_styling.dart';
+import 'package:calpal/screens/home/edit_meal.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 class MealsViewPage extends StatefulWidget {
@@ -80,14 +80,16 @@ class _MealsViewPageState extends State<MealsViewPage> {
                               children: [
                                 InkWell(
                                   onTap: () {
-                                    Fluttertoast.showToast(
-                                        msg: "This is Center Short Toast",
-                                        toastLength: Toast.LENGTH_SHORT,
-                                        gravity: ToastGravity.CENTER,
-                                        timeInSecForIosWeb: 1,
-                                        backgroundColor: Colors.black,
-                                        textColor: Colors.white,
-                                        fontSize: 16.0);
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => EditMeal(
+                                                  docId: (snapshot
+                                                          .data![index].docId)
+                                                      .toString(),
+                                                  date: widget.dTime,
+                                                  foodName: snapshot.data![index].name.toString(),
+                                                )));
                                   },
                                   child: Row(children: [
                                     Container(
@@ -101,7 +103,7 @@ class _MealsViewPageState extends State<MealsViewPage> {
                                         width: 60,
                                         child: Image.asset(
                                           controller.getFoodImagePath(
-                                              snapshot.data![index].name),
+                                              snapshot.data![index].name.toString()),
                                           fit: BoxFit.cover,
                                         )), // Food image
                                     SizedBox(
@@ -119,7 +121,7 @@ class _MealsViewPageState extends State<MealsViewPage> {
                                             children: [
                                               Text(
                                                 snapshot.data![index]
-                                                    .name, // Food name from Firebase
+                                                    .name.toString(), // Food name from Firebase
                                                 style: TextStyle(
                                                     fontWeight: FontWeight.w600,
                                                     fontSize: 16),

@@ -13,12 +13,27 @@ class FoodController extends GetxController {
     await foodRepo.createFood(food);
   }
 
+  // Update the food data
+  Future<void> updateFood(FoodItem food, String date) async {
+    await foodRepo.updateFood(food, date);
+  }
+
+  // Delete the food data
+  Future<void> deleteFood(String date, String docId) async {
+    await foodRepo.deleteFood(date, docId);
+  }
+
   getMealDetails(String date, String mealType) {
     return foodRepo.getMealDetails(date, mealType);
   }
 
   getFoodInfo(String date) {
     return foodRepo.getFoodInfo(date);
+  }
+
+  // Get the food data from the database with docId
+  getFoodFromID(String date, String docId) {
+    return foodRepo.getFoodFromID(date, docId);
   }
 
   // Set predefined food data
@@ -59,7 +74,7 @@ class FoodController extends GetxController {
         return;
       } else {
         for (FoodItem food in suggestions) {
-          if (food.name.toLowerCase().contains(query.toLowerCase())) {
+          if (food.name!.toLowerCase().contains(query.toLowerCase())) {
             filteredSuggestions.add(food);
             // if (filteredSuggestions.length >= 5) {
             //   break; // Limit the suggestions to the first 5 matches

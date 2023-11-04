@@ -120,7 +120,7 @@ class _FoodViewState extends State<FoodView> {
                     return Column(
                       children: [
                         buildListItem(context,
-                            controller.filteredSuggestions[index].name),
+                            controller.filteredSuggestions[index].name.toString()),
                         SizedBox(height: 20),
                       ],
                     );

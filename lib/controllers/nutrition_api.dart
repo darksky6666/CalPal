@@ -4,78 +4,91 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class NutritionixController {
-  static const String apiId = 'c75bf0ea'; 
-  static const String apiKey = '410427619a2f2a6b72798b9a66638cc9'; 
+  static const String apiId = '2b3c0d8a';
+  static const String apiKey = '52807ffc89654ade959fdb05229f6d73';
 
-  Future<Map<String, dynamic>?> fetchCalorieInfo(String query) async {
-    final url = Uri.parse('https://trackapi.nutritionix.com/v2/natural/nutrients');
-    final body = {'query': query};
+  Future<Map<String, dynamic>?> fetchCalorieInfo(
+      String servingSize, String servingUnit, String foodName) async {
+    final url =
+        Uri.parse('https://trackapi.nutritionix.com/v2/natural/nutrients');
+    if (servingSize == '' || servingUnit == '' || foodName == '') {
+      Fluttertoast.showToast(
+          msg: "Query Error",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.redAccent.withOpacity(0.1),
+          textColor: Colors.red,
+          fontSize: 16.0);
+    } else {
+      final String query = '$servingSize $servingUnit of $foodName';
+      final body = {'query': query};
 
-    final headers = {
-      'x-app-id': apiId,
-      'x-app-key': apiKey,
-      'Content-Type': 'application/json',
-    };
+      final headers = {
+        'x-app-id': apiId,
+        'x-app-key': apiKey,
+        'Content-Type': 'application/json',
+      };
 
-    try {
-      final response = await http.post(url, headers: headers, body: jsonEncode(body));
+      try {
+        final response =
+            await http.post(url, headers: headers, body: jsonEncode(body));
 
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> data = json.decode(response.body);
-        
-        // Extract the desired information from the response
-        final foods = data['foods'];
-        if (foods.isNotEmpty) {
-          final foodInfo = foods[0];
-          final foodName = foodInfo['food_name'];
-          final servingWeightGrams = foodInfo['serving_weight_grams'];
-          final calories = foodInfo['nf_calories'];
-          final totalFat = foodInfo['nf_total_fat'];
-          final protein = foodInfo['nf_protein'];
-          final totalCarbohydrate = foodInfo['nf_total_carbohydrate'];
-          final saturatedFat = foodInfo['nf_saturated_fat'];
-          final cholesterol = foodInfo['nf_cholesterol'];
-          final sodium = foodInfo['nf_sodium'];
-          final dietaryFiber = foodInfo['nf_dietary_fiber'];
-          final sugars = foodInfo['nf_sugars'];
-          final potassium = foodInfo['nf_potassium'];
+        if (response.statusCode == 200) {
+          final Map<String, dynamic> data = json.decode(response.body);
 
+          // Extract the desired information from the response
+          final foods = data['foods'];
+          if (foods.isNotEmpty) {
+            final foodInfo = foods[0];
+            final foodName = foodInfo['food_name'];
+            final servingWeightGrams = foodInfo['serving_weight_grams'];
+            final calories = foodInfo['nf_calories'];
+            final totalFat = foodInfo['nf_total_fat'];
+            final protein = foodInfo['nf_protein'];
+            final totalCarbohydrate = foodInfo['nf_total_carbohydrate'];
+            final saturatedFat = foodInfo['nf_saturated_fat'];
+            final cholesterol = foodInfo['nf_cholesterol'];
+            final sodium = foodInfo['nf_sodium'];
+            final dietaryFiber = foodInfo['nf_dietary_fiber'];
+            final sugars = foodInfo['nf_sugars'];
+            final potassium = foodInfo['nf_potassium'];
 
-          return {
-            'food_name': foodName,
-            'serving_weight_grams': servingWeightGrams,
-            'nf_calories': calories,
-            'nf_total_fat': totalFat,
-            'nf_protein': protein,
-            'nf_total_carbohydrate': totalCarbohydrate,
-            'nf_saturated_fat': saturatedFat,
-            'nf_cholesterol': cholesterol,
-            'nf_sodium': sodium,
-            'nf_dietary_fiber': dietaryFiber,
-            'nf_sugars': sugars,
-            'nf_potassium': potassium,
-          };
+            return {
+              'food_name': foodName,
+              'serving_weight_grams': servingWeightGrams,
+              'nf_calories': calories,
+              'nf_total_fat': totalFat,
+              'nf_protein': protein,
+              'nf_total_carbohydrate': totalCarbohydrate,
+              'nf_saturated_fat': saturatedFat,
+              'nf_cholesterol': cholesterol,
+              'nf_sodium': sodium,
+              'nf_dietary_fiber': dietaryFiber,
+              'nf_sugars': sugars,
+              'nf_potassium': potassium,
+            };
+          }
         }
+        Fluttertoast.showToast(
+            msg: "API Error: ${response.statusCode}",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.redAccent.withOpacity(0.1),
+            textColor: Colors.red,
+            fontSize: 16.0);
+      } catch (e) {
+        Fluttertoast.showToast(
+            msg: "API Catch Error: $e",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.redAccent.withOpacity(0.1),
+            textColor: Colors.red,
+            fontSize: 16.0);
       }
-      Fluttertoast.showToast(
-          msg: "API Error: ${response.statusCode}",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.redAccent.withOpacity(0.1),
-          textColor: Colors.red,
-          fontSize: 16.0);
-      return null;
-    } catch (e) {
-      Fluttertoast.showToast(
-          msg: "API Catch Error: $e",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.redAccent.withOpacity(0.1),
-          textColor: Colors.red,
-          fontSize: 16.0);
-      return null;
     }
+    return null;
   }
 }

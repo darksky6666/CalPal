@@ -53,9 +53,14 @@ class _EditGoalState extends State<EditGoal> {
 
   // Function to display the date picker
   Future<void> _selectDate(BuildContext context) async {
+    DateTime calendar = selectedDate;
+    // If initialDate is set before the current date, set the initialDate to the current date
+    if (selectedDate.isBefore(DateTime.now())) {
+      calendar = DateTime.now();
+    }
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: selectedDate,
+      initialDate: calendar,
       firstDate: DateTime.now(),
       lastDate: DateTime(2101),
     );

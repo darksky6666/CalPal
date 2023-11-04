@@ -1,8 +1,11 @@
 import 'package:calpal/controllers/food_controller.dart';
 import 'package:calpal/controllers/nutrition_api.dart';
+import 'package:calpal/models/foods.dart';
 import 'package:calpal/screens/components/bottom_navigation.dart';
 import 'package:calpal/screens/components/constants.dart';
+import 'package:calpal/screens/food/food_view.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 class FoodDetail extends StatefulWidget {
@@ -19,8 +22,9 @@ class _FoodDetailState extends State<FoodDetail> {
   final nutritionixController = NutritionixController();
   Map<String, dynamic>? foodData;
   String mealType = 'Breakfast';
-  final servingSizeController = TextEditingController(text: "100");
+  final servingSizeController = TextEditingController(text: "10");
   String servingUnit = 'g';
+  final FocusNode _focusNode = FocusNode();
 
   @override
   void initState() {
@@ -28,12 +32,28 @@ class _FoodDetailState extends State<FoodDetail> {
 
     // Fetch data when the widget is initialized
     fetchFoodData();
+
+    _focusNode.addListener(() {
+      if (_focusNode.hasFocus) {
+        servingSizeController.selection = TextSelection(
+          baseOffset: 0,
+          extentOffset: servingSizeController.text.length,
+        );
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    servingSizeController.dispose();
+    _focusNode.dispose();
+    super.dispose();
   }
 
   void fetchFoodData() async {
     // Construct the query based on user selections
     String servingSize = servingSizeController.text;
-    final foodName = widget.foodName;
+    String foodName = controller.setPredefinedFood(widget.foodName);
     final query = "$servingSize $servingUnit of $foodName";
 
     final data = await nutritionixController.fetchCalorieInfo(query);
@@ -62,7 +82,43 @@ class _FoodDetailState extends State<FoodDetail> {
         ),
         actions: [
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              try {
+                final food = FoodItem(
+                  name: widget.foodName,
+                  mealType: mealType,
+                  servingSize:
+                      double.tryParse(servingSizeController.text.trim()) ?? 0.0,
+                  servingUnit: servingUnit,
+                  calories:
+                      (foodData?['nf_calories'] as num?)?.toDouble() ?? 0.0,
+                  protein: (foodData?['nf_protein'] as num?)?.toDouble() ?? 0.0,
+                  fat: (foodData?['nf_total_fat'] as num?)?.toDouble() ?? 0.0,
+                  carbs: (foodData?['nf_total_carbohydrate'] as num?)
+                          ?.toDouble() ??
+                      0.0,
+                );
+                controller.createFood(food);
+                Navigator.pop(context); // Pop the current screen from the
+                Navigator.pushReplacement(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation1, animation2) =>
+                          FoodView(),
+                      transitionDuration: Duration.zero,
+                      reverseTransitionDuration: Duration.zero,
+                    )); // Push the profile view with PageRouteBuilder
+              } catch (e) {
+                print(e);
+                Fluttertoast.showToast(
+                    msg: "Please fill in all the fields with valid data",
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: Colors.redAccent.withOpacity(0.1),
+                    textColor: Colors.red,
+                    fontSize: 16.0);
+              }
+            },
             child: Text(
               'Add',
               style: TextStyle(
@@ -205,6 +261,7 @@ class _FoodDetailState extends State<FoodDetail> {
                               onChanged: (value) {
                                 fetchFoodData();
                               },
+                              focusNode: _focusNode,
                               controller: servingSizeController,
                               keyboardType: TextInputType.numberWithOptions(
                                   decimal: true, signed: false),

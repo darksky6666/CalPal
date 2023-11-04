@@ -9,8 +9,8 @@ class FoodController extends GetxController {
 
   final TextEditingController searchController = TextEditingController();
 
-  Future<void> createFood(FoodItem food, String mealType) async {
-    await foodRepo.createFood(food, mealType);
+  Future<void> createFood(FoodItem food) async {
+    await foodRepo.createFood(food);
   }
 
   getMealDetails(String date, String mealType) {
@@ -19,6 +19,17 @@ class FoodController extends GetxController {
 
   getFoodInfo(String date) {
     return foodRepo.getFoodInfo(date);
+  }
+
+  // Set predefined food data
+  String setPredefinedFood(String name) {
+    name = name.toLowerCase();
+
+    if (name == "ayam goreng") {
+      name = "fried chicken";
+    }
+
+    return name;
   }
 
   // Get food image path from the food name

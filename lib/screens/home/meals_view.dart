@@ -133,7 +133,7 @@ class _MealsViewPageState extends State<MealsViewPage> {
                                           Wrap(
                                             children: [
                                               Text(
-                                                "${snapshot.data![index].servingSize} ${snapshot.data![index].servingUnit} - ${snapshot.data![index].calories} Cal", // Food weight, serving unit, and calories
+                                                "${snapshot.data![index].servingSize} ${snapshot.data![index].servingUnit} - ${snapshot.data![index].calories} kcal", // Food weight, serving unit, and calories
                                                 style: TextStyle(
                                                     fontWeight: FontWeight.w300,
                                                     fontSize: 15),

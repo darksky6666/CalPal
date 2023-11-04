@@ -42,12 +42,12 @@ class FoodItem {
     return FoodItem(
       name: data['name'],
       mealType: data['mealType'],
-      servingSize: data['servingSize'].toDouble(),
+      servingSize: (data['servingSize'] as num?)?.toDouble() ?? 0.0,
       servingUnit: data['servingUnit'],
-      calories: data['calories'],
-      protein: data['protein'],
-      fat: data['fat'],
-      carbs: data['carbs'],
+      calories: (data['calories'] as num?)?.toDouble() ?? 0.0,
+      protein: (data['protein'] as num?)?.toDouble() ?? 0.0,
+      fat: (data['fat'] as num?)?.toDouble() ?? 0.0,
+      carbs: (data['carbs'] as num?)?.toDouble() ?? 0.0,
     );
   }
 

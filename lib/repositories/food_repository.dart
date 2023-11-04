@@ -18,7 +18,7 @@ class FoodRepository extends GetxController {
     return dateFormat.format(now);
   }
 
-  createFood(FoodItem food, String mealType) async {
+  createFood(FoodItem food) async {
     await _db
         .collection('Meals')
         .doc(uid)

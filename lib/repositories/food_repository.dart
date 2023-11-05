@@ -52,11 +52,6 @@ class FoodRepository extends GetxController {
 
   // Update the food data
   Future<void> updateFood(FoodItem food, String date) async {
-    print(food.docId.toString());
-    print(food.servingSize);
-    print(food.servingUnit);
-    print(food.mealType);
-    print(date);
     await _db
         .collection('Meals')
         .doc(uid)
@@ -66,6 +61,10 @@ class FoodRepository extends GetxController {
           'servingSize': food.servingSize,
           'servingUnit': food.servingUnit,
           'mealType': food.mealType,
+          'calories': food.calories,
+          'fat': food.fat,
+          'protein': food.protein,
+          'carbs': food.carbs,
         })
         .whenComplete(() => Fluttertoast.showToast(
               msg: "Successfully updated",

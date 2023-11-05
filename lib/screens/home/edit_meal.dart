@@ -44,6 +44,8 @@ class _EditMealState extends State<EditMeal> {
         servingSizeController.text = food.servingSize.toString();
         servingUnit = food.servingUnit.toString();
         mealType = food.mealType.toString();
+        // Fetch data from Nutritionix API
+        fetchFoodData();
       });
     }).catchError((e) {
       print(e);
@@ -69,7 +71,7 @@ class _EditMealState extends State<EditMeal> {
   void fetchFoodData() async {
     // Construct the query based on user selections
     String servingSize = servingSizeController.text;
-    String foodName = controller.setPredefinedFood(foodNameDB);
+    String foodName = controller.setPredefinedFood(widget.foodName);
 
     final data = await nutritionixController.fetchCalorieInfo(
         servingSize, servingUnit, foodName);
@@ -83,10 +85,6 @@ class _EditMealState extends State<EditMeal> {
 
   @override
   Widget build(BuildContext context) {
-    // Fetch data from Nutritionix API
-    setState(() {
-      fetchFoodData();
-    });
     return Scaffold(
       appBar: AppBar(
         title: Padding(
@@ -110,6 +108,11 @@ class _EditMealState extends State<EditMeal> {
                   servingSize: double.parse(servingSizeController.text.trim()),
                   servingUnit: servingUnit,
                   mealType: mealType,
+                  calories: double.parse(foodData!['nf_calories'].toString()),
+                  carbs: double.parse(
+                      foodData!['nf_total_carbohydrate'].toString()),
+                  fat: double.parse(foodData!['nf_total_fat'].toString()),
+                  protein: double.parse(foodData!['nf_protein'].toString()),
                 );
                 controller.updateFood(food, widget.date);
                 Navigator.pop(context);

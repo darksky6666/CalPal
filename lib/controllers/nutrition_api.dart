@@ -4,8 +4,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class NutritionixController {
-  static const String apiId = '2b3c0d8a';
-  static const String apiKey = '52807ffc89654ade959fdb05229f6d73';
+  static const String apiId = 'c8cd342c';
+  static const String apiKey = '01ac7ae9ef485d3c5775669b9f1df3d5';
 
   Future<Map<String, dynamic>?> fetchCalorieInfo(
       String servingSize, String servingUnit, String foodName) async {
@@ -21,6 +21,14 @@ class NutritionixController {
           textColor: Colors.red,
           fontSize: 16.0);
     } else {
+      Fluttertoast.showToast(
+          msg: "API Called",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.greenAccent.withOpacity(0.1),
+          textColor: Colors.green,
+          fontSize: 16.0);
       final String query = '$servingSize $servingUnit of $foodName';
       final body = {'query': query};
 

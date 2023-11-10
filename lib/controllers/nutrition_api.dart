@@ -43,7 +43,6 @@ class NutritionixController {
               await http.post(url, headers: headers, body: jsonEncode(body));
 
           if (response.statusCode == 200) {
-            print("API ID: ${apiIds[i]}");
             final Map<String, dynamic> data = json.decode(response.body);
 
             // Extract the desired information from the response
@@ -80,8 +79,6 @@ class NutritionixController {
             }
           } else if (response.statusCode == 401 && i < apiIds.length - 1) {
             // If unauthorized (401) and more API keys are available, try the next one
-            print("Trying next API key...");
-            print("API ID: ${apiIds[i + 1]}");
             continue;
           } else {
             Fluttertoast.showToast(

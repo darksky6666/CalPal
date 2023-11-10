@@ -4,7 +4,32 @@ class HealthCalculatorController {
   static HealthCalculatorController get instance =>
       HealthCalculatorController();
 
+  // Function to calculate BMI
+  double calculateBMI(double weight, double height) {
+    double bmi = 0;
+    if (height != 0 && weight != 0) {
+      // Convert height from cm to m
+      height = height / 100;
+      bmi = weight / (height * height);
+    }
+    return bmi;
+  }
+
+  // Classify the BMI into different categories
+  String classifyBMI(double bmi) {
+    if (bmi < 18.5) {
+      return "Underweight";
+    } else if (bmi < 25) {
+      return "Normal";
+    } else if (bmi < 30) {
+      return "Overweight";
+    } else {
+      return "Obese";
+    }
+  }
+
   // Function to calculate the recommended daily calorie value based on biological sex
+  // BMR
   int calculateRecommendedCalories(
       String biologicalSex, double weight, double height, int age) {
     // Use Mifflin-St Jeor equation to calculate BMR
@@ -56,18 +81,22 @@ class HealthCalculatorController {
     int calBudget,
   ) {
     // Calculate the total calorie deficit needed to reach the target weight
-    int dailyCalorieDeficit = calculateCalorieDeficit(targetWeight, weight, targetDate);
+    int dailyCalorieDeficit =
+        calculateCalorieDeficit(targetWeight, weight, targetDate);
 
     // Calculate the number of days between the current date and the target date
     int daysDifference = calculateTimeToTarget(targetDate);
 
     // Calculate the recommended daily calorie intake
-    int recommendedCalorieIntake = calculateRecommendedCalories(biologicalSex, weight, height, age);
+    int recommendedCalorieIntake =
+        calculateRecommendedCalories(biologicalSex, weight, height, age);
 
     // First, check if the user has enough time to reach the target weight
     // Then, check if the user has enough calories to reach the target weight
     // Finally, check if the user has enough calories to maintain their weight
-    if (daysDifference > 0 && calBudget >= dailyCalorieDeficit && recommendedCalorieIntake >= dailyCalorieDeficit) {
+    if (daysDifference > 0 &&
+        calBudget >= dailyCalorieDeficit &&
+        recommendedCalorieIntake >= dailyCalorieDeficit) {
       return true;
     } else {
       return false;

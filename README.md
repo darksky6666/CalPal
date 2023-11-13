@@ -12,26 +12,26 @@
 - Firebase
 
 ## Module Progress
-- [] **Manage Registration**
+- [ ] **Manage Registration**
     - [x] Login
-    - [] Register
-    - [] Forgot Password
-- [] **Manage User Profile**
+    - [ ] Register
+    - [ ] Forgot Password
+- [ ] **Manage User Profile**
     - [x] Edit Profile
     - [x] View Profile
-    - [] Delete Profile
-    - [] Change Password
-    - [] Change Email
-- [] **Home**
+    - [ ] Delete Profile
+    - [ ] Change Password
+    - [ ] Change Email
+- [ ] **Home**
     - [x] Day Summary
-    - [] Week Summary
-- [] **Manage Meals**
+    - [ ] Week Summary
+- [ ] **Manage Meals**
     - [x] Add Food
     - [x] Edit Food
     - [x] Delete Food
     - [x] View Food
     - [x] Search Food
-    - [] Detect Food using Camera
+    - [ ] Detect Food using Camera
 - [x] **View Calorie and Nutrient Analysis**
     - [x] View Calorie
     - [x] View Nutrient

@@ -148,4 +148,66 @@ class FoodRepository extends GetxController {
     final mealData = FoodItem.fromSnapshot(snapshot);
     return mealData;
   }
+
+  // Get calories value for last 7 days
+  Future<List<double>> getCalorieData(DateTime date) async {
+    // Calculate the starting date which is 7 days ago
+    DateTime sevenDaysAgo = date.subtract(const Duration(days: 6));
+
+    List<double> calorieData = [];
+
+    // Loop through the last 7 days
+    for (int i = 0; i < 7; i++) {
+      // Calculate the date for the current iteration
+      DateTime currentDate = sevenDaysAgo.add(Duration(days: i));
+      // Format the date as yyyymmdd
+      String formattedDate = DateFormat('yyyyMMdd').format(currentDate);
+
+      // Find the collection with the same date as the current iteration
+      final snapshot = await _db
+          .collection('Meals')
+          .doc(uid)
+          .collection(formattedDate)
+          .get();
+
+      double totalCalories = 0;
+
+      // Check if the collection exists
+      if (snapshot.docs.isNotEmpty) {
+        // Collection found, iterate through documents to get calorie values
+        for (QueryDocumentSnapshot mealEntryDoc in snapshot.docs) {
+          dynamic caloriesValue = mealEntryDoc['calories'];
+
+          // Check if caloriesValue is not null
+          if (caloriesValue != null) {
+            double calories = (caloriesValue is int)
+                ? caloriesValue.toDouble()
+                : caloriesValue;
+            totalCalories += calories;
+          }
+        }
+      }
+
+      // Add the total calories for the day to the data list
+      calorieData.add(totalCalories);
+    }
+
+    return calorieData;
+  }
+
+  // Get top 3 food items for a particular day
+  Future<List<FoodItem>> getTopFoodItems(String nutrient, String date) async {
+    final snapshot = await _db
+        .collection('Meals')
+        .doc(uid)
+        .collection(date)
+        .orderBy(nutrient, descending: true)
+        .limit(3)
+        .get();
+
+    final topFoodItems =
+        snapshot.docs.map((e) => FoodItem.fromSnapshot(e)).toList();
+
+    return topFoodItems;
+  }
 }

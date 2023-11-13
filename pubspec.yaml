@@ -48,6 +48,8 @@ dependencies:
   path: ^1.8.3
   path_provider: ^2.0.15
   intl: ^0.18.1
+  date_picker_timeline: ^1.2.5
+  fl_chart: ^0.64.0
 
 dev_dependencies:
   flutter_test:

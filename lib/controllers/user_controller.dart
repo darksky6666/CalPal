@@ -37,10 +37,4 @@ class UserController {
     final uid = FirebaseAuth.instance.currentUser!.uid.toString().trim();
     return userRepo.getUserDetails(uid);
   }
-
-  // // Fetch all users data
-  // getAllUserData() {
-  //   final uid = FirebaseAuth.instance.currentUser!.uid.toString().trim();
-  //   return userRepo.getAllUserDetails(uid);
-  // }
 }

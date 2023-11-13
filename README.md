@@ -10,3 +10,32 @@
 - Flutter
 - Tensorflow Lite
 - Firebase
+
+## Module Progress
+- [] **Manage Registration**
+    - [x] Login
+    - [] Register
+    - [] Forgot Password
+- [] **Manage User Profile**
+    - [x] Edit Profile
+    - [x] View Profile
+    - [] Delete Profile
+    - [] Change Password
+    - [] Change Email
+- [] **Home**
+    - [x] Day Summary
+    - [] Week Summary
+- [] **Manage Meals**
+    - [x] Add Food
+    - [x] Edit Food
+    - [x] Delete Food
+    - [x] View Food
+    - [x] Search Food
+    - [] Detect Food using Camera
+- [x] **View Calorie and Nutrient Analysis**
+    - [x] View Calorie
+    - [x] View Nutrient
+- [x] **Manage Goals**
+    - [x] Summary
+    - [x] Weight Goal
+    - [x] Calorie Goal

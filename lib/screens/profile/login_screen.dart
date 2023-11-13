@@ -1,5 +1,6 @@
 import 'package:calpal/screens/components/constants.dart';
 import 'package:calpal/controllers/auth_service.dart';
+import 'package:calpal/screens/profile/forgot_password.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -160,14 +161,9 @@ class _LoginScreenState extends State<LoginScreen> {
             GestureDetector(
               onTap: () {
                 // Implement the logic for 'Forgot Password' action here.
-                Fluttertoast.showToast(
-                    msg: "Forgot Password Clicked",
-                    toastLength: Toast.LENGTH_SHORT,
-                    gravity: ToastGravity.BOTTOM,
-                    timeInSecForIosWeb: 1,
-                    backgroundColor: Colors.black,
-                    textColor: Colors.white,
-                    fontSize: 16.0);
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return ForgotPassword();
+                }));
               },
               child: const Text(
                 'Forgot Password?',

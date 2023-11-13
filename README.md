@@ -15,7 +15,7 @@
 - [ ] **Manage Registration**
     - [x] Login
     - [ ] Register
-    - [ ] Forgot Password
+    - [x] Forgot Password
 - [ ] **Manage User Profile**
     - [x] Edit Profile
     - [x] View Profile

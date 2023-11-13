@@ -18,14 +18,6 @@ class NutritionixController {
     final url =
         Uri.parse('https://trackapi.nutritionix.com/v2/natural/nutrients');
     if (servingSize == '' || servingUnit == '' || foodName == '') {
-      Fluttertoast.showToast(
-          msg: "Query Error",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.redAccent.withOpacity(0.1),
-          textColor: Colors.red,
-          fontSize: 16.0);
       return null;
     } else {
       final String query = '$servingSize $servingUnit of $foodName';

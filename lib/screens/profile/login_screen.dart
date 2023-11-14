@@ -1,6 +1,7 @@
 import 'package:calpal/screens/components/constants.dart';
 import 'package:calpal/controllers/auth_service.dart';
 import 'package:calpal/screens/profile/forgot_password.dart';
+import 'package:calpal/screens/registration/registration_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -40,24 +41,6 @@ class _LoginScreenState extends State<LoginScreen> {
       });
     }
   }
-
-  // Future<void> createUserWithEmailAndPassword() async {
-  //   setState(() {
-  //     _isSigningIn = true;
-  //   });
-  //   try {
-  //     await authService.createUserWithEmailAndPassword(
-  //         email: emailController.text, password: passwordController.text);
-  //   } on FirebaseAuthException catch (e) {
-  //     setState(() {
-  //       errorMessage = e.toString();
-  //     });
-  //   } finally {
-  //     setState(() {
-  //       _isSigningIn = false;
-  //     });
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -183,19 +166,6 @@ class _LoginScreenState extends State<LoginScreen> {
           onPressed: () {
             // Implement the login logic here.
             signInWithEmailAndPassword();
-            //   Fluttertoast.showToast(
-            //       msg: ("Login Clicked ") +
-            //           (emailController.text) +
-            //           (" ") +
-            //           (passwordController.text) +
-            //           (" ") +
-            //           (errorMessage!),
-            //       toastLength: Toast.LENGTH_LONG,
-            //       gravity: ToastGravity.BOTTOM,
-            //       timeInSecForIosWeb: 1,
-            //       backgroundColor: Colors.black,
-            //       textColor: Colors.white,
-            //       fontSize: 16.0);
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: primaryColor,
@@ -227,19 +197,15 @@ class _LoginScreenState extends State<LoginScreen> {
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
                   // Implement the Sign Up action here.
-                  Fluttertoast.showToast(
-                      msg: "Sign Up Clicked",
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.BOTTOM,
-                      timeInSecForIosWeb: 1,
-                      backgroundColor: Colors.black,
-                      textColor: Colors.white,
-                      fontSize: 16.0);
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return RegistrationPage();
+                  }));
                 },
             ),
           ],
         ),
       ),
+      SizedBox(height: 10),
     ]);
   }
 }

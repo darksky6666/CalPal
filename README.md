@@ -12,9 +12,9 @@
 - Firebase
 
 ## Module Progress
-- [ ] **Manage Registration**
+- [x] **Manage Registration**
     - [x] Login
-    - [ ] Register
+    - [x] Register
     - [x] Forgot Password
 - [ ] **Manage User Profile**
     - [x] Edit Profile

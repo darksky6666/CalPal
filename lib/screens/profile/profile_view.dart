@@ -3,10 +3,11 @@ import 'package:calpal/controllers/user_controller.dart';
 import 'package:calpal/models/users.dart';
 import 'package:calpal/screens/components/bottom_navigation.dart';
 import 'package:calpal/screens/components/constants.dart';
+import 'package:calpal/screens/profile/account_info.dart';
 import 'package:calpal/screens/profile/edit_user.dart';
+import 'package:calpal/screens/profile/personal_info.dart';
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:heroicons_flutter/heroicons_flutter.dart';
 
@@ -23,7 +24,6 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   void initState() {
     super.initState();
-    // Fetch the user data and populate the form fields
     // Fetch the user data and populate the name
     controller.getUserData().then((UserModel userData) {
       setState(() {
@@ -82,7 +82,7 @@ class _ProfileViewState extends State<ProfileView> {
                           child: Row(
                             children: [
                               CircularProfileAvatar(
-                                '',
+                                '', // Change image here
                                 radius: 25,
                                 backgroundColor: Colors.white,
                                 showInitialTextAbovePicture: true,
@@ -164,14 +164,10 @@ class _ProfileViewState extends State<ProfileView> {
                         ),
                         InkWell(
                           onTap: () {
-                            Fluttertoast.showToast(
-                                msg: "Personal Info Clicked",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.CENTER,
-                                timeInSecForIosWeb: 1,
-                                backgroundColor: Colors.black,
-                                textColor: Colors.white,
-                                fontSize: 16.0);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => PersonalInfo()));
                           },
                           child: Row(
                             children: [
@@ -226,14 +222,10 @@ class _ProfileViewState extends State<ProfileView> {
                         ),
                         InkWell(
                           onTap: () {
-                            Fluttertoast.showToast(
-                                msg: "Account Info Clicked",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.CENTER,
-                                timeInSecForIosWeb: 1,
-                                backgroundColor: Colors.black,
-                                textColor: Colors.white,
-                                fontSize: 16.0);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AccountInfo()));
                           },
                           child: Row(
                             children: [

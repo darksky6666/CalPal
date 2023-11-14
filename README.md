@@ -22,9 +22,9 @@
     - [ ] Delete Profile
     - [ ] Change Password
     - [ ] Change Email
-- [ ] **Home**
+- [x] **Home**
     - [x] Day Summary
-    - [ ] Week Summary
+    - [x] Week Summary
 - [ ] **Manage Meals**
     - [x] Add Food
     - [x] Edit Food

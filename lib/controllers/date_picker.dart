@@ -10,7 +10,8 @@ class DateLogic {
   }
 
   void _setInitialDate() {
-    currentDate = DateTime(currentDate.year, currentDate.month, currentDate.day);
+    currentDate =
+        DateTime(currentDate.year, currentDate.month, currentDate.day);
   }
 
   void navigateToPreviousDay() {
@@ -21,8 +22,31 @@ class DateLogic {
     currentDate = currentDate.add(Duration(days: 1));
   }
 
-  String getCurrentDate() {
-    String formattedDate = DateFormat('yyyyMMdd').format(currentDate);
-    return formattedDate;
+  DateTime getCurrentDate() {
+    return currentDate;
+  }
+
+  String getFormattedDate([DateTime? date]) {
+    DateTime selectedDate = date ?? currentDate;
+    return DateFormat('yyyyMMdd').format(selectedDate);
+  }
+
+  DateTime getStartOfWeek(DateTime date) {
+    return date.subtract(Duration(days: date.weekday - 1));
+  }
+
+  void navigateToPreviousWeek() {
+    currentDate = getStartOfWeek(currentDate).subtract(Duration(days: 7));
+  }
+
+  void navigateToNextWeek() {
+    currentDate = getStartOfWeek(currentDate).add(Duration(days: 7));
+  }
+
+  int getWeekNumber(DateTime date) {
+    int dayOfYear = int.parse(DateFormat("D").format(date));
+    int startWeekday = DateTime(date.year, 1, 1).weekday;
+    int weekNumber = ((dayOfYear - startWeekday + 10) ~/ 7);
+    return weekNumber;
   }
 }

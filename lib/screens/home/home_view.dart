@@ -11,6 +11,7 @@ import 'package:calpal/screens/home/meals_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heroicons_flutter/heroicons_flutter.dart';
+import 'package:intl/intl.dart' as intl;
 import 'package:ionicons/ionicons.dart';
 
 class HomeView extends StatefulWidget {
@@ -27,11 +28,14 @@ class _HomeViewState extends State<HomeView> {
   double totalCarbs = 0.0;
   double totalFat = 0.0;
   double totalProtein = 0.0;
+  List<double> totalCaloriesWeek = List.filled(7, 0.0);
+  List<double> totalCarbsWeek = List.filled(7, 0.0);
+  List<double> totalFatWeek = List.filled(7, 0.0);
+  List<double> totalProteinWeek = List.filled(7, 0.0);
 
   @override
   void initState() {
     super.initState();
-    updateNutrientTotals();
     // Fetch the user data and populate the form fields
     userController.getUserData().then((UserModel userData) {
       setState(() {
@@ -47,7 +51,7 @@ class _HomeViewState extends State<HomeView> {
     totalFat = 0.0;
     totalProtein = 0.0;
 
-    controller.getFoodInfo(dateLogic.getCurrentDate()).then((value) {
+    controller.getFoodInfo(dateLogic.getFormattedDate()).then((value) {
       for (FoodItem food in value) {
         setState(() {
           totalCalories += food.calories ?? 0;
@@ -57,6 +61,44 @@ class _HomeViewState extends State<HomeView> {
         });
       }
     });
+  }
+
+  // Fetch food info for the selected week
+  void updateNutrientTotalsForWeek() {
+    // Reset the lists before calculating totals
+    totalCaloriesWeek = List.filled(7, 0.0);
+    totalCarbsWeek = List.filled(7, 0.0);
+    totalFatWeek = List.filled(7, 0.0);
+    totalProteinWeek = List.filled(7, 0.0);
+
+    // Calculate totals for each day in the selected week
+    for (int i = 0; i < 7; i++) {
+      DateTime currentDate = dateLogic.getCurrentDate().add(Duration(days: i));
+
+      controller
+          .getFoodInfo(dateLogic.getFormattedDate(currentDate))
+          .then((value) {
+        double dailyCalories = 0.0;
+        double dailyCarbs = 0.0;
+        double dailyFat = 0.0;
+        double dailyProtein = 0.0;
+
+        for (FoodItem food in value) {
+          dailyCalories += food.calories ?? 0;
+          dailyCarbs += food.carbs ?? 0;
+          dailyFat += food.fat ?? 0;
+          dailyProtein += food.protein ?? 0;
+        }
+
+        // Update the lists with the totals for the current day
+        setState(() {
+          totalCaloriesWeek[i] = dailyCalories;
+          totalCarbsWeek[i] = dailyCarbs;
+          totalFatWeek[i] = dailyFat;
+          totalProteinWeek[i] = dailyProtein;
+        });
+      });
+    }
   }
 
   @override
@@ -80,22 +122,10 @@ class _HomeViewState extends State<HomeView> {
               if (choice == 'Log Out') {
                 AuthService().signOut();
                 Navigator.popAndPushNamed(context, '/');
-              } else if (choice == 'Settings') {
-                // Fluttertoast.showToast(
-                //     msg: ("Settings Clicked"),
-                //     gravity: ToastGravity.BOTTOM,
-                //     timeInSecForIosWeb: 1,
-                //     backgroundColor: Colors.black,
-                //     textColor: Colors.white,
-                //     fontSize: 16.0);
               }
             },
             itemBuilder: (BuildContext context) {
               return [
-                // PopupMenuItem<String>(
-                //   value: 'Settings',
-                //   child: Text('Settings'),
-                // ),
                 PopupMenuItem<String>(
                   value: 'Log Out',
                   child: Text('Log Out'),
@@ -105,13 +135,6 @@ class _HomeViewState extends State<HomeView> {
           ),
         ],
       ),
-      // actions: [
-      //   IconButton(
-      //     onPressed: () {
-      //
-      //     },
-      //     icon: const Icon(Icons.more_vert),
-      //   ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
@@ -147,11 +170,13 @@ class _HomeViewState extends State<HomeView> {
                         buttonIndex++) {
                       isSelected[buttonIndex] = buttonIndex == index;
                     }
-                    // Handle view change based on the selected index
-                    if (index == 0) {
-                      // Day view selected, update your UI accordingly
+                    if (isSelected[0]) {
+                      dateLogic.currentDate = DateTime.now();
+                      updateNutrientTotals();
                     } else {
-                      // Week view selected, update your UI accordingly
+                      dateLogic.currentDate =
+                          dateLogic.getStartOfWeek(dateLogic.getCurrentDate());
+                      updateNutrientTotalsForWeek();
                     }
                   });
                 },
@@ -182,7 +207,9 @@ class _HomeViewState extends State<HomeView> {
                             ),
                             Spacer(),
                             Text(
-                              "${dateLogic.currentDate.day} / ${dateLogic.currentDate.month}",
+                              intl.DateFormat('dd MMM')
+                                  .format(dateLogic.getCurrentDate())
+                                  .toString(),
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.w600),
                             ),
@@ -348,21 +375,21 @@ class _HomeViewState extends State<HomeView> {
 
                         MealsViewPage(
                           mealType: "Breakfast",
-                          dTime: dateLogic.getCurrentDate(),
+                          dTime: dateLogic.getFormattedDate(),
                         ),
                         SizedBox(
                           height: 20,
                         ),
                         MealsViewPage(
                           mealType: "Lunch",
-                          dTime: dateLogic.getCurrentDate(),
+                          dTime: dateLogic.getFormattedDate(),
                         ),
                         SizedBox(
                           height: 20,
                         ),
                         MealsViewPage(
                           mealType: "Dinner",
-                          dTime: dateLogic.getCurrentDate(),
+                          dTime: dateLogic.getFormattedDate(),
                         ),
                         SizedBox(
                           height: 10,
@@ -373,13 +400,212 @@ class _HomeViewState extends State<HomeView> {
                 ),
               if (isSelected[1]) // Week view
                 Center(
-                  child: Text('Week View Content'),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      children: [
+                        // Change Picker View
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            IconButton(
+                              icon: Icon(HeroiconsSolid.chevronLeft),
+                              onPressed: () {
+                                setState(() {
+                                  dateLogic.navigateToPreviousWeek();
+                                  updateNutrientTotalsForWeek();
+                                });
+                              },
+                            ),
+                            Spacer(),
+                            Column(
+                              children: [
+                                Text(
+                                  "Week ${dateLogic.getWeekNumber(dateLogic.getCurrentDate())}",
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                Text(
+                                  "${intl.DateFormat('dd MMM').format(dateLogic.getCurrentDate())} - "
+                                  "${intl.DateFormat('dd MMM').format(dateLogic.getCurrentDate().add(Duration(days: 6)))}",
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                              ],
+                            ),
+                            Spacer(),
+                            IconButton(
+                              icon: Icon(HeroiconsSolid.chevronRight),
+                              onPressed: () {
+                                setState(() {
+                                  dateLogic.navigateToNextWeek();
+                                  updateNutrientTotalsForWeek();
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 30),
+                        // Meals for the week
+                        Column(
+                          children: List.generate(
+                              7, (index) => buildDayWidget(index)),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
             ],
           ),
         ),
       ),
       bottomNavigationBar: BottomNav(currentIndex: 0),
+    );
+  }
+
+  Widget buildDayWidget(int index) {
+    // Use the totals for the week view
+    double dailyCalories = totalCaloriesWeek[index];
+    double dailyCarbs = totalCarbsWeek[index];
+    double dailyFat = totalFatWeek[index];
+    double dailyProtein = totalProteinWeek[index];
+
+    return Column(
+      children: [
+        // Overview Container
+        Container(
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: purpleColor,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 0,
+                blurRadius: 5,
+                offset: Offset(0, 3),
+              ),
+            ],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 5, bottom: 5, top: 5),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: titleText(
+                      text: intl.DateFormat('EEEE, dd MMM')
+                          .format(dateLogic
+                              .getCurrentDate()
+                              .add(Duration(days: index)))
+                          .toString(),
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                // Calorie in Overview
+                SizedBox(height: 10),
+                Container(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(width: 10),
+                      Container(
+                        width: 20,
+                        child: Icon(HeroiconsSolid.fire, color: Colors.white),
+                      ),
+                      SizedBox(width: 20),
+                      Container(width: 60, child: textNoBold(text: 'Calories')),
+                      SizedBox(width: 20),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.47,
+                        child: Wrap(
+                          direction: Axis.horizontal,
+                          textDirection: TextDirection.ltr,
+                          children: [
+                            // Update the value for the current date
+                            textBold(
+                                text: double.parse(
+                                        dailyCalories.toStringAsFixed(2))
+                                    .toString()),
+                            textNoBold(
+                                text: ' / ' +
+                                    userController.calBudgetController.text +
+                                    ' kcal')
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 10),
+                // Nutrient in Overview
+                Container(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(width: 10),
+                      Container(
+                          width: 20,
+                          child: Icon(Ionicons.pizza_outline,
+                              color: Colors.white)),
+                      SizedBox(width: 20),
+                      Container(
+                          width: 60, child: textNoBold(text: 'Nutrients')),
+                      SizedBox(width: 20),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.47,
+                        child: Wrap(
+                          direction: Axis.horizontal,
+                          textDirection: TextDirection.ltr,
+                          children: [
+                            // Update the value for the current date
+                            textBold(
+                                text:
+                                    double.parse(dailyCarbs.toStringAsFixed(2))
+                                        .toString()),
+                            textNoBold(text: ' g Carbs, '),
+                            textBold(
+                                text: double.parse(dailyFat.toStringAsFixed(2))
+                                    .toString()),
+                            textNoBold(text: ' g Fat, '),
+                            textBold(
+                                text: double.parse(
+                                        dailyProtein.toStringAsFixed(2))
+                                    .toString()),
+                            textNoBold(text: ' g Protein'),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+        SizedBox(height: 20),
+        MealsViewPage(
+          mealType: "Breakfast",
+          dTime: intl.DateFormat('yyyyMMdd')
+              .format(dateLogic.getCurrentDate().add(Duration(days: index))),
+        ),
+        SizedBox(height: 20),
+        MealsViewPage(
+          mealType: "Lunch",
+          dTime: intl.DateFormat('yyyyMMdd')
+              .format(dateLogic.getCurrentDate().add(Duration(days: index))),
+        ),
+        SizedBox(height: 20),
+        MealsViewPage(
+          mealType: "Dinner",
+          dTime: intl.DateFormat('yyyyMMdd')
+              .format(dateLogic.getCurrentDate().add(Duration(days: index))),
+        ),
+        SizedBox(height: 30),
+      ],
     );
   }
 }

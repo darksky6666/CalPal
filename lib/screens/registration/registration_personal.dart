@@ -89,7 +89,7 @@ class _RegistrationPage1State extends State<RegistrationPage1> {
                     } else {
                       // Regular expression for email validation
                       final emailRegex = RegExp(
-                          r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$'); // Simple email pattern, adjust as per your requirements
+                          r'^[\w-\.]+@(?!.*\d)[a-zA-Z0-9][a-zA-Z0-9-]+(\.[a-zA-Z]{2,4})+$');
                       if (!emailRegex.hasMatch(value)) {
                         return 'Please enter a valid email address';
                       }

@@ -11,13 +11,19 @@ class LoginState extends StatefulWidget {
 }
 
 class _LoginState extends State<LoginState> {
+  final AuthService authService = AuthService();
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
       stream: AuthService().authStateChanges,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return HomeView();
+          if (authService.currentUser!.emailVerified) {
+            return HomeView();
+          } else {
+            return const LoginScreen();
+          }
         } else {
           return const LoginScreen();
         }

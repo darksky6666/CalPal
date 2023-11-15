@@ -20,6 +20,7 @@ class RegistrationPage3 extends StatefulWidget {
 }
 
 class _RegistrationPage3State extends State<RegistrationPage3> {
+  final AuthService authService = AuthService();
   final registrationController = Get.put(RegistrationController());
   final _formKey = GlobalKey<FormState>();
   double weightDifference = 0;
@@ -202,11 +203,21 @@ class _RegistrationPage3State extends State<RegistrationPage3> {
                   // After the user has filled the form
                   if (_formKey.currentState!.validate()) {
                     try {
-                      AuthService().registerUserWithEmailAndPassword(
+                      authService.registerUserWithEmailAndPassword(
                         registrationController.emailController.text,
                         registrationController.passwordController.text,
                         (bool success, String errorMessage) {
                           if (success) {
+                            authService.sendEmailVerify();
+                            Fluttertoast.showToast(
+                                msg:
+                                    "Please check your email to verify your account.",
+                                toastLength: Toast.LENGTH_LONG,
+                                gravity: ToastGravity.BOTTOM,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: primaryColor,
+                                textColor: Colors.white,
+                                fontSize: 16.0);
                             Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) {

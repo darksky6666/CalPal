@@ -8,26 +8,62 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class AuthService {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final _db = FirebaseFirestore.instance;
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final db = FirebaseFirestore.instance;
   final registrationController = Get.put(RegistrationController());
 
-  User? get currentUser => _auth.currentUser;
+  User? get currentUser => auth.currentUser;
 
-  Stream<User?> get authStateChanges => _auth.authStateChanges();
+  Stream<User?> get authStateChanges => auth.authStateChanges();
 
   Future<void> signInWithEmailAndPassword(
-      {required String email, required String password}) async {
-    await _auth.signInWithEmailAndPassword(email: email, password: password);
+      String email, String password, Function(bool, String) onResult) async {
+    try {
+      UserCredential userCredential = await auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      User? user = userCredential.user;
+
+      if (user != null) {
+        if (user.emailVerified) {
+          // User has verified their email, proceed with login
+          print('User logged in: ${user.uid}');
+          onResult(true, "");
+        } else {
+          // Show an error message indicating that the user needs to verify their email
+          Fluttertoast.showToast(
+              msg: "Please verify your email to login.",
+              toastLength: Toast.LENGTH_LONG,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.black,
+              textColor: Colors.white,
+              fontSize: 16.0);
+          // throw Exception('Please verify your email to login.');
+          onResult(false, "failed-email-verification");
+        }
+      }
+    } catch (e) {
+      // Handle login errors
+      Fluttertoast.showToast(
+          msg: e.toString(),
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.black,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      // rethrow;
+      onResult(false, e.toString());
+    }
   }
 
   Future<void> signOut() async {
-    await _auth.signOut();
+    await auth.signOut();
   }
 
   Future<void> resetPassword(String email) async {
     try {
-      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      await auth.sendPasswordResetEmail(email: email);
       Fluttertoast.showToast(
           msg: "Password reset email sent successfully!",
           toastLength: Toast.LENGTH_LONG,
@@ -48,13 +84,41 @@ class AuthService {
     }
   }
 
-// Function to register a user using Firebase Auth
+  // Function to send a verification email to the user
+  Future<void> sendEmailVerify() async {
+    User? user = auth.currentUser;
+
+    if (user != null && !user.emailVerified) {
+      await user.sendEmailVerification().then((_) {
+        // Email verification link sent
+        Fluttertoast.showToast(
+            msg: "Verification email sent!",
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.black,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      }).catchError((error) {
+        // Handle errors if email verification fails
+        Fluttertoast.showToast(
+            msg: "Error sending verification email: $error",
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.black,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      });
+    }
+  }
+
+  // Function to register a user using Firebase Auth
   Future<void> registerUserWithEmailAndPassword(
       String email, String password, Function(bool, String) onResult) async {
     try {
-      UserCredential userCredential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
-              email: email.trim(), password: password.trim());
+      UserCredential userCredential = await auth.createUserWithEmailAndPassword(
+          email: email.trim(), password: password.trim());
       User? user = userCredential.user;
 
       // After successful registration
@@ -83,7 +147,8 @@ class AuthService {
       }
     } on FirebaseAuthException catch (e) {
       if (e.code.toLowerCase() == 'email-already-in-use') {
-        onResult(false, "The account already exists for that email. Please try again.");
+        onResult(false,
+            "The account already exists for that email. Please try again.");
       } else {
         onResult(false, e.toString());
       }
@@ -92,29 +157,25 @@ class AuthService {
 
   // Create a user data
   Future<void> createUser(UserModel user, String uid) async {
-    await _db
-        .collection('Users')
-        .doc(uid)
-        .set({
-          'name': user.name,
-          'height': user.height,
-          'weight': user.weight,
-          'age': user.age,
-          'biologicalSex': user.biologicalSex,
-          'medicalCondition': user.medicalCondition,
-          'targetWeight': user.targetWeight,
-          'targetDate': user.targetDate,
-          'calBudget': user.calBudget,
-        })
-        .catchError((error, stackTrace) {
-          Fluttertoast.showToast(
-              msg: "Failed to store registration data: $error",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Colors.redAccent.withOpacity(0.1),
-              textColor: Colors.red,
-              fontSize: 16.0);
-        });
+    await db.collection('Users').doc(uid).set({
+      'name': user.name,
+      'height': user.height,
+      'weight': user.weight,
+      'age': user.age,
+      'biologicalSex': user.biologicalSex,
+      'medicalCondition': user.medicalCondition,
+      'targetWeight': user.targetWeight,
+      'targetDate': user.targetDate,
+      'calBudget': user.calBudget,
+    }).catchError((error, stackTrace) {
+      Fluttertoast.showToast(
+          msg: "Failed to store registration data: $error",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.redAccent.withOpacity(0.1),
+          textColor: Colors.red,
+          fontSize: 16.0);
+    });
   }
 }

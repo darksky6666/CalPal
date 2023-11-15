@@ -1,3 +1,4 @@
+import 'package:calpal/controllers/login_state.dart';
 import 'package:calpal/controllers/registration_controller.dart';
 import 'package:calpal/screens/components/constants.dart';
 import 'package:calpal/screens/registration/registration_view.dart';
@@ -57,7 +58,25 @@ class successView extends StatelessWidget {
         textAlign: TextAlign.center,
         style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
       ),
-      SizedBox(height: 20),
+      SizedBox(height: 15),
+      Column(
+        children: [
+          Text(
+            'Please check your email at',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+          ),
+          Text(
+            registrationController.emailController.text,
+            style: TextStyle(
+                fontSize: 16, fontWeight: FontWeight.w400, color: purpleColor),
+          ),
+          Text(
+            'to verify your account.',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+          ),
+        ],
+      ),
+      SizedBox(height: 40),
       FractionallySizedBox(
         widthFactor: 1,
         child: ElevatedButton(
@@ -68,11 +87,15 @@ class successView extends StatelessWidget {
             ),
           ),
           onPressed: () {
-            Navigator.popUntil(context, (route) => route.isFirst);
             registrationController.resetData();
+            Navigator.popUntil(context, (route) => route.isFirst);
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) {
+              return LoginState();
+            }));
           },
           child: Text(
-            "Start Using CalPal",
+            "Back to Login",
             style: TextStyle(color: Colors.white),
           ),
         ),
@@ -102,7 +125,7 @@ class notSuccessView extends StatelessWidget {
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
         ),
-        SizedBox(height: 20),
+        SizedBox(height: 40),
         FractionallySizedBox(
           widthFactor: 1,
           child: ElevatedButton(

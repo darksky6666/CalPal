@@ -4,6 +4,7 @@ import 'package:calpal/screens/goal/edit_goal.dart';
 import 'package:calpal/screens/goal/goal_view.dart';
 import 'package:calpal/screens/home/home_view.dart';
 import 'package:calpal/controllers/login_state.dart';
+import 'package:calpal/screens/profile/login_screen.dart';
 import 'package:calpal/screens/profile/profile_view.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
       // Define your routes
       routes: {
         '/': (context) => LoginState(),
+        '/login': (context) => LoginScreen(),
         '/home': (context) => HomeView(),
         '/analysis': (context) => AnalysisView(),
         '/food': (context) => FoodView(),

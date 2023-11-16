@@ -229,7 +229,7 @@ class _ProfileViewState extends State<ProfileView> {
                           },
                           child: Row(
                             children: [
-                              Text('Account Info',
+                              Text('Account Settings',
                                   style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w300)),
@@ -246,10 +246,40 @@ class _ProfileViewState extends State<ProfileView> {
                         ),
                         InkWell(
                           onTap: () {
-                            AuthService().signOut();
-                            Navigator.popUntil(
-                                context, (route) => route.isFirst);
-                            Navigator.pushReplacementNamed(context, '/');
+                            // Show alert dialog to confirm account deletion
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text("Confirm log out?"),
+                                  content:
+                                      Text("Are you sure you want to log out?"),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context)
+                                            .pop(); // Close the alert dialog
+                                      },
+                                      child: Text("Cancel"),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context)
+                                            .pop(); // Close the alert dialog
+                                        AuthService().signOut();
+                                        Navigator.popUntil(
+                                            context, (route) => route.isFirst);
+                                        Navigator.pushReplacementNamed(
+                                            context, '/');
+                                      },
+                                      child: Text(
+                                        "Logout",
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
                           },
                           child: Row(
                             children: [

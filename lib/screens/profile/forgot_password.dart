@@ -12,6 +12,7 @@ class ForgotPassword extends StatefulWidget {
 class _ForgotPasswordState extends State<ForgotPassword> {
   final TextEditingController emailController = TextEditingController();
   AuthService authService = AuthService();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -22,70 +23,95 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         ),
         automaticallyImplyLeading: false,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(30.0),
-        child: Column(children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              "Forgot Password?",
-              style: TextStyle(fontWeight: FontWeight.w800, fontSize: 30),
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-                "Please enter your email address and we'll send you a link to reset your password.",
-                textAlign: TextAlign.justify,
-                style: TextStyle(fontWeight: FontWeight.w300, fontSize: 14)),
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          FractionallySizedBox(
-            widthFactor: 1,
-            child: TextField(
-              controller: emailController,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(17.0),
-                  borderSide: const BorderSide(color: Colors.grey),
-                ),
-                labelText: 'Email',
-                hintText: 'example@gmail.com',
-                prefixIcon: const Icon(
-                  Icons.mail,
-                  color: Colors.grey,
+      body: Form(
+        key: _formKey,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Padding(
+            padding: const EdgeInsets.all(30.0),
+            child: Column(children: [
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Forgot Password?",
+                  style: TextStyle(fontWeight: FontWeight.w800, fontSize: 30),
                 ),
               ),
-            ),
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          FractionallySizedBox(
-            widthFactor: 1,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: primaryColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(17.0),
+              SizedBox(
+                height: 10,
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                    "Please enter your email address and we'll send you a link to reset your password.",
+                    textAlign: TextAlign.justify,
+                    style:
+                        TextStyle(fontWeight: FontWeight.w300, fontSize: 14)),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              FractionallySizedBox(
+                widthFactor: 1,
+                child: TextFormField(
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter an email address';
+                    } else {
+                      // Regular expression for email validation
+                      final emailRegex = RegExp(
+                          r'^[\w-\.]+@(?!.*\d)[a-zA-Z0-9][a-zA-Z0-9-]+(\.[a-zA-Z]{2,4})+$');
+                      if (!emailRegex.hasMatch(value)) {
+                        return 'Please enter a valid email address';
+                      }
+                    }
+                    return null;
+                  },
+                  controller: emailController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(17.0),
+                      borderSide: const BorderSide(color: Colors.grey),
+                    ),
+                    labelText: 'Email',
+                    hintText: 'example@gmail.com',
+                    prefixIcon: const Icon(
+                      Icons.mail,
+                      color: Colors.grey,
+                    ),
+                  ),
                 ),
               ),
-              onPressed: () {
-                authService.resetPassword(emailController.text);
-                Navigator.pop(context);
-              },
-              child: Text(
-                "Send Reset Link",
-                style: TextStyle(color: Colors.white),
+              SizedBox(
+                height: 40,
               ),
-            ),
+              FractionallySizedBox(
+                widthFactor: 1,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: primaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(17.0),
+                    ),
+                  ),
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      authService.resetPassword(emailController.text);
+                      Navigator.pop(context);
+                    }
+                  },
+                  child: Text(
+                    "Send Reset Link",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+            ]),
           ),
-        ]),
+        ),
       ),
     );
   }

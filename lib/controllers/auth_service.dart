@@ -178,4 +178,68 @@ class AuthService {
           fontSize: 16.0);
     });
   }
+
+  // Function to delete a user account
+  void deleteUserAccount(
+      String email, String password, Function(bool, String) onResult) async {
+    User? user = auth.currentUser;
+
+    if (user != null) {
+      // Create a credential with the user's email and password
+      AuthCredential credential = EmailAuthProvider.credential(
+        email: email.trim(),
+        password: password.trim(),
+      );
+
+      try {
+        // Reauthenticate the user with the provided credential
+        await user.reauthenticateWithCredential(credential);
+
+        // Fetch the UID after reauthentication
+        String uid = user.uid;
+
+        // Delete documents from 'Meals' and 'Users' collections
+        try {
+          await FirebaseFirestore.instance
+              .collection('Users')
+              .doc(uid)
+              .delete();
+        } catch (e) {
+          print(e.toString());
+        }
+        try {
+          await FirebaseFirestore.instance
+              .collection('Meals')
+              .doc(uid)
+              .delete();
+        } catch (e) {
+          print(e.toString());
+        }
+
+        // If reauthentication is successful, delete the account
+        await user.delete();
+        Fluttertoast.showToast(
+            msg: "Account deleted successfully!",
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.black,
+            textColor: Colors.white,
+            fontSize: 16.0);
+        onResult(true, "Account deleted successfully!");
+      } catch (e) {
+        // Handle errors if reauthentication fails
+        print(e.toString());
+        Fluttertoast.showToast(
+            msg: e.toString(),
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.black,
+            textColor: Colors.white,
+            fontSize: 16.0);
+        onResult(false, e.toString());
+      }
+    }
+  }
 }

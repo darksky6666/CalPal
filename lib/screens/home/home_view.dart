@@ -3,7 +3,6 @@ import 'package:calpal/controllers/user_controller.dart';
 import 'package:calpal/models/foods.dart';
 import 'package:calpal/models/users.dart';
 import 'package:calpal/screens/components/constants.dart';
-import 'package:calpal/controllers/auth_service.dart';
 import 'package:calpal/controllers/date_picker.dart';
 import 'package:calpal/screens/components/bottom_navigation.dart';
 import 'package:calpal/screens/components/text_styling.dart';
@@ -119,26 +118,26 @@ class _HomeViewState extends State<HomeView> {
           ),
         ),
         automaticallyImplyLeading: false,
-        actions: [
-          PopupMenuButton<String>(
-            icon: Icon(Icons.more_vert),
-            onSelected: (String choice) {
-              // Handle menu item selection here
-              if (choice == 'Log Out') {
-                AuthService().signOut();
-                Navigator.popAndPushNamed(context, '/');
-              }
-            },
-            itemBuilder: (BuildContext context) {
-              return [
-                PopupMenuItem<String>(
-                  value: 'Log Out',
-                  child: Text('Log Out'),
-                ),
-              ];
-            },
-          ),
-        ],
+        // actions: [
+        //   PopupMenuButton<String>(
+        //     icon: Icon(Icons.more_vert),
+        //     onSelected: (String choice) {
+        //       // Handle menu item selection here
+        //       if (choice == 'Log Out') {
+        //         AuthService().signOut();
+        //         Navigator.popAndPushNamed(context, '/');
+        //       }
+        //     },
+        //     itemBuilder: (BuildContext context) {
+        //       return [
+        //         PopupMenuItem<String>(
+        //           value: 'Log Out',
+        //           child: Text('Log Out'),
+        //         ),
+        //       ];
+        //     },
+        //   ),
+        // ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),

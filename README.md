@@ -19,7 +19,7 @@
 - [ ] **Manage User Profile**
     - [x] Edit Profile
     - [x] View Profile
-    - [ ] Delete Profile
+    - [x] Delete Profile
     - [ ] Change Password
     - [ ] Change Email
 - [x] **Home**

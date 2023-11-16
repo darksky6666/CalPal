@@ -35,6 +35,7 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   void initState() {
+    updateNutrientTotals();
     super.initState();
     // Fetch the user data and populate the form fields
     userController.getUserData().then((UserModel userData) {
@@ -53,12 +54,14 @@ class _HomeViewState extends State<HomeView> {
 
     controller.getFoodInfo(dateLogic.getFormattedDate()).then((value) {
       for (FoodItem food in value) {
-        setState(() {
-          totalCalories += food.calories ?? 0;
-          totalCarbs += food.carbs ?? 0;
-          totalFat += food.fat ?? 0;
-          totalProtein += food.protein ?? 0;
-        });
+        if (mounted) {
+          setState(() {
+            totalCalories += food.calories ?? 0;
+            totalCarbs += food.carbs ?? 0;
+            totalFat += food.fat ?? 0;
+            totalProtein += food.protein ?? 0;
+          });
+        }
       }
     });
   }
@@ -91,12 +94,14 @@ class _HomeViewState extends State<HomeView> {
         }
 
         // Update the lists with the totals for the current day
-        setState(() {
-          totalCaloriesWeek[i] = dailyCalories;
-          totalCarbsWeek[i] = dailyCarbs;
-          totalFatWeek[i] = dailyFat;
-          totalProteinWeek[i] = dailyProtein;
-        });
+        if (mounted) {
+          setState(() {
+            totalCaloriesWeek[i] = dailyCalories;
+            totalCarbsWeek[i] = dailyCarbs;
+            totalFatWeek[i] = dailyFat;
+            totalProteinWeek[i] = dailyProtein;
+          });
+        }
       });
     }
   }

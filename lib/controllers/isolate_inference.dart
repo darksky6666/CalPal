@@ -32,7 +32,11 @@ class IsolateInference {
   Future<void> start() async {
     _isolate = await Isolate.spawn<SendPort>(entryPoint, _receivePort.sendPort,
         debugName: _debugName);
-    _sendPort = await _receivePort.first;
+    try {
+      _sendPort = await _receivePort.first;
+    } catch (e) {
+      // Do nothing
+    }
   }
 
   Future<void> close() async {

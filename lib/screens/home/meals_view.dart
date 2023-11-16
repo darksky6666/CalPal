@@ -88,7 +88,9 @@ class _MealsViewPageState extends State<MealsViewPage> {
                                                           .data![index].docId)
                                                       .toString(),
                                                   date: widget.dTime,
-                                                  foodName: snapshot.data![index].name.toString(),
+                                                  foodName: snapshot
+                                                      .data![index].name
+                                                      .toString(),
                                                 )));
                                   },
                                   child: Row(children: [
@@ -102,8 +104,9 @@ class _MealsViewPageState extends State<MealsViewPage> {
                                         height: 60,
                                         width: 60,
                                         child: Image.asset(
-                                          controller.getFoodImagePath(
-                                              snapshot.data![index].name.toString()),
+                                          controller.getFoodImagePath(snapshot
+                                              .data![index].name
+                                              .toString()),
                                           fit: BoxFit.cover,
                                         )), // Food image
                                     SizedBox(
@@ -120,8 +123,8 @@ class _MealsViewPageState extends State<MealsViewPage> {
                                           Wrap(
                                             children: [
                                               Text(
-                                                snapshot.data![index]
-                                                    .name.toString(), // Food name from Firebase
+                                                snapshot.data![index].name
+                                                    .toString(), // Food name from Firebase
                                                 style: TextStyle(
                                                     fontWeight: FontWeight.w600,
                                                     fontSize: 16),
@@ -158,8 +161,7 @@ class _MealsViewPageState extends State<MealsViewPage> {
                       }
                     } else {
                       return Container(
-                        child: Text('Error',
-                            style: TextStyle(fontSize: 20, color: Colors.red)),
+                        child: CircularProgressIndicator(),
                       );
                     }
                   },

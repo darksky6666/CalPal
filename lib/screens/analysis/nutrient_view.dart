@@ -208,7 +208,11 @@ class _NutrientViewState extends State<NutrientView> {
                           builder: (context, snapshot) {
                             if (snapshot.connectionState ==
                                 ConnectionState.waiting) {
-                              return CircularProgressIndicator();
+                              return Container(
+                                  width:
+                                      MediaQuery.of(context).size.width,
+                                  alignment: Alignment.center,
+                                  child: const CircularProgressIndicator());
                             } else if (snapshot.hasError) {
                               return Text("Error: ${snapshot.error}");
                             } else if (!snapshot.hasData ||

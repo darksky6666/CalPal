@@ -24,15 +24,32 @@ class _FoodViewState extends State<FoodView> {
   String? imagePath;
   final imagePicker = ImagePicker();
   img.Image? image;
+  bool isLoading = true;
 
   final controller = Get.put(FoodController());
 
   @override
   void initState() {
-    imageClassificationHelper = ImageClassificationHelper();
-    imageClassificationHelper!.initHelper();
-    controller.filterSuggestions("");
+    initializeHelper();
     super.initState();
+  }
+
+  // Function to simulate loading and initialize helper
+  void initializeHelper() {
+    Future.delayed(Duration.zero, () async {
+      // Initialize your helper here
+      imageClassificationHelper = ImageClassificationHelper();
+      try {
+        // Update the state to stop showing the loading indicator
+        await imageClassificationHelper!.initHelper();
+        setState(() {
+          isLoading = false;
+        });
+      } catch (e) {
+        // Do nothing
+      }
+      controller.filterSuggestions("");
+    });
   }
 
   // Clean old results when press some take picture button
@@ -105,31 +122,62 @@ class _FoodViewState extends State<FoodView> {
         ),
         automaticallyImplyLeading: false,
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 20.0, left: 20, right: 20),
-        child: Column(
-          children: [
-            buildSearchBar(),
-            SizedBox(height: 15),
-            Expanded(
-              child: Obx(() {
-                return ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: controller.filteredSuggestions.length,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        buildListItem(context,
-                            controller.filteredSuggestions[index].name.toString()),
-                        SizedBox(height: 20),
-                      ],
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 20.0, left: 20, right: 20),
+            child: Column(
+              children: [
+                buildSearchBar(),
+                SizedBox(height: 15),
+                Expanded(
+                  child: Obx(() {
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: controller.filteredSuggestions.length,
+                      itemBuilder: (context, index) {
+                        return Column(
+                          children: [
+                            buildListItem(
+                                context,
+                                controller.filteredSuggestions[index].name
+                                    .toString()),
+                            SizedBox(height: 20),
+                          ],
+                        );
+                      },
                     );
-                  },
-                );
-              }),
+                  }),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+
+          // Loading indicator
+          if (isLoading)
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              color: Colors.white.withOpacity(0.9),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(
+                    color: purpleColor,
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    "Loading data...",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+        ],
       ),
       bottomNavigationBar: BottomNav(currentIndex: 2),
     );
@@ -236,7 +284,7 @@ class _FoodViewState extends State<FoodView> {
                     SizedBox(width: 20),
                     if (text == "Create food")
                       Container(
-                        width: 100, // Adjust the width as needed
+                        width: 100,
                         child: Text(
                           text,
                           style: TextStyle(

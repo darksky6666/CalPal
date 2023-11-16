@@ -109,7 +109,6 @@ class _FoodDetailState extends State<FoodDetail> {
                       reverseTransitionDuration: Duration.zero,
                     )); // Push the profile view with PageRouteBuilder
               } catch (e) {
-                print(e);
                 Fluttertoast.showToast(
                     msg: "Please fill in all the fields with valid data",
                     gravity: ToastGravity.BOTTOM,

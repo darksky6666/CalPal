@@ -75,7 +75,11 @@ class ImageClassificationHelper {
     _loadLabels();
     _loadModel();
     isolateInference = IsolateInference();
-    await isolateInference.start();
+    try {
+      await isolateInference.start();
+    } catch (e) {
+      // Do nothing
+    }
   }
 
   Future<Map<String, double>> _inference(InferenceModel inferenceModel) async {

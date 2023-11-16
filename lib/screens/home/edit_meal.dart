@@ -125,7 +125,6 @@ class _EditMealState extends State<EditMeal> {
                       reverseTransitionDuration: Duration.zero,
                     ));
               } catch (e) {
-                print(e);
                 Fluttertoast.showToast(
                     msg: "Please fill in all the fields with valid data",
                     gravity: ToastGravity.BOTTOM,

@@ -535,10 +535,24 @@ class _AnalysisViewState extends State<AnalysisView> {
                                           builder: (context, snapshot) {
                                             if (snapshot.connectionState ==
                                                 ConnectionState.waiting) {
-                                              return CircularProgressIndicator();
+                                              return Container(
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                  alignment: Alignment.center,
+                                                  child:
+                                                      const CircularProgressIndicator());
                                             } else if (snapshot.hasError) {
-                                              return Text(
-                                                  "Error: ${snapshot.error}");
+                                              return Container(
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                  alignment: Alignment.center,
+                                                  child: Text(
+                                                      "Error: ${snapshot.error}",
+                                                      style: TextStyle(
+                                                          color: primaryColor,
+                                                          fontSize: 20)));
                                             } else if (!snapshot.hasData ||
                                                 snapshot.data!.isEmpty) {
                                               return Container(

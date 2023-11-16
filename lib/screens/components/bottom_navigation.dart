@@ -2,7 +2,6 @@ import 'package:calpal/controllers/login_state.dart';
 import 'package:calpal/screens/analysis/analysis_view.dart';
 import 'package:calpal/screens/food/food_view.dart';
 import 'package:calpal/screens/goal/goal_view.dart';
-import 'package:calpal/screens/home/home_view.dart';
 import 'package:calpal/screens/profile/profile_view.dart';
 import 'package:flutter/material.dart';
 import 'package:heroicons_flutter/heroicons_flutter.dart';
@@ -54,18 +53,19 @@ class _BottomNavState extends State<BottomNav> {
           return;
         } else {
           switch (index) {
-            case 0:
-              Navigator.push(
-                context,
-                PageRouteBuilder(
-                  pageBuilder: (context, animation1, animation2) => HomeView(),
-                  transitionDuration: Duration.zero,
-                  reverseTransitionDuration: Duration.zero,
-                ),
-              );
-              break;
+            // case 0:
+            //   Navigator.pushAndRemoveUntil(
+            //     context,
+            //     PageRouteBuilder(
+            //       pageBuilder: (context, animation1, animation2) => HomeView(),
+            //       transitionDuration: Duration.zero,
+            //       reverseTransitionDuration: Duration.zero,
+            //     ),
+            //     ModalRoute.withName('/'),
+            //   );
+            //   break;
             case 1:
-              Navigator.push(
+              Navigator.pushAndRemoveUntil(
                 context,
                 PageRouteBuilder(
                   pageBuilder: (context, animation1, animation2) =>
@@ -73,30 +73,35 @@ class _BottomNavState extends State<BottomNav> {
                   transitionDuration: Duration.zero,
                   reverseTransitionDuration: Duration.zero,
                 ),
+                ModalRoute.withName('/'),
               );
               break;
             case 2:
-              Navigator.push(
+              Navigator.pushAndRemoveUntil(
                 context,
                 PageRouteBuilder(
-                  pageBuilder: (context, animation1, animation2) => const FoodView(),
+                  pageBuilder: (context, animation1, animation2) =>
+                      const FoodView(),
                   transitionDuration: Duration.zero,
                   reverseTransitionDuration: Duration.zero,
                 ),
+                ModalRoute.withName('/'),
               );
               break;
             case 3:
-              Navigator.push(
+              Navigator.pushAndRemoveUntil(
                 context,
                 PageRouteBuilder(
-                  pageBuilder: (context, animation1, animation2) => const GoalView(),
+                  pageBuilder: (context, animation1, animation2) =>
+                      const GoalView(),
                   transitionDuration: Duration.zero,
                   reverseTransitionDuration: Duration.zero,
                 ),
+                ModalRoute.withName('/'),
               );
               break;
             case 4:
-              Navigator.push(
+              Navigator.pushAndRemoveUntil(
                 context,
                 PageRouteBuilder(
                   pageBuilder: (context, animation1, animation2) =>
@@ -104,19 +109,19 @@ class _BottomNavState extends State<BottomNav> {
                   transitionDuration: Duration.zero,
                   reverseTransitionDuration: Duration.zero,
                 ),
+                ModalRoute.withName('/'),
               );
               break;
             default:
               Navigator.popUntil(context, (route) => route.isFirst);
-              Navigator.push(
-                context,
-                PageRouteBuilder(
-                  pageBuilder: (context, animation1, animation2) =>
-                      const LoginState(),
-                  transitionDuration: Duration.zero,
-                  reverseTransitionDuration: Duration.zero,
-                ),
-              );
+              Navigator.pushReplacement(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation1, animation2) =>
+                        const LoginState(),
+                    transitionDuration: Duration.zero,
+                    reverseTransitionDuration: Duration.zero,
+                  ));
               break;
           }
         }

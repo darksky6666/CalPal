@@ -247,7 +247,9 @@ class _ProfileViewState extends State<ProfileView> {
                         InkWell(
                           onTap: () {
                             AuthService().signOut();
-                            Navigator.popAndPushNamed(context, '/');
+                            Navigator.popUntil(
+                                context, (route) => route.isFirst);
+                            Navigator.pushReplacementNamed(context, '/');
                           },
                           child: Row(
                             children: [

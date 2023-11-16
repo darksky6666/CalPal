@@ -1,4 +1,3 @@
-import 'package:calpal/controllers/login_state.dart';
 import 'package:calpal/screens/components/constants.dart';
 import 'package:calpal/controllers/auth_service.dart';
 import 'package:calpal/screens/profile/forgot_password.dart';
@@ -19,6 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _obscureText = true;
   String? errorMessage = '';
   bool status = false;
+  bool isLoading = false;
   final AuthService authService = AuthService();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -110,7 +110,29 @@ class _LoginScreenState extends State<LoginScreen> {
       body: SafeArea(
           child: Padding(
         padding: const EdgeInsets.only(top: 10, bottom: 10),
-        child: loginForm(),
+        child: Stack(
+          children: [
+            loginForm(),
+            if (isLoading)
+              Container(
+                color: Colors.white.withOpacity(0.8),
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(
+                      color: purpleColor,
+                    ),
+                    SizedBox(height: 30),
+                    Text("Logging in...",
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w500)),
+                  ],
+                ),
+              ) // Display the loading indicator
+          ],
+        ),
       )),
     );
   }
@@ -247,13 +269,22 @@ class _LoginScreenState extends State<LoginScreen> {
           child: ElevatedButton(
             onPressed: () async {
               if (_formKey.currentState!.validate()) {
-                // Implement the login logic here.
-                await signInWithEmailAndPassword();
-                print(status);
-                if (authService.currentUser != null && status) {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return LoginState();
-                  }));
+                setState(() {
+                  isLoading =
+                      true; // Set isLoading to true to show the loading indicator
+                });
+                try {
+                  // Implement the login logic here.
+                  await signInWithEmailAndPassword();
+                  if (authService.currentUser != null && status) {
+                    Navigator.popUntil(context, (route) => route.isFirst);
+                    Navigator.pushReplacementNamed(context, '/');
+                  }
+                } finally {
+                  setState(() {
+                    isLoading =
+                        false; // Set isLoading back to false to hide the loading indicator
+                  });
                 }
               }
             },

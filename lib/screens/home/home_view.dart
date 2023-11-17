@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:calpal/controllers/food_controller.dart';
 import 'package:calpal/controllers/user_controller.dart';
 import 'package:calpal/models/foods.dart';
@@ -38,9 +40,14 @@ class _HomeViewState extends State<HomeView> {
     super.initState();
     // Fetch the user data and populate the form fields
     userController.getUserData().then((UserModel userData) {
-      setState(() {
-        userController.calBudgetController.text = userData.calBudget.toString();
-      });
+      try {
+        setState(() {
+          userController.calBudgetController.text =
+              userData.calBudget.toString();
+        });
+      } catch (e) {
+        log(e.toString());
+      }
     });
   }
 

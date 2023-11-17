@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:calpal/controllers/registration_controller.dart';
 import 'package:calpal/models/users.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -26,7 +28,7 @@ class AuthService {
       if (user != null) {
         if (user.emailVerified) {
           // User has verified their email, proceed with login
-          print('User logged in: ${user.uid}');
+          log('User logged in: ${user.uid}');
           onResult(true, "");
         } else {
           // Show an error message indicating that the user needs to verify their email
@@ -205,7 +207,7 @@ class AuthService {
               .doc(uid)
               .delete();
         } catch (e) {
-          print(e.toString());
+          log(e.toString());
         }
         try {
           await FirebaseFirestore.instance
@@ -213,7 +215,7 @@ class AuthService {
               .doc(uid)
               .delete();
         } catch (e) {
-          print(e.toString());
+          log(e.toString());
         }
 
         // If reauthentication is successful, delete the account
@@ -229,7 +231,7 @@ class AuthService {
         onResult(true, "Account deleted successfully!");
       } catch (e) {
         // Handle errors if reauthentication fails
-        print(e.toString());
+        log(e.toString());
         Fluttertoast.showToast(
             msg: e.toString(),
             toastLength: Toast.LENGTH_LONG,

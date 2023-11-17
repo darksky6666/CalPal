@@ -7,15 +7,24 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserRepository extends GetxController {
   static UserRepository get instance => Get.find();
-  final uid = FirebaseAuth.instance.currentUser!.uid.toString().trim();
 
   final _db = FirebaseFirestore.instance;
+
+  // Get the current user's uid
+  String? getCurrentUid() {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      return user.uid;
+    } else {
+      return null;
+    }
+  }
 
   // Create a user data
   createUser(UserModel user) async {
     await _db
         .collection('Users')
-        .doc(uid)
+        .doc(getCurrentUid())
         .set({
           'name': user.name,
           'height': user.height,
@@ -53,7 +62,7 @@ class UserRepository extends GetxController {
   updateUser(UserModel user) async {
     await _db
         .collection('Users')
-        .doc(uid)
+        .doc(getCurrentUid())
         .update({
           'name': user.name,
           'height': user.height,
@@ -88,7 +97,7 @@ class UserRepository extends GetxController {
   updateGoal(UserModel user) async {
     await _db
         .collection('Users')
-        .doc(uid)
+        .doc(getCurrentUid())
         .update({
           'weight': user.weight,
           'targetWeight': user.targetWeight,

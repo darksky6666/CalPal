@@ -1,6 +1,8 @@
+import 'dart:developer';
+
 import 'package:calpal/models/foods.dart';
+import 'package:calpal/repositories/user_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -8,7 +10,7 @@ import 'package:intl/intl.dart';
 
 class FoodRepository extends GetxController {
   static FoodRepository get instance => Get.find();
-  final uid = FirebaseAuth.instance.currentUser!.uid.toString().trim();
+  final userRepo = Get.put(UserRepository());
 
   final _db = FirebaseFirestore.instance;
 
@@ -22,7 +24,7 @@ class FoodRepository extends GetxController {
     try {
       final DocumentReference documentReference = await _db
           .collection('Meals')
-          .doc(uid)
+          .doc(userRepo.getCurrentUid())
           .collection(getFormattedDateTime())
           .add(food.toJson());
 
@@ -54,7 +56,7 @@ class FoodRepository extends GetxController {
   Future<void> updateFood(FoodItem food, String date) async {
     await _db
         .collection('Meals')
-        .doc(uid)
+        .doc(userRepo.getCurrentUid())
         .collection(date)
         .doc(food.docId.toString())
         .update({
@@ -91,7 +93,7 @@ class FoodRepository extends GetxController {
   Future<void> deleteFood(String docId, String date) async {
     await _db
         .collection('Meals')
-        .doc(uid)
+        .doc(userRepo.getCurrentUid())
         .collection(date)
         .doc(docId)
         .delete()
@@ -120,7 +122,7 @@ class FoodRepository extends GetxController {
   Future<List<FoodItem>> getMealDetails(String date, String mealType) async {
     final snapshot = await _db
         .collection('Meals')
-        .doc(uid)
+        .doc(userRepo.getCurrentUid())
         .collection(date)
         .where('mealType', isEqualTo: mealType)
         .get();
@@ -130,8 +132,11 @@ class FoodRepository extends GetxController {
   }
 
   Future<List<FoodItem>> getFoodInfo(String date) async {
-    final snapshot =
-        await _db.collection('Meals').doc(uid).collection(date).get();
+    final snapshot = await _db
+        .collection('Meals')
+        .doc(userRepo.getCurrentUid())
+        .collection(date)
+        .get();
     final mealData =
         snapshot.docs.map((e) => FoodItem.fromSnapshot(e)).toList();
     return mealData;
@@ -141,7 +146,7 @@ class FoodRepository extends GetxController {
   Future<FoodItem> getFoodFromID(String date, String docId) async {
     final snapshot = await _db
         .collection('Meals')
-        .doc(uid)
+        .doc(userRepo.getCurrentUid())
         .collection(date)
         .doc(docId)
         .get();
@@ -166,7 +171,7 @@ class FoodRepository extends GetxController {
       // Find the collection with the same date as the current iteration
       final snapshot = await _db
           .collection('Meals')
-          .doc(uid)
+          .doc(userRepo.getCurrentUid())
           .collection(formattedDate)
           .get();
 
@@ -199,7 +204,7 @@ class FoodRepository extends GetxController {
   Future<List<FoodItem>> getTopFoodItems(String nutrient, String date) async {
     final snapshot = await _db
         .collection('Meals')
-        .doc(uid)
+        .doc(userRepo.getCurrentUid())
         .collection(date)
         .orderBy(nutrient, descending: true)
         .limit(3)

@@ -21,6 +21,16 @@ class _DeleteAccountState extends State<DeleteAccount> {
   bool _obscureText = true;
   bool _obscureText1 = true;
 
+  // Fetch current user's email
+  String? getCurrentUserEmail() {
+    final user = authService.currentUser;
+    if (user != null) {
+      return user.email;
+    } else {
+      return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,6 +80,9 @@ class _DeleteAccountState extends State<DeleteAccount> {
                           r'^[\w-\.]+@(?!.*\d)[a-zA-Z0-9][a-zA-Z0-9-]+(\.[a-zA-Z]{2,4})+$');
                       if (!emailRegex.hasMatch(value)) {
                         return 'Please enter a valid email address';
+                      }
+                      if (value != getCurrentUserEmail()) {
+                        return 'Email address does not match current user';
                       }
                     }
                     return null;

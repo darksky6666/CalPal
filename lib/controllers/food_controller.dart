@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:calpal/models/foods.dart';
 import 'package:calpal/repositories/food_repository.dart';
 import 'package:flutter/material.dart';
@@ -64,7 +66,7 @@ class FoodController extends GetxController {
     try {
       filteredSuggestions.clear();
     } catch (e) {
-      print(e);
+      log(e.toString());
     }
 
     // If the query is empty, return all the suggestions
@@ -83,7 +85,7 @@ class FoodController extends GetxController {
         }
       }
     } catch (e) {
-      print(e);
+      log(e.toString());
     }
   }
 }

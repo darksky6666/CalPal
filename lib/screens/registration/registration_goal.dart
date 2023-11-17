@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:calpal/controllers/auth_service.dart';
 import 'package:calpal/controllers/registration_controller.dart';
 import 'package:calpal/screens/components/constants.dart';
@@ -236,7 +238,7 @@ class _RegistrationPage3State extends State<RegistrationPage3> {
                         },
                       );
                     } catch (e) {
-                      print("Error encountered on view: $e");
+                      log("Error encountered on view: $e");
                       Fluttertoast.showToast(
                           msg: "Error encountered: $e",
                           toastLength: Toast.LENGTH_LONG,

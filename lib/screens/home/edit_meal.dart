@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:calpal/controllers/food_controller.dart';
 import 'package:calpal/controllers/nutrition_api.dart';
 import 'package:calpal/models/foods.dart';
@@ -48,7 +50,7 @@ class _EditMealState extends State<EditMeal> {
         fetchFoodData();
       });
     }).catchError((e) {
-      print(e);
+      log(e);
     });
 
     _focusNode.addListener(() {

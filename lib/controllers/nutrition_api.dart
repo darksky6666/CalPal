@@ -1,10 +1,18 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class NutritionixController {
-  static const List<String> apiIds = ['c8cd342c', 'c75bf0ea', '2b3c0d8a', '10ccf60a', 'f74b0a57'];
+  static const List<String> apiIds = [
+    'c8cd342c',
+    'c75bf0ea',
+    '2b3c0d8a',
+    '10ccf60a',
+    'f74b0a57'
+  ];
   static const List<String> apiKeys = [
     '01ac7ae9ef485d3c5775669b9f1df3d5',
     '410427619a2f2a6b72798b9a66638cc9',
@@ -54,6 +62,7 @@ class NutritionixController {
               final sugars = foodInfo['nf_sugars'];
               final potassium = foodInfo['nf_potassium'];
 
+              log(foodName + i.toString());
               return {
                 'food_name': foodName,
                 'serving_weight_grams': servingWeightGrams,
@@ -71,8 +80,22 @@ class NutritionixController {
             }
           } else if (response.statusCode == 401 && i < apiIds.length - 1) {
             // If unauthorized (401) and more API keys are available, try the next one
+            log('API Key $i unauthorized, trying next one...');
             continue;
+          } else if (response.statusCode == 404) {
+            // If food not found (404), return null
+            log('Food not found');
+            Fluttertoast.showToast(
+                msg: "Nutrition info not found",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.redAccent.withOpacity(0.1),
+                textColor: Colors.red,
+                fontSize: 16.0);
+            return null;
           } else {
+            log('API Error: ${response.statusCode}');
             Fluttertoast.showToast(
                 msg: "API Error: ${response.statusCode}",
                 toastLength: Toast.LENGTH_SHORT,
@@ -83,14 +106,7 @@ class NutritionixController {
                 fontSize: 16.0);
           }
         } catch (e) {
-          Fluttertoast.showToast(
-              msg: "API Catch Error: $e",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Colors.redAccent.withOpacity(0.1),
-              textColor: Colors.red,
-              fontSize: 16.0);
+          log('API Catch Error: $e');
         }
       }
     }

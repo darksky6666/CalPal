@@ -46,6 +46,10 @@ class FoodController extends GetxController {
       name = "fried chicken";
     }
 
+    if (name == "bubur ayam") {
+      name = "chicken porridge";
+    }
+
     return name;
   }
 

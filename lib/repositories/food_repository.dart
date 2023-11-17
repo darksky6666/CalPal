@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:calpal/models/foods.dart';
 import 'package:calpal/repositories/user_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

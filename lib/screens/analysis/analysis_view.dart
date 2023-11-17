@@ -232,7 +232,7 @@ class _AnalysisViewState extends State<AnalysisView> {
                                               fontWeight: FontWeight.w700,
                                               fontSize: 18),
                                         ),
-                                        SizedBox(height: 10),
+                                        SizedBox(height: 40),
                                         // Line chart to show calorie intake for the last 7 days
                                         Container(
                                           height: MediaQuery.of(context)
@@ -259,8 +259,63 @@ class _AnalysisViewState extends State<AnalysisView> {
                                                       child:
                                                           const CircularProgressIndicator());
                                                 }
+
+                                                final lineBarsData = [
+                                                  LineChartBarData(
+                                                    spots: List.generate(
+                                                      snapshot.data!.length,
+                                                      (index) => FlSpot(
+                                                        index.toDouble(),
+                                                        snapshot.data![index]
+                                                            .toDouble(),
+                                                      ),
+                                                    ),
+                                                    isCurved: true,
+                                                    color: purpleColor,
+                                                    barWidth: 3,
+                                                    isStrokeCapRound: true,
+                                                    shadow: Shadow(
+                                                      color: Colors.grey
+                                                          .withOpacity(0.5),
+                                                      blurRadius: 8,
+                                                    ),
+                                                    dotData: const FlDotData(
+                                                      show: false,
+                                                    ),
+                                                    belowBarData: BarAreaData(
+                                                      show: false,
+                                                    ),
+                                                  ),
+                                                ];
+
+                                                final tooltipsOnBar =
+                                                    lineBarsData[0];
+                                                List<int>
+                                                    showingTooltipOnSpots = [
+                                                  0,
+                                                  1,
+                                                  2,
+                                                  3,
+                                                  4,
+                                                  5,
+                                                  6
+                                                ];
+
                                                 return LineChart(
                                                   LineChartData(
+                                                    showingTooltipIndicators:
+                                                        showingTooltipOnSpots
+                                                            .map((index) {
+                                                      return ShowingTooltipIndicators([
+                                                        LineBarSpot(
+                                                          tooltipsOnBar,
+                                                          lineBarsData.indexOf(
+                                                              tooltipsOnBar),
+                                                          tooltipsOnBar
+                                                              .spots[index],
+                                                        ),
+                                                      ]);
+                                                    }).toList(),
                                                     titlesData: FlTitlesData(
                                                       show: true,
                                                       rightTitles:
@@ -310,54 +365,39 @@ class _AnalysisViewState extends State<AnalysisView> {
 
                                                     lineTouchData:
                                                         LineTouchData(
-                                                            touchTooltipData:
-                                                                LineTouchTooltipData(
-                                                                    tooltipBgColor:
-                                                                        Colors
-                                                                            .white,
-                                                                    getTooltipItems: (touchedSpots) =>
-                                                                        touchedSpots
-                                                                            .map((touchedSpot) {
-                                                                          final flSpot =
-                                                                              touchedSpot;
-                                                                          return LineTooltipItem(
-                                                                            '${flSpot.y.toInt()}',
-                                                                            const TextStyle(
-                                                                              color: purpleColor,
-                                                                              fontWeight: FontWeight.bold,
-                                                                            ),
-                                                                          );
-                                                                        }).toList())),
-                                                    lineBarsData: [
-                                                      LineChartBarData(
-                                                        spots: List.generate(
-                                                          snapshot.data!.length,
-                                                          (index) => FlSpot(
-                                                            index.toDouble(),
-                                                            snapshot
-                                                                .data![index]
-                                                                .toDouble(),
-                                                          ),
-                                                        ),
-                                                        isCurved: true,
-                                                        color: purpleColor,
-                                                        barWidth: 5,
-                                                        isStrokeCapRound: true,
-                                                        shadow: Shadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.5),
-                                                          blurRadius: 8,
-                                                        ),
-                                                        dotData:
-                                                            const FlDotData(
-                                                          show: false,
-                                                        ),
-                                                        belowBarData:
-                                                            BarAreaData(
-                                                          show: false,
-                                                        ),
+                                                      enabled: true,
+                                                      handleBuiltInTouches:
+                                                          false,
+                                                      touchTooltipData:
+                                                          LineTouchTooltipData(
+                                                        tooltipBgColor: Colors
+                                                            .white
+                                                            .withOpacity(0.1),
+                                                        tooltipRoundedRadius:
+                                                            100,
+                                                        getTooltipItems:
+                                                            (List<LineBarSpot>
+                                                                lineBarsSpot) {
+                                                          return lineBarsSpot
+                                                              .map(
+                                                                  (lineBarSpot) {
+                                                            return LineTooltipItem(
+                                                              lineBarSpot.y
+                                                                  .toString(),
+                                                              const TextStyle(
+                                                                color:
+                                                                    purpleColor,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                              ),
+                                                            );
+                                                          }).toList();
+                                                        },
                                                       ),
-                                                    ],
+                                                    ),
+
+                                                    lineBarsData: lineBarsData,
                                                   ),
                                                 );
                                               },

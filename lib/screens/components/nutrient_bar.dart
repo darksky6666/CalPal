@@ -41,10 +41,16 @@ class NutrientProgressBar extends StatelessWidget {
             Container(
               width: MediaQuery.of(context).size.width * 0.25,
               child: LinearProgressIndicator(
-                value: consumed / dailyGoal,
+                value: double.parse(consumed.toStringAsFixed(1)) ==
+                        double.parse(dailyGoal.toStringAsFixed(1))
+                    ? 0.99
+                    : consumed / dailyGoal,
                 backgroundColor: Colors.grey[300],
                 valueColor: AlwaysStoppedAnimation<Color>(
-                  consumed > dailyGoal ? Colors.red : Colors.lightGreen,
+                  double.parse(consumed.toStringAsFixed(1)) >
+                          double.parse(dailyGoal.toStringAsFixed(1))
+                      ? Colors.red
+                      : Colors.lightGreen,
                 ),
               ),
             ),

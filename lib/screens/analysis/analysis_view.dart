@@ -363,6 +363,28 @@ class _AnalysisViewState extends State<AnalysisView> {
                                                         .getNearestThousands(
                                                             snapshot.data),
 
+                                                    extraLinesData:
+                                                        ExtraLinesData(
+                                                      verticalLines: [
+                                                        VerticalLine(
+                                                          x: 0,
+                                                          strokeWidth: 1,
+                                                          color: const Color
+                                                              .fromARGB(255,
+                                                              171, 186, 194),
+                                                          dashArray: [6, 6],
+                                                        ),
+                                                        VerticalLine(
+                                                          x: 6,
+                                                          strokeWidth: 1,
+                                                          color: const Color
+                                                              .fromARGB(255,
+                                                              171, 186, 194),
+                                                          dashArray: [6, 6],
+                                                        ),
+                                                      ],
+                                                    ),
+
                                                     lineTouchData:
                                                         LineTouchData(
                                                       enabled: true,

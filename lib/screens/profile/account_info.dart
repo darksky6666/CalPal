@@ -1,4 +1,6 @@
 import 'package:calpal/screens/components/bottom_navigation.dart';
+import 'package:calpal/screens/profile/change_email.dart';
+import 'package:calpal/screens/profile/change_password.dart';
 import 'package:calpal/screens/profile/delete_account.dart';
 import 'package:flutter/material.dart';
 
@@ -34,7 +36,11 @@ class _AccountInfoState extends State<AccountInfo> {
           padding: const EdgeInsets.only(left: 30, right: 30, top: 30),
           child: Column(children: [
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return ChangeEmail();
+                }));
+              },
               child: Row(
                 children: [
                   Text(
@@ -48,7 +54,11 @@ class _AccountInfoState extends State<AccountInfo> {
             ),
             SizedBox(height: 30),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return ChangePassword();
+                }));
+              },
               child: Row(
                 children: [
                   Text(

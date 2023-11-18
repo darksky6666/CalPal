@@ -16,12 +16,12 @@
     - [x] Login
     - [x] Register
     - [x] Forgot Password
-- [ ] **Manage User Profile**
+- [x] **Manage User Profile**
     - [x] Edit Profile
     - [x] View Profile
     - [x] Delete Profile
-    - [ ] Change Password
-    - [ ] Change Email
+    - [x] Change Password
+    - [x] Change Email
 - [x] **Home**
     - [x] Day Summary
     - [x] Week Summary

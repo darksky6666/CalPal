@@ -181,6 +181,101 @@ class AuthService {
     });
   }
 
+  // Function to verify user new email and update it
+  Future<void> verifyAndUpdateUserNewEmail(String email, String newEmail,
+      String currentPassword, Function(bool, String) onResult) async {
+    User? user = auth.currentUser;
+
+    if (user != null) {
+      // Create a credential using the user's email and current password
+      AuthCredential credential = EmailAuthProvider.credential(
+          email: email.trim(), password: currentPassword.trim());
+
+      try {
+        // Reauthenticate the user with the credential
+        await user.reauthenticateWithCredential(credential);
+
+        // Check if the new email is not already in use
+        await user.verifyBeforeUpdateEmail(newEmail);
+
+        try {
+          await auth.signOut();
+        } catch (e) {
+          log(e.toString());
+        }
+
+        log("Verification email sent to $newEmail");
+        Fluttertoast.showToast(
+            msg: "Verification email sent to $newEmail",
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.black,
+            textColor: Colors.white,
+            fontSize: 16.0);
+        onResult(true, "Verification email sent to $newEmail");
+      } catch (error) {
+        log(error.toString());
+        Fluttertoast.showToast(
+            msg: error.toString(),
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.black,
+            textColor: Colors.white,
+            fontSize: 16.0);
+        onResult(false, error.toString());
+      }
+    }
+  }
+
+  // Function to reauthenticate and change password
+  Future<void> changeUserPassword(String email, String currentPassword,
+      String newPassword, Function(bool, String) onResult) async {
+    User? user = auth.currentUser;
+
+    if (user != null) {
+      // Create a credential using the user's email and current password
+      AuthCredential credential = EmailAuthProvider.credential(
+          email: email.trim(), password: currentPassword.trim());
+
+      try {
+        // Reauthenticate the user with the credential
+        await user.reauthenticateWithCredential(credential);
+
+        // After successful reauthentication, update the password
+        await user.updatePassword(newPassword.trim());
+        log("Password updated successfully!");
+        try {
+          await auth.signOut();
+        } catch (e) {
+          log(e.toString());
+        }
+        Fluttertoast.showToast(
+            msg: "Password updated successfully!",
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.black,
+            textColor: Colors.white,
+            fontSize: 16.0);
+        onResult(true, "Password updated successfully!");
+      } catch (error) {
+        // Handle reauthentication or password change errors
+        log(error.toString());
+        Fluttertoast.showToast(
+            msg: error.toString(),
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.black,
+            textColor: Colors.white,
+            fontSize: 16.0);
+        onResult(false, error.toString());
+      }
+    }
+  }
+
   // Function to delete a user account
   void deleteUserAccount(
       String email, String password, Function(bool, String) onResult) async {

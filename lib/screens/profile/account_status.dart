@@ -1,9 +1,7 @@
 import 'package:calpal/controllers/auth_service.dart';
 import 'package:calpal/controllers/login_state.dart';
-import 'package:calpal/controllers/registration_controller.dart';
 import 'package:calpal/screens/components/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:heroicons_flutter/heroicons_flutter.dart';
 
 class AccountStatus extends StatefulWidget {

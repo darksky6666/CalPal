@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:calpal/controllers/health_controller.dart';
 import 'package:calpal/controllers/user_controller.dart';
 import 'package:calpal/models/users.dart';
@@ -44,11 +46,14 @@ class _GoalViewState extends State<GoalView> {
         targetDate = userData.targetDate.toString();
 
         // Calculate the weight difference
-        weightDifference = double.parse(controller.weightController.text) -
-            double.parse(controller.targetWeightController.text);
+        weightDifference =
+            double.parse(controller.targetWeightController.text) -
+                double.parse(controller.weightController.text);
+
+        log("Debug: " + weightDifference.toString());
 
         // Calculate calorie deficit with the retrieved data.
-        calDeficit = healthController.calculateCalorieDeficit(
+        calDeficit = healthController.calculateCalorieChange(
           double.parse(controller.weightController.text),
           double.parse(controller.targetWeightController.text),
           targetDate,
@@ -75,6 +80,7 @@ class _GoalViewState extends State<GoalView> {
           int.parse(controller.ageController.text),
           int.parse(controller.calBudgetController.text),
         );
+        log("Debug: " + canReachTargetWeight.toString());
       });
     });
   }
@@ -259,15 +265,26 @@ class _GoalViewState extends State<GoalView> {
                           "Please set a new target date to view summary.",
                           textAlign: TextAlign.justify,
                         )
-                      else
+                      else if (weightDifference > 0 && calDeficit > 0)
                         Text(
-                          "I plan to keep healthy and lose " +
-                              weightDifference.toString() +
+                          "I plan to keep healthy and gain " +
+                              weightDifference.abs().toStringAsFixed(2) +
                               " kg in " +
                               daysToTarget.toString() +
-                              " days by eating less than " +
-                              recommendedCalories.toString() +
-                              " calories.",
+                              " days by eating " +
+                              calDeficit.abs().toString() +
+                              " calories per day.",
+                          textAlign: TextAlign.justify,
+                        )
+                      else // if (weightDifference > 0 && calDeficit > 0)
+                        Text(
+                          "I plan to keep healthy and lose " +
+                              weightDifference.abs().toStringAsFixed(2) +
+                              " kg in " +
+                              daysToTarget.toString() +
+                              " days by eating less " +
+                              calDeficit.abs().toString() +
+                              " calories per day.",
                           textAlign: TextAlign.justify,
                         ),
                     ],
@@ -398,12 +415,15 @@ class _GoalViewState extends State<GoalView> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("Recommended Calories Deficit"),
+                            if (calDeficit < 0)
+                              Text("Recommended Calories Deficit")
+                            else
+                              Text("Recommended Calories to Gain"),
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
-                                  calDeficit.toString(),
+                                  calDeficit.abs().toString(),
                                   style: TextStyle(
                                       color: primaryColor,
                                       fontWeight: FontWeight.w700),
@@ -412,7 +432,7 @@ class _GoalViewState extends State<GoalView> {
                                   width: 5,
                                 ),
                                 Text(
-                                  "kcal",
+                                  "kcal/day",
                                   style: TextStyle(fontWeight: FontWeight.w500),
                                 ),
                               ],

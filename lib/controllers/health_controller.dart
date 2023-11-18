@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:intl/intl.dart';
 
 class HealthCalculatorController {
@@ -43,34 +45,53 @@ class HealthCalculatorController {
   }
 
   // Function to calculate the daily calorie deficit based on target date
-  int calculateCalorieDeficit(
-      double targetWeight, double weight, String targetDate) {
-    // Calculate the total calorie deficit
-    double totalCalorieDeficit = (targetWeight - weight) * 7700;
+  int calculateCalorieChange(
+      double weight, double targetWeight, String targetDate) {
+    // Calculate the weight difference between the current weight and the target weight
+    double weightDifference = targetWeight - weight;
 
-    // Calculate the number of days between the current date and the target date
+    // Determine the number of days between today and the target date
     int daysDifference = calculateTimeToTarget(targetDate);
 
     if (daysDifference <= 0) {
-      daysDifference = 1;
+      daysDifference =
+          1; // Set a minimum of 1 day if the target date has passed
     }
 
-    // Calculate the daily calorie deficit
-    double dailyCalorieDeficit = totalCalorieDeficit / daysDifference;
+    // Calculate the adjusted weight change without capping it
+    double adjustedWeightChange = weightDifference.abs();
 
-    return dailyCalorieDeficit.round();
+    // Determine the direction of weight change (loss or gain)
+    bool isWeightLoss = weightDifference < 0;
+
+    // Calculate the daily calorie change based on the adjusted weight change
+    double totalCalorieChange =
+        adjustedWeightChange * 7700; // 7700 kcal/kg (approx.)
+    double dailyCalorieChange = totalCalorieChange / daysDifference;
+
+    log("Debug: " +
+        weightDifference.toString() +
+        " " +
+        isWeightLoss.toString() +
+        " " +
+        dailyCalorieChange.toString());
+
+    // If it's a weight loss goal, return negative calorie change; else, return positive
+    return isWeightLoss
+        ? -dailyCalorieChange.round()
+        : dailyCalorieChange.round();
   }
 
   // Function to calculate the time required to reach the target date from today
   int calculateTimeToTarget(String targetDate) {
-    DateTime today = DateTime.now();
+    DateTime now = DateTime.now();
+    DateTime today = DateTime(now.year, now.month, now.day);
     DateTime target = DateFormat('dd/MM/yyyy').parse(targetDate);
+    log("Debug date: " + today.toString() + " " + target.toString());
     return target.difference(today).inDays;
   }
 
   // Determine if the user can reach the target weight by the target date
-  // Calculate by using the recommended calorie deficit / time to target > reccommended calorie
-  // Function to determine if the user can reach the target weight by the target date
   bool canReachTargetWeight(
     double targetWeight,
     double weight,
@@ -80,9 +101,9 @@ class HealthCalculatorController {
     int age,
     int calBudget,
   ) {
-    // Calculate the total calorie deficit needed to reach the target weight
-    int dailyCalorieDeficit =
-        calculateCalorieDeficit(targetWeight, weight, targetDate);
+    // Calculate the daily calorie change needed to reach the target weight
+    int dailyCalorieChange =
+        calculateCalorieChange(weight, targetWeight, targetDate);
 
     // Calculate the number of days between the current date and the target date
     int daysDifference = calculateTimeToTarget(targetDate);
@@ -91,15 +112,58 @@ class HealthCalculatorController {
     int recommendedCalorieIntake =
         calculateRecommendedCalories(biologicalSex, weight, height, age);
 
-    // First, check if the user has enough time to reach the target weight
-    // Then, check if the user has enough calories to reach the target weight
-    // Finally, check if the user has enough calories to maintain their weight
-    if (daysDifference > 0 &&
-        calBudget >= dailyCalorieDeficit &&
-        recommendedCalorieIntake >= dailyCalorieDeficit) {
-      return true;
-    } else {
-      return false;
+    // Calculate the maximum safe weight change within the given time frame
+    double maxSafeWeightChange = 0.5 * (daysDifference / 7); // 0.5 kg per week
+
+    // Calculate the maximum allowable deficit for weight loss
+    double maxAllowableDeficit =
+        maxSafeWeightChange * 7700; // 7700 kcal/kg (approx.)
+
+    log("Debug: " +
+        " " +
+        daysDifference.toString() +
+        " " +
+        recommendedCalorieIntake.toString() +
+        " " +
+        maxAllowableDeficit.toString() +
+        " cb " +
+        calBudget.toString() +
+        " " +
+        recommendedCalorieIntake.toString() +
+        " " +
+        dailyCalorieChange.toString());
+
+    // Check if the user has enough time to reach the target weight and calorie budget is non-negative
+    if (daysDifference > 0 && calBudget >= 0) {
+      // Check if the user has enough calories to achieve the weight change goal
+      if (targetWeight < weight) {
+        log("This is a weight loss goal");
+        // Weight loss goal
+        // Check if the user has enough calories to achieve the target weight
+        if (calBudget >= recommendedCalorieIntake &&
+            calBudget >= -dailyCalorieChange &&
+            -dailyCalorieChange <= maxAllowableDeficit) {
+          return true;
+        }
+      } else {
+        log("This is a weight gain or maintenance goal");
+        // Weight gain or maintenance goal
+        bool enoughCaloriesForWeightGain = calBudget >= dailyCalorieChange &&
+            recommendedCalorieIntake <= dailyCalorieChange;
+
+        bool enoughCaloriesForMaintenance =
+            calBudget >= recommendedCalorieIntake &&
+                calBudget >= dailyCalorieChange &&
+                dailyCalorieChange <= maxAllowableDeficit;
+
+        log("Debug: " +
+            enoughCaloriesForWeightGain.toString() +
+            " " +
+            enoughCaloriesForMaintenance.toString());
+
+        return enoughCaloriesForWeightGain || enoughCaloriesForMaintenance;
+      }
     }
+    return false;
   }
 }

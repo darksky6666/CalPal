@@ -732,6 +732,7 @@ class _AnalysisViewState extends State<AnalysisView> {
                                     dailyGoal: targetCarbs,
                                   ),
                                 ),
+                                SizedBox(height: 30),
                               ],
                             ),
                           ),

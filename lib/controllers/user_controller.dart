@@ -37,4 +37,10 @@ class UserController {
     final uid = FirebaseAuth.instance.currentUser!.uid.toString().trim();
     return userRepo.getUserDetails(uid);
   }
+
+  // Fetch single user medical condition
+  getUserMedicalCondition() {
+    final uid = FirebaseAuth.instance.currentUser!.uid.toString().trim();
+    return userRepo.getUserMedicalCondition(uid);
+  }
 }

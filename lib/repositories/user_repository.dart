@@ -132,4 +132,11 @@ class UserRepository extends GetxController {
     final userData = UserModel.fromSnapshot(snapshot);
     return userData;
   }
+
+  // Fetch user medical condition
+  Future<String?> getUserMedicalCondition(String uid) async {
+    final snapshot = await _db.collection('Users').doc(uid).get();
+    final userData = UserModel.fromSnapshot(snapshot);
+    return userData.medicalCondition;
+  }
 }

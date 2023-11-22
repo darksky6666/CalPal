@@ -1,14 +1,18 @@
 import 'dart:developer';
 
+import 'package:calpal/controllers/food_alert_controller.dart';
 import 'package:calpal/controllers/food_controller.dart';
 import 'package:calpal/controllers/nutrition_api.dart';
+import 'package:calpal/controllers/user_controller.dart';
 import 'package:calpal/models/foods.dart';
 import 'package:calpal/screens/components/bottom_navigation.dart';
 import 'package:calpal/screens/components/constants.dart';
 import 'package:calpal/screens/home/home_view.dart';
+import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:heroicons_flutter/heroicons_flutter.dart';
 
 class EditMeal extends StatefulWidget {
   EditMeal(
@@ -27,6 +31,7 @@ class EditMeal extends StatefulWidget {
 
 class _EditMealState extends State<EditMeal> {
   final controller = Get.put(FoodController());
+  final userController = Get.put(UserController());
   final nutritionixController = NutritionixController();
   Map<String, dynamic>? foodData;
   String mealType = 'Breakfast';
@@ -34,10 +39,46 @@ class _EditMealState extends State<EditMeal> {
   String servingUnit = 'g';
   String foodNameDB = '';
   final FocusNode _focusNode = FocusNode();
+  FoodAlertController alertController = FoodAlertController();
+  Map<String, String>? foodInfo = {};
+  String reason = '';
+  bool isSuitable = true;
 
   @override
   void initState() {
     super.initState();
+
+    // Fetch user medical condition
+    userController.getUserMedicalCondition().then((String? condition) {
+      if (condition != null) {
+        log("Debug medical: $condition");
+        log("Debug food name: ${widget.foodName}");
+        setState(() {
+          foodInfo =
+              alertController.getFoodInformation(widget.foodName, condition);
+          if (foodInfo != null) {
+            isSuitable = false;
+            reason = foodInfo?['reason'] ?? '';
+          } else {
+            isSuitable = true;
+          }
+        });
+        log(foodInfo.toString());
+        log(isSuitable.toString());
+      } else {
+        // Handle the case when medical condition is null
+        log("User's medical condition is null");
+        setState(() {
+          isSuitable = true;
+        });
+      }
+    }).catchError((e) {
+      // Handle any potential errors that occur during fetching user's medical condition
+      log("Error: $e");
+      setState(() {
+        isSuitable = true;
+      });
+    });
 
     // Fetch food data from database with date and docId
     controller.getFoodFromID(widget.date, widget.docId).then((FoodItem food) {
@@ -171,6 +212,74 @@ class _EditMealState extends State<EditMeal> {
               ),
             ),
             SizedBox(height: 30),
+            if (isSuitable == false)
+              Container(
+                width: MediaQuery.of(context).size.width * 0.9,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        blurRadius: 10,
+                        offset: Offset(0, 3))
+                  ],
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      top: 20, right: 20, left: 20, bottom: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TitleName("Alert"),
+                      SizedBox(height: 15),
+                      Align(
+                          alignment: Alignment.center,
+                          child: Icon(HeroiconsSolid.faceFrown,
+                              color: Colors.red, size: 60)),
+                      SizedBox(height: 10),
+                      Text(
+                        "This food is not suitable for your health condition.",
+                        style: TextStyle(fontSize: 16),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        "Reason:",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w600),
+                      ),
+                      SizedBox(height: 3),
+                      ExpandableText(
+                        reason,
+                        expandText: "show more",
+                        collapseText: "show less",
+                        animation: true,
+                        linkColor: primaryColor,
+                        textAlign: TextAlign.justify,
+                      ),
+                      SizedBox(height: 15),
+                      Align(
+                        alignment: Alignment.bottomRight,
+                        child: TextButton(
+                            onPressed: () {
+                              setState(() {
+                                isSuitable = true;
+                              });
+                            },
+                            child: Text(
+                              "Dismiss",
+                              style: TextStyle(
+                                  color: purpleColor,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16),
+                            )),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            if (isSuitable == false) const SizedBox(height: 30),
             Container(
               width: MediaQuery.of(context).size.width * 0.9,
               decoration: BoxDecoration(

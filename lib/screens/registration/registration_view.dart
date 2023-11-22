@@ -5,8 +5,10 @@ import 'package:calpal/screens/registration/registration_physical.dart';
 import 'package:flutter/material.dart';
 
 class RegistrationPage extends StatefulWidget {
+  const RegistrationPage({super.key});
+
   @override
-  _RegistrationPageState createState() => _RegistrationPageState();
+  State<RegistrationPage> createState() => _RegistrationPageState();
 }
 
 class _RegistrationPageState extends State<RegistrationPage> {
@@ -21,7 +23,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(10.0),
+          preferredSize: const Size.fromHeight(10.0),
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: LayoutBuilder(

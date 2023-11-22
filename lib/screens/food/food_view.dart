@@ -105,6 +105,7 @@ class _FoodViewState extends State<FoodView> {
   @override
   void dispose() {
     imageClassificationHelper?.close();
+    controller.searchController.text = "";
     super.dispose();
   }
 

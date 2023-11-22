@@ -51,6 +51,7 @@ dependencies:
   date_picker_timeline: ^1.2.5
   fl_chart: ^0.64.0
   connectivity_plus: ^5.0.1
+  expandable_text: ^2.3.0
 
 dev_dependencies:
   flutter_test:

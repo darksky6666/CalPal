@@ -5,7 +5,7 @@ os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
 import tensorflow as tf
 from tensorflow.keras.applications import MobileNetV2
 from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Input, GlobalAveragePooling2D, Dense, Dropout
+from tensorflow.keras.layers import Input, GlobalAveragePooling2D, Dense
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.losses import CategoricalCrossentropy
 from tensorflow.keras.metrics import CategoricalAccuracy
@@ -13,21 +13,28 @@ from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 from tensorflow.keras.callbacks import EarlyStopping, LambdaCallback, ModelCheckpoint, LearningRateScheduler
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
+# Set a limit on GPU memory usage
+gpus = tf.config.list_physical_devices('GPU')
+if gpus:
+    try:
+        # Restrict TensorFlow to use only a fraction of the GPU memory
+        tf.config.experimental.set_virtual_device_configuration(
+            gpus[0],
+            [tf.config.experimental.VirtualDeviceConfiguration(memory_limit=3584)]  # Set memory limit in MB
+        )
+        logical_gpus = tf.config.experimental.list_logical_devices('GPU')
+        print(len(gpus), "Physical GPUs,", len(logical_gpus), "Logical GPUs")
+    except RuntimeError as e:
+        print(e)
+
 # Define the path to your dataset (each subfolder is a food category)
 data_dir = './dataset'
 
-# Define the data generator with data augmentation
+# Define the data generator
 batch_size = 20
 data_generator = ImageDataGenerator(
     preprocessing_function=preprocess_input,
-    validation_split=0.2,
-    rotation_range=40,  # Rotate images
-    width_shift_range=0.2,  # Shift width
-    height_shift_range=0.2,  # Shift height
-    shear_range=0.2,  # Shear transformations
-    zoom_range=0.2,  # Zoom in/out
-    horizontal_flip=True,  # Flip horizontally
-    fill_mode='nearest'  # Fill missing pixels
+    validation_split=0.2
 )
 
 train_data = data_generator.flow_from_directory(
@@ -49,13 +56,8 @@ validation_data = data_generator.flow_from_directory(
 # Define the base MobileNetV2 model
 base_model = MobileNetV2(input_shape=(224, 224, 3), include_top=False, weights='imagenet')
 
-# Fine-tune the base model
-for layer in base_model.layers:
-    layer.trainable = True
-
-# Add a custom head for classification with dropout
+# Add a custom head for classification
 x = GlobalAveragePooling2D()(base_model.output)
-x = Dropout(0.5)(x)  # Add dropout
 x = Dense(train_data.num_classes, activation='softmax')(x)
 
 # Create the model
@@ -71,11 +73,11 @@ else:
     # Start a new training session
     resume_training = False
 
-# Use an aggressive learning rate schedule
-initial_learning_rate = 0.01
-lr_schedule = LearningRateScheduler(lambda epoch: initial_learning_rate / (10 ** (epoch // 5)))
+# Compile the model with a lower learning rate
+initial_learning_rate = 0.001
+lr_schedule = LearningRateScheduler(lambda epoch: initial_learning_rate / (10 ** (epoch // 10)))
 model.compile(optimizer=Adam(learning_rate=initial_learning_rate),
-              loss=CategoricalCrossentropy(from_logits=True),
+              loss=CategoricalCrossentropy(),
               metrics=[CategoricalAccuracy()])
 
 # Define a LambdaCallback to print accuracy during training

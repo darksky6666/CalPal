@@ -50,6 +50,14 @@ class FoodController extends GetxController {
       name = "chicken porridge";
     }
 
+    if (name == "pot au feu") {
+      name = "beef stew";
+    }
+
+    if (name == "crape") {
+      name = "crepe";
+    }
+
     return name;
   }
 
@@ -91,5 +99,28 @@ class FoodController extends GetxController {
     } catch (e) {
       log(e.toString());
     }
+  }
+
+  // Food Detection Searching
+  String foodDetectionSearch(String query) {
+    String foodName = "null";
+
+    // If the query is empty, return all the suggestions
+    try {
+      if (query.isEmpty) {
+        return foodName;
+      } else {
+        for (FoodItem food in suggestions) {
+          if (food.name!.toLowerCase().contains(query.toLowerCase())) {
+            foodName = food.name!;
+            break;
+          }
+        }
+      }
+    } catch (e) {
+      log(e.toString());
+    }
+
+    return foodName;
   }
 }

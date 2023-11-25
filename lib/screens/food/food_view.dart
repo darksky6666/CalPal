@@ -1,15 +1,11 @@
-import 'dart:io';
 import 'package:calpal/controllers/food_controller.dart';
-import 'package:calpal/controllers/image_classification_helper.dart';
 import 'package:calpal/screens/components/bottom_navigation.dart';
 import 'package:calpal/screens/components/constants.dart';
 import 'package:calpal/screens/food/food_detail.dart';
+import 'package:calpal/screens/food/food_detector.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:heroicons_flutter/heroicons_flutter.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:image/image.dart' as img;
 
 class FoodView extends StatefulWidget {
   const FoodView({Key? key}) : super(key: key);
@@ -19,92 +15,16 @@ class FoodView extends StatefulWidget {
 }
 
 class _FoodViewState extends State<FoodView> {
-  ImageClassificationHelper? imageClassificationHelper;
-  Map<String, double>? classification;
-  String? imagePath;
-  final imagePicker = ImagePicker();
-  img.Image? image;
-  bool isLoading = true;
-
   final controller = Get.put(FoodController());
 
   @override
   void initState() {
-    initializeHelper();
     super.initState();
-  }
-
-  // Function to simulate loading and initialize helper
-  void initializeHelper() {
-    Future.delayed(Duration.zero, () async {
-      // Initialize your helper here
-      imageClassificationHelper = ImageClassificationHelper();
-      try {
-        // Update the state to stop showing the loading indicator
-        await imageClassificationHelper!.initHelper();
-        setState(() {
-          isLoading = false;
-        });
-      } catch (e) {
-        // Do nothing
-      }
-      controller.filterSuggestions("");
-    });
-  }
-
-  // Clean old results when press some take picture button
-  void cleanResult() {
-    imagePath = null;
-    image = null;
-    classification = null;
-    setState(() {});
-  }
-
-  // Process picked image
-  Future<void> processImage() async {
-    MapEntry<String, double> eresult = MapEntry('', 0.0);
-    if (imagePath != null) {
-      // Read image bytes from file
-      final imageData = File(imagePath!).readAsBytesSync();
-
-      // Decode image using package:image/image.dart (https://pub.dev/image)
-      image = img.decodeImage(imageData);
-      classification = await imageClassificationHelper?.inferenceImage(image!);
-      setState(() {});
-    }
-    if (classification != null) {
-      (classification!.entries.toList()
-            ..sort(
-              (a, b) => a.value.compareTo(b.value),
-            ))
-          .reversed
-          .take(1)
-          .forEach(
-            (e) => eresult = e,
-          );
-
-      if (eresult.value > 0.5) {
-        controller.searchController.text = eresult.key.trim();
-        controller.filterSuggestions(eresult.key.trim());
-      } else {
-        controller.searchController.text = "";
-        controller.filterSuggestions("");
-        Fluttertoast.showToast(
-          msg: "No food detected",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.redAccent.withOpacity(0.1),
-          textColor: Colors.red,
-          fontSize: 16.0,
-        );
-      }
-    }
+    controller.filterSuggestions("");
   }
 
   @override
   void dispose() {
-    imageClassificationHelper?.close();
     controller.searchController.text = "";
     super.dispose();
   }
@@ -123,62 +43,34 @@ class _FoodViewState extends State<FoodView> {
         ),
         automaticallyImplyLeading: false,
       ),
-      body: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 20.0, left: 20, right: 20),
-            child: Column(
-              children: [
-                buildSearchBar(),
-                SizedBox(height: 15),
-                Expanded(
-                  child: Obx(() {
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: controller.filteredSuggestions.length,
-                      itemBuilder: (context, index) {
-                        return Column(
-                          children: [
-                            buildListItem(
-                                context,
-                                controller.filteredSuggestions[index].name
-                                    .toString()),
-                            SizedBox(height: 20),
-                          ],
-                        );
-                      },
+      body: Padding(
+        padding: const EdgeInsets.only(top: 20.0, left: 20, right: 20),
+        child: Column(
+          children: [
+            buildSearchBar(),
+            SizedBox(height: 15),
+            Expanded(
+              child: Obx(() {
+                return ListView.builder(
+                  // Return circular progress indicator while loading
+                  shrinkWrap: true,
+                  itemCount: controller.filteredSuggestions.length,
+                  itemBuilder: (context, index) {
+                    return Column(
+                      children: [
+                        buildListItem(
+                            context,
+                            controller.filteredSuggestions[index].name
+                                .toString()),
+                        SizedBox(height: 20),
+                      ],
                     );
-                  }),
-                ),
-              ],
+                  },
+                );
+              }),
             ),
-          ),
-
-          // Loading indicator
-          if (isLoading)
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              color: Colors.white.withOpacity(0.9),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CircularProgressIndicator(
-                    color: purpleColor,
-                  ),
-                  SizedBox(height: 20),
-                  Text(
-                    "Loading data...",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-        ],
+          ],
+        ),
       ),
       bottomNavigationBar: BottomNav(currentIndex: 2),
     );
@@ -211,25 +103,10 @@ class _FoodViewState extends State<FoodView> {
           ),
         ),
         GestureDetector(
-          onTap: () async {
-            cleanResult();
-            final result = await imagePicker.pickImage(
-              source: ImageSource.camera,
-            );
-
-            imagePath = result?.path;
-            setState(() {});
-            processImage();
-            if (imagePath == null) {
-              Fluttertoast.showToast(
-                msg: "Camera Error",
-                gravity: ToastGravity.BOTTOM,
-                timeInSecForIosWeb: 1,
-                backgroundColor: Colors.redAccent.withOpacity(0.1),
-                textColor: Colors.red,
-                fontSize: 16.0,
-              );
-            }
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return FoodDetector();
+            }));
           },
           child: Container(
             width: 40,

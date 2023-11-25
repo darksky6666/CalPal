@@ -25,14 +25,14 @@
 - [x] **Home**
     - [x] Day Summary
     - [x] Week Summary
-- [ ] **Manage Meals**
+- [x] **Manage Meals**
     - [x] Add Food
     - [x] Edit Food
     - [x] Delete Food
     - [x] View Food
     - [x] Search Food
     - [x] Food Alert for person with medical condition
-    - [ ] Detect Food using Camera
+    - [x] Detect Food using Camera
 - [x] **View Calorie and Nutrient Analysis**
     - [x] View Calorie
     - [x] View Nutrient

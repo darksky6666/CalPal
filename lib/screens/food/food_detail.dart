@@ -130,16 +130,13 @@ class _FoodDetailState extends State<FoodDetail> {
                 final food = FoodItem(
                   name: widget.foodName,
                   mealType: mealType,
-                  servingSize:
-                      double.tryParse(servingSizeController.text.trim()) ?? 0.0,
+                  servingSize: double.parse(servingSizeController.text.trim()),
                   servingUnit: servingUnit,
-                  calories:
-                      (foodData?['nf_calories'] as num?)?.toDouble() ?? 0.0,
-                  protein: (foodData?['nf_protein'] as num?)?.toDouble() ?? 0.0,
-                  fat: (foodData?['nf_total_fat'] as num?)?.toDouble() ?? 0.0,
-                  carbs: (foodData?['nf_total_carbohydrate'] as num?)
-                          ?.toDouble() ??
-                      0.0,
+                  calories: double.parse(foodData!['nf_calories'].toString()),
+                  carbs: double.parse(
+                      foodData!['nf_total_carbohydrate'].toString()),
+                  fat: double.parse(foodData!['nf_total_fat'].toString()),
+                  protein: double.parse(foodData!['nf_protein'].toString()),
                 );
                 controller.createFood(food);
                 Navigator.pop(context); // Pop the current screen from the

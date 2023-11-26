@@ -266,8 +266,10 @@ class _AnalysisViewState extends State<AnalysisView> {
                                                       snapshot.data!.length,
                                                       (index) => FlSpot(
                                                         index.toDouble(),
-                                                        snapshot.data![index]
-                                                            .toDouble(),
+                                                        double.parse(snapshot
+                                                            .data![index]
+                                                            .toStringAsFixed(
+                                                                2)),
                                                       ),
                                                     ),
                                                     isCurved: true,

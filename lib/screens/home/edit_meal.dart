@@ -145,10 +145,16 @@ class _EditMealState extends State<EditMeal> {
           TextButton(
             onPressed: () {
               try {
+                final servingSize = servingSizeController.text.trim();
+                // Validate serving size before parsing it into double
+                if (servingSize.isEmpty ||
+                    double.tryParse(servingSize) == null) {
+                  throw const FormatException('Invalid serving size');
+                }
                 // Update the food data
                 final food = FoodItem(
                   docId: widget.docId,
-                  servingSize: double.parse(servingSizeController.text.trim()),
+                  servingSize: double.parse(servingSize),
                   servingUnit: servingUnit,
                   mealType: mealType,
                   calories: double.parse(foodData!['nf_calories'].toString()),
@@ -168,6 +174,7 @@ class _EditMealState extends State<EditMeal> {
                       reverseTransitionDuration: Duration.zero,
                     ));
               } catch (e) {
+                log(e.toString());
                 Fluttertoast.showToast(
                     msg: "Please fill in all the fields with valid data",
                     gravity: ToastGravity.BOTTOM,

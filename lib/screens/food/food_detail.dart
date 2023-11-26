@@ -127,10 +127,16 @@ class _FoodDetailState extends State<FoodDetail> {
           TextButton(
             onPressed: () {
               try {
+                final servingSize = servingSizeController.text.trim();
+                // Validate serving size before parsing it into double
+                if (servingSize.isEmpty ||
+                    double.tryParse(servingSize) == null) {
+                  throw const FormatException('Invalid serving size');
+                }
                 final food = FoodItem(
                   name: widget.foodName,
                   mealType: mealType,
-                  servingSize: double.parse(servingSizeController.text.trim()),
+                  servingSize: double.parse(servingSize),
                   servingUnit: servingUnit,
                   calories: double.parse(foodData!['nf_calories'].toString()),
                   carbs: double.parse(
@@ -149,6 +155,7 @@ class _FoodDetailState extends State<FoodDetail> {
                       reverseTransitionDuration: Duration.zero,
                     )); // Push the profile view with PageRouteBuilder
               } catch (e) {
+                log(e.toString());
                 Fluttertoast.showToast(
                     msg: "Please fill in all the fields with valid data",
                     gravity: ToastGravity.BOTTOM,

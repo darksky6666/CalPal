@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:calpal/controllers/user_controller.dart';
 import 'package:calpal/models/users.dart';
 import 'package:calpal/screens/components/bottom_navigation.dart';
@@ -53,20 +55,38 @@ class _UserProfileState extends State<UserProfile> {
         actions: [
           TextButton(
             onPressed: () {
-              if (gender == '') {
-                Fluttertoast.showToast(
-                    msg: "Gender cannot be null",
-                    gravity: ToastGravity.BOTTOM,
-                    timeInSecForIosWeb: 1,
-                    backgroundColor: Colors.redAccent.withOpacity(0.1),
-                    textColor: Colors.red,
-                    fontSize: 16.0);
-              } else {
+              try {
+                final name = controller.nameController.text.trim();
+                final height = controller.heightController.text.trim();
+                final weight = controller.weightController.text.trim();
+                final age = controller.ageController.text.trim();
+
+                // Validate height, weight, and age
+                if (height.isEmpty ||
+                    int.tryParse(height) == null ||
+                    weight.isEmpty ||
+                    double.tryParse(weight) == null ||
+                    age.isEmpty ||
+                    int.tryParse(age) == null) {
+                  throw const FormatException(
+                      'Please fill in all the fields with valid data');
+                }
+
+                // Validate name
+                if (name.isEmpty || !RegExp(r'^[a-zA-Z ]+$').hasMatch(name)) {
+                  throw const FormatException(
+                      'Name must contain only alphabets and cannot be empty');
+                }
+                if (name.length > 20) {
+                  throw RangeError(
+                      'Please enter a name that is not more than 20 characters long');
+                }
+
                 final user = UserModel(
-                  name: controller.nameController.text.trim(),
-                  height: int.parse(controller.heightController.text.trim()),
-                  weight: double.parse(controller.weightController.text.trim()),
-                  age: int.parse(controller.ageController.text.trim()),
+                  name: name,
+                  height: int.parse(height),
+                  weight: double.parse(weight),
+                  age: int.parse(age),
                   biologicalSex: gender.trim(),
                   medicalCondition: medical.trim(),
                 );
@@ -83,6 +103,33 @@ class _UserProfileState extends State<UserProfile> {
                     reverseTransitionDuration: Duration.zero,
                   ),
                 );
+              } catch (e) {
+                log(e.toString());
+                if (e is RangeError) {
+                  Fluttertoast.showToast(
+                      msg: e.message,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.redAccent.withOpacity(0.1),
+                      textColor: Colors.red,
+                      fontSize: 16.0);
+                } else if (e is FormatException) {
+                  Fluttertoast.showToast(
+                      msg: e.message,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.redAccent.withOpacity(0.1),
+                      textColor: Colors.red,
+                      fontSize: 16.0);
+                } else {
+                  Fluttertoast.showToast(
+                      msg: e.toString(),
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.redAccent.withOpacity(0.1),
+                      textColor: Colors.red,
+                      fontSize: 16.0);
+                }
               }
             },
             child: Text(

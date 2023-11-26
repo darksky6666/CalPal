@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:calpal/controllers/health_controller.dart';
 import 'package:calpal/controllers/user_controller.dart';
 import 'package:calpal/models/users.dart';
@@ -6,6 +8,7 @@ import 'package:calpal/screens/components/constants.dart';
 import 'package:calpal/screens/components/input_row.dart';
 import 'package:calpal/screens/goal/goal_view.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:heroicons_flutter/heroicons_flutter.dart';
 import 'package:intl/intl.dart';
@@ -89,22 +92,61 @@ class _EditGoalState extends State<EditGoal> {
         actions: [
           TextButton(
             onPressed: () {
-              final user = UserModel(
-                  weight: double.parse(controller.weightController.text),
-                  targetWeight:
-                      double.parse(controller.targetWeightController.text),
-                  targetDate: DateFormat('dd/MM/yyyy').format(selectedDate),
-                  calBudget: int.parse(controller.calBudgetController.text));
-              UserController.instance.updateGoalInfo(user);
-              Navigator.popUntil(context, ModalRoute.withName('/profile'));
-              Navigator.push(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (context, animation1, animation2) =>
-                        const GoalView(),
-                    transitionDuration: Duration.zero,
-                    reverseTransitionDuration: Duration.zero,
-                  ));
+              try {
+                final weight = controller.weightController.text.trim();
+                final targetWeight =
+                    controller.targetWeightController.text.trim();
+                final calBudget = controller.calBudgetController.text.trim();
+                // Validate weight, targetWeight, and calBudget
+                if (weight.isEmpty ||
+                    targetWeight.isEmpty ||
+                    calBudget.isEmpty ||
+                    double.tryParse(weight) == null ||
+                    double.tryParse(targetWeight) == null ||
+                    int.tryParse(calBudget) == null) {
+                  throw const FormatException('Invalid input');
+                }
+                // Validate calBudget
+                if (int.parse(calBudget) < 1000 ||
+                    int.parse(calBudget) > 4000) {
+                  throw RangeError('Invalid calorie budget');
+                }
+                final user = UserModel(
+                    weight: double.parse(weight),
+                    targetWeight: double.parse(targetWeight),
+                    targetDate: DateFormat('dd/MM/yyyy').format(selectedDate),
+                    calBudget: int.parse(calBudget));
+                UserController.instance.updateGoalInfo(user);
+                Navigator.popUntil(context, ModalRoute.withName('/profile'));
+                Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation1, animation2) =>
+                          const GoalView(),
+                      transitionDuration: Duration.zero,
+                      reverseTransitionDuration: Duration.zero,
+                    ));
+              } catch (e) {
+                log(e.toString());
+                if (e is RangeError) {
+                  Fluttertoast.showToast(
+                      msg:
+                          "Calorie budget must be between 1000 and 4000 kcal/day",
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.redAccent.withOpacity(0.1),
+                      textColor: Colors.red,
+                      fontSize: 16.0);
+                } else {
+                  Fluttertoast.showToast(
+                      msg: "Please fill in all the fields with valid data",
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.redAccent.withOpacity(0.1),
+                      textColor: Colors.red,
+                      fontSize: 16.0);
+                }
+              }
             },
             child: Text(
               'Save',

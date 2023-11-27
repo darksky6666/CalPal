@@ -40,12 +40,45 @@ class AuthService {
               backgroundColor: Colors.black,
               textColor: Colors.white,
               fontSize: 16.0);
-          // throw Exception('Please verify your email to login.');
           onResult(false, "failed-email-verification");
         }
       }
-    } catch (e) {
+    } on FirebaseAuthException catch (e) {
       // Handle login errors
+      log(e.toString());
+      if (e.code == 'INVALID_LOGIN_CREDENTIALS') {
+        Fluttertoast.showToast(
+            msg: "Invalid login credentials. Please try again.",
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.black,
+            textColor: Colors.white,
+            fontSize: 16.0);
+        onResult(false, e.toString());
+      } else if (e.code == 'too-many-requests') {
+        Fluttertoast.showToast(
+            msg: "Too many login attempts. Please try again later.",
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.black,
+            textColor: Colors.white,
+            fontSize: 16.0);
+        onResult(false, e.toString());
+      } else {
+        Fluttertoast.showToast(
+            msg: e.toString(),
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.black,
+            textColor: Colors.white,
+            fontSize: 16.0);
+        onResult(false, e.toString());
+      }
+    } catch (e) {
+      log("Catch not from firebase auth");
       Fluttertoast.showToast(
           msg: e.toString(),
           toastLength: Toast.LENGTH_LONG,
@@ -54,7 +87,6 @@ class AuthService {
           backgroundColor: Colors.black,
           textColor: Colors.white,
           fontSize: 16.0);
-      // rethrow;
       onResult(false, e.toString());
     }
   }

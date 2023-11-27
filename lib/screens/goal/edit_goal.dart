@@ -32,25 +32,27 @@ class _EditGoalState extends State<EditGoal> {
     super.initState();
     // Fetch the user data and populate the form fields
     controller.getUserData().then((UserModel userData) {
-      setState(() {
-        controller.ageController.text = userData.age.toString();
-        controller.heightController.text = userData.height.toString();
-        controller.weightController.text = userData.weight.toString();
-        controller.targetWeightController.text =
-            userData.targetWeight.toString();
-        controller.calBudgetController.text = userData.calBudget.toString();
-        if (userData.targetDate != null) {
-          selectedDate =
-              DateFormat('dd/MM/yyyy').parse(userData.targetDate.toString());
-        }
-        // Calculate the recommended daily calorie value
-        recommendedCalories = healthController.calculateRecommendedCalories(
-          userData.biologicalSex.toString(),
-          double.parse(controller.weightController.text),
-          double.parse(controller.heightController.text),
-          int.parse(controller.ageController.text),
-        );
-      });
+      if (mounted) {
+        setState(() {
+          controller.ageController.text = userData.age.toString();
+          controller.heightController.text = userData.height.toString();
+          controller.weightController.text = userData.weight.toString();
+          controller.targetWeightController.text =
+              userData.targetWeight.toString();
+          controller.calBudgetController.text = userData.calBudget.toString();
+          if (userData.targetDate != null) {
+            selectedDate =
+                DateFormat('dd/MM/yyyy').parse(userData.targetDate.toString());
+          }
+          // Calculate the recommended daily calorie value
+          recommendedCalories = healthController.calculateRecommendedCalories(
+            userData.biologicalSex.toString(),
+            double.parse(controller.weightController.text),
+            double.parse(controller.heightController.text),
+            int.parse(controller.ageController.text),
+          );
+        });
+      }
     });
   }
 

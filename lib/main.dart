@@ -15,7 +15,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -29,17 +29,18 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
+        // fontFamily: 'Montserrat',
       ),
       // Define your routes
       routes: {
-        '/': (context) => LoginState(),
-        '/login': (context) => LoginScreen(),
+        '/': (context) => const LoginState(),
+        '/login': (context) => const LoginScreen(),
         '/home': (context) => HomeView(),
         '/analysis': (context) => AnalysisView(),
-        '/food': (context) => FoodView(),
-        '/goal': (context) => GoalView(),
-        '/profile': (context) => ProfileView(),
-        '/edit_goal': (context) => EditGoal(),
+        '/food': (context) => const FoodView(),
+        '/goal': (context) => const GoalView(),
+        '/profile': (context) => const ProfileView(),
+        '/edit_goal': (context) => const EditGoal(),
       },
       initialRoute: '/', // Set the initial route
     );

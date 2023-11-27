@@ -3,6 +3,7 @@ import 'package:calpal/controllers/user_controller.dart';
 import 'package:calpal/models/users.dart';
 import 'package:calpal/screens/components/bottom_navigation.dart';
 import 'package:calpal/screens/components/constants.dart';
+import 'package:calpal/screens/profile/about_app.dart';
 import 'package:calpal/screens/profile/account_info.dart';
 import 'package:calpal/screens/profile/edit_user.dart';
 import 'package:calpal/screens/profile/personal_info.dart';
@@ -242,7 +243,31 @@ class _ProfileViewState extends State<ProfileView> {
                           ),
                         ),
                         SizedBox(
-                          height: 15,
+                          height: 20,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AboutApp()));
+                          },
+                          child: Row(
+                            children: [
+                              Text('About App',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w300)),
+                              Spacer(),
+                              Icon(
+                                HeroiconsOutline.informationCircle,
+                                color: Colors.black,
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
                         ),
                         InkWell(
                           onTap: () {

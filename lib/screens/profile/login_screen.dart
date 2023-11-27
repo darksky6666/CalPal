@@ -298,7 +298,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
         const SizedBox(
-          height: 10,
+          height: 20,
         ),
         RichText(
           text: TextSpan(
@@ -326,7 +326,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ],
           ),
         ),
-        SizedBox(height: 10),
+        SizedBox(height: 20),
       ]),
     );
   }

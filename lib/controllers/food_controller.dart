@@ -40,25 +40,36 @@ class FoodController extends GetxController {
 
   // Set predefined food data
   String setPredefinedFood(String name) {
+    final Map<String, String> foodTranslations = {
+      "ayam goreng": "fried chicken",
+      "bubur ayam": "chicken porridge",
+      "crape": "crepe",
+      "gratin": "potatoes gratin",
+      "grilled pacific saury": "grilled fish",
+      "gulai": "curry",
+      "haupia": "coconut pudding",
+      "inarizushi": "inari sushi",
+      "kamameshi": "japanese rice",
+      "kushikatu": "deep fried meat",
+      "mie ayam": "chicken noodles",
+      "namero": "fish tataki",
+      "nanbanzuke": "marinated fried fish",
+      "pilaf": "pilau",
+      "potage": "thick soup",
+      "pot au feu": "beef stew",
+      "samul": "samgyeopsal",
+      "tanmen": "ramen soup noodles",
+      "thinly sliced raw horsemeat": "meat",
+      "zha jiang mian": "chinese fried noodles",
+    };
+
     name = name.toLowerCase();
 
-    if (name == "ayam goreng") {
-      name = "fried chicken";
+    if (foodTranslations.containsKey(name)) {
+      return foodTranslations[name]!;
+    } else {
+      return name;
     }
-
-    if (name == "bubur ayam") {
-      name = "chicken porridge";
-    }
-
-    if (name == "pot au feu") {
-      name = "beef stew";
-    }
-
-    if (name == "crape") {
-      name = "crepe";
-    }
-
-    return name;
   }
 
   // Get food image path from the food name

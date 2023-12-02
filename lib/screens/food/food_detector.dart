@@ -60,14 +60,14 @@ class _FoodDetectorState extends State<FoodDetector> {
                   builder: (context, orientation) {
                     return Column(
                       children: [
-                        Container(
+                        SizedBox(
                           width: MediaQuery.of(context).size.width,
                           height: orientation == Orientation.portrait
                               ? MediaQuery.of(context).size.height * 0.8
                               : MediaQuery.of(context).size.height * 0.7,
                           child: CameraPreview(controller.cameraController),
                         ),
-                        Container(
+                        SizedBox(
                           width: MediaQuery.of(context).size.width,
                           height: orientation == Orientation.portrait
                               ? MediaQuery.of(context).size.height * 0.2
@@ -162,7 +162,7 @@ class _FoodDetectorState extends State<FoodDetector> {
                     );
                   },
                 )
-              : Container(
+              : SizedBox(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
                   child: const Column(

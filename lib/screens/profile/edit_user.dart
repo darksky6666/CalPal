@@ -11,10 +11,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 class UserProfile extends StatefulWidget {
-  const UserProfile({Key? key});
+  const UserProfile({super.key});
 
   @override
-  _UserProfileState createState() => _UserProfileState();
+  State<UserProfile> createState() => _UserProfileState();
 }
 
 class _UserProfileState extends State<UserProfile> {
@@ -41,9 +41,9 @@ class _UserProfileState extends State<UserProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Padding(
-          padding: const EdgeInsets.only(left: 10),
-          child: const Text(
+        title: const Padding(
+          padding: EdgeInsets.only(left: 10),
+          child: Text(
             'Your Profile',
             style: TextStyle(
               color: Colors.black,
@@ -98,7 +98,7 @@ class _UserProfileState extends State<UserProfile> {
                   context,
                   PageRouteBuilder(
                     pageBuilder: (context, animation1, animation2) =>
-                        ProfileView(),
+                        const ProfileView(),
                     transitionDuration: Duration.zero,
                     reverseTransitionDuration: Duration.zero,
                   ),
@@ -132,7 +132,7 @@ class _UserProfileState extends State<UserProfile> {
                 }
               }
             },
-            child: Text(
+            child: const Text(
               'Save',
               style: TextStyle(
                   color: primaryColor,
@@ -148,7 +148,7 @@ class _UserProfileState extends State<UserProfile> {
           padding: const EdgeInsets.all(30.0),
           child: Column(
             children: [
-              Wrap(
+              const Wrap(
                 children: [
                   Text(
                     "This data will be used to estimate your calorie budget, which uses height, weight, biological sex, and age as inputs.",
@@ -160,7 +160,7 @@ class _UserProfileState extends State<UserProfile> {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Column(
@@ -172,34 +172,34 @@ class _UserProfileState extends State<UserProfile> {
                     suffixText: "",
                     keyboardType: TextInputType.name,
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   // Height
                   InputRow(
                       controller: controller.heightController,
                       label: 'Height',
                       suffixText: 'cm',
-                      keyboardType: TextInputType.numberWithOptions(
+                      keyboardType: const TextInputType.numberWithOptions(
                           decimal: false, signed: false)),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   InputRow(
                       controller: controller.weightController,
                       label: 'Weight',
                       suffixText: 'kg',
-                      keyboardType: TextInputType.numberWithOptions(
+                      keyboardType: const TextInputType.numberWithOptions(
                           decimal: true, signed: false)),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   InputRow(
                       controller: controller.ageController,
                       label: 'Age',
                       suffixText: 'years',
-                      keyboardType: TextInputType.numberWithOptions(
+                      keyboardType: const TextInputType.numberWithOptions(
                           decimal: false, signed: false)),
-                  SizedBox(
+                  const SizedBox(
                     height: 25,
                   ),
                   Row(
                     children: [
-                      Text(
+                      const Text(
                         "Biological Sex",
                         textAlign: TextAlign.left,
                         style: TextStyle(
@@ -219,7 +219,7 @@ class _UserProfileState extends State<UserProfile> {
                             .map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
-                            child: Container(
+                            child: SizedBox(
                                 width: MediaQuery.of(context).size.width * 0.3,
                                 child: Text(value)),
                           );
@@ -227,12 +227,12 @@ class _UserProfileState extends State<UserProfile> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 25,
                   ),
                   Row(
                     children: [
-                      Text(
+                      const Text(
                         "Medical Condition",
                         textAlign: TextAlign.left,
                         style: TextStyle(
@@ -252,7 +252,7 @@ class _UserProfileState extends State<UserProfile> {
                             .map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
-                            child: Container(
+                            child: SizedBox(
                                 width: MediaQuery.of(context).size.width * 0.3,
                                 child: Text(value)),
                           );
@@ -266,7 +266,7 @@ class _UserProfileState extends State<UserProfile> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNav(currentIndex: 4),
+      bottomNavigationBar: const BottomNav(currentIndex: 4),
     );
   }
 }

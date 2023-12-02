@@ -33,8 +33,8 @@ class _FoodViewState extends State<FoodView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Padding(
-          padding: const EdgeInsets.only(top: 20, left: 5),
+        title: const Padding(
+          padding: EdgeInsets.only(top: 20, left: 5),
           child: Text(
             'Meals',
             style: TextStyle(
@@ -48,7 +48,7 @@ class _FoodViewState extends State<FoodView> {
         child: Column(
           children: [
             buildSearchBar(),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             Expanded(
               child: Obx(() {
                 return ListView.builder(
@@ -62,7 +62,7 @@ class _FoodViewState extends State<FoodView> {
                             context,
                             controller.filteredSuggestions[index].name
                                 .toString()),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                       ],
                     );
                   },
@@ -72,7 +72,7 @@ class _FoodViewState extends State<FoodView> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNav(currentIndex: 2),
+      bottomNavigationBar: const BottomNav(currentIndex: 2),
     );
   }
 
@@ -87,15 +87,15 @@ class _FoodViewState extends State<FoodView> {
               filled: true,
               fillColor: Colors.grey.withOpacity(0.1),
               hintText: "Search...",
-              hintStyle: TextStyle(
+              hintStyle: const TextStyle(
                 color: Color.fromRGBO(60, 60, 67, 0.6),
               ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
                 borderSide: BorderSide.none,
               ),
-              contentPadding: EdgeInsets.all(10),
-              prefixIcon: Icon(Icons.search),
+              contentPadding: const EdgeInsets.all(10),
+              prefixIcon: const Icon(Icons.search),
             ),
             onChanged: (query) {
               controller.filterSuggestions(query);
@@ -105,10 +105,10 @@ class _FoodViewState extends State<FoodView> {
         GestureDetector(
           onTap: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return FoodDetector();
+              return const FoodDetector();
             }));
           },
-          child: Container(
+          child: const SizedBox(
             width: 40,
             height: 40,
             child: Icon(
@@ -150,7 +150,7 @@ class _FoodViewState extends State<FoodView> {
                       ),
                       clipBehavior: Clip.antiAlias,
                       child: text == "Create food"
-                          ? Icon(
+                          ? const Icon(
                               HeroiconsSolid.plus,
                               color: primaryColor,
                             )
@@ -159,13 +159,13 @@ class _FoodViewState extends State<FoodView> {
                               fit: BoxFit.cover,
                             ),
                     ),
-                    SizedBox(width: 20),
+                    const SizedBox(width: 20),
                     if (text == "Create food")
-                      Container(
+                      SizedBox(
                         width: 100,
                         child: Text(
                           text,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontWeight: FontWeight.w700,
                             fontSize: 18,
                           ),
@@ -175,7 +175,7 @@ class _FoodViewState extends State<FoodView> {
                       Flexible(
                         child: Text(
                           text,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontWeight: FontWeight.w700,
                             fontSize: 18,
                           ),
@@ -184,8 +184,8 @@ class _FoodViewState extends State<FoodView> {
                   ],
                 ),
               ),
-              Spacer(),
-              Icon(HeroiconsSolid.chevronRight),
+              const Spacer(),
+              const Icon(HeroiconsSolid.chevronRight),
             ],
           ),
         ],

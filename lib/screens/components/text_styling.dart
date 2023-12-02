@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class textBold extends StatelessWidget {
+class TextBold extends StatelessWidget {
   final String text;
-  const textBold({
+  const TextBold({
     Key? key,
     required this.text,
   }) : super(key: key);
@@ -11,14 +11,14 @@ class textBold extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: TextStyle(fontWeight: FontWeight.w700, color: Colors.white),
+      style: const TextStyle(fontWeight: FontWeight.w700, color: Colors.white),
     );
   }
 }
 
-class textNoBold extends StatelessWidget {
+class TextNoBold extends StatelessWidget {
   final String text;
-  const textNoBold({
+  const TextNoBold({
     Key? key,
     required this.text,
   }) : super(key: key);
@@ -27,15 +27,15 @@ class textNoBold extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: TextStyle(fontWeight: FontWeight.w400, color: Colors.white),
+      style: const TextStyle(fontWeight: FontWeight.w400, color: Colors.white),
     );
   }
 }
 
-class titleText extends StatelessWidget {
+class TitleText extends StatelessWidget {
   final String text;
   final Color color;
-  const titleText({
+  const TitleText({
     Key? key,
     required this.text,
     required this.color,

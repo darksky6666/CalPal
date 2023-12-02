@@ -47,13 +47,13 @@ class _LoginState extends State<LoginState> {
         appBar: AppBar(),
         body: Center(
           child: AlertDialog(
-            title: Text('No Internet Connection'),
+            title: const Text('No Internet Connection'),
             content:
-                Text('Please check your internet connection and try again.'),
+                const Text('Please check your internet connection and try again.'),
             actions: [
               TextButton(
                 onPressed: onRetry,
-                child: Text('Retry'),
+                child: const Text('Retry'),
               ),
             ],
           ),
@@ -65,7 +65,7 @@ class _LoginState extends State<LoginState> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             if (authService.currentUser!.emailVerified) {
-              return HomeView();
+              return const HomeView();
             } else {
               return const LoginScreen();
             }

@@ -16,6 +16,8 @@ import 'package:intl/intl.dart' as intl;
 import 'package:ionicons/ionicons.dart';
 
 class HomeView extends StatefulWidget {
+  const HomeView({super.key});
+
   @override
   State<HomeView> createState() => _HomeViewState();
 }
@@ -116,9 +118,9 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Padding(
-          padding: const EdgeInsets.only(left: 10),
-          child: const Text(
+        title: const Padding(
+          padding: EdgeInsets.only(left: 10),
+          child: Text(
             'Home',
             style: TextStyle(
                 color: Colors.black, fontWeight: FontWeight.w800, fontSize: 25),
@@ -154,24 +156,6 @@ class _HomeViewState extends State<HomeView> {
           child: Column(
             children: <Widget>[
               ToggleButtons(
-                children: <Widget>[
-                  Container(
-                    width: MediaQuery.of(context).size.width / 2.3,
-                    child: Center(
-                        child: Text(
-                      'Day',
-                      style: TextStyle(fontWeight: FontWeight.w600),
-                    )),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width / 2.3,
-                    child: Center(
-                        child: Text(
-                      'Week',
-                      style: TextStyle(fontWeight: FontWeight.w600),
-                    )),
-                  ),
-                ],
                 isSelected: isSelected,
                 onPressed: (int index) {
                   setState(() {
@@ -192,9 +176,27 @@ class _HomeViewState extends State<HomeView> {
                   });
                 },
                 selectedColor: Colors.white,
-                fillColor: Color.fromRGBO(64, 78, 108, 1),
+                fillColor: const Color.fromRGBO(64, 78, 108, 1),
                 borderRadius: BorderRadius.circular(10),
-                disabledColor: Color.fromRGBO(241, 246, 249, 1),
+                disabledColor: const Color.fromRGBO(241, 246, 249, 1),
+                children: <Widget>[
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 2.3,
+                    child: const Center(
+                        child: Text(
+                      'Day',
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    )),
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 2.3,
+                    child: const Center(
+                        child: Text(
+                      'Week',
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    )),
+                  ),
+                ],
               ),
               // Your content for the selected view goes here
               if (isSelected[0]) // Day view
@@ -208,7 +210,7 @@ class _HomeViewState extends State<HomeView> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             IconButton(
-                              icon: Icon(HeroiconsSolid.chevronLeft),
+                              icon: const Icon(HeroiconsSolid.chevronLeft),
                               onPressed: () {
                                 setState(() {
                                   dateLogic.navigateToPreviousDay();
@@ -216,17 +218,17 @@ class _HomeViewState extends State<HomeView> {
                                 });
                               },
                             ),
-                            Spacer(),
+                            const Spacer(),
                             Text(
                               intl.DateFormat('dd MMM')
                                   .format(dateLogic.getCurrentDate())
                                   .toString(),
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.w600),
                             ),
-                            Spacer(),
+                            const Spacer(),
                             IconButton(
-                              icon: Icon(HeroiconsSolid.chevronRight),
+                              icon: const Icon(HeroiconsSolid.chevronRight),
                               onPressed: () {
                                 setState(() {
                                   dateLogic.navigateToNextDay();
@@ -236,7 +238,7 @@ class _HomeViewState extends State<HomeView> {
                             ),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         // Overview Container
@@ -250,8 +252,8 @@ class _HomeViewState extends State<HomeView> {
                                 color: Colors.grey.withOpacity(0.5),
                                 spreadRadius: 0,
                                 blurRadius: 5,
-                                offset:
-                                    Offset(0, 3), // changes position of shadow
+                                offset: const Offset(
+                                    0, 3), // changes position of shadow
                               ),
                             ],
                           ),
@@ -259,128 +261,117 @@ class _HomeViewState extends State<HomeView> {
                             padding: const EdgeInsets.all(10.0),
                             child: Column(
                               children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(
+                                const Padding(
+                                  padding: EdgeInsets.only(
                                       left: 5, bottom: 5, top: 5),
                                   child: Align(
                                     alignment: Alignment.topLeft,
-                                    child: titleText(
+                                    child: TitleText(
                                       text: 'Overview',
                                       color: Colors.white,
                                     ),
                                   ),
                                 ),
                                 // Calorie in Overview
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
-                                Container(
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        width: 10,
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    const SizedBox(
+                                      width: 20,
+                                      child: Icon(HeroiconsSolid.fire,
+                                          color: Colors.white),
+                                    ),
+                                    const SizedBox(
+                                      width: 20,
+                                    ),
+                                    const SizedBox(
+                                        width: 60,
+                                        child: TextNoBold(
+                                          text: 'Calories',
+                                        )),
+                                    const SizedBox(
+                                      width: 20,
+                                    ),
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.47,
+                                      child: Wrap(
+                                        direction: Axis.horizontal,
+                                        textDirection: TextDirection.ltr,
+                                        children: [
+                                          TextBold(
+                                              text: double.parse(totalCalories
+                                                      .toStringAsFixed(2))
+                                                  .toString()),
+                                          TextNoBold(
+                                              text:
+                                                  ' / ${userController.calBudgetController.text} kcal')
+                                        ],
                                       ),
-                                      Container(
-                                        width: 20,
-                                        child: Icon(HeroiconsSolid.fire,
-                                            color: Colors.white),
-                                      ),
-                                      SizedBox(
-                                        width: 20,
-                                      ),
-                                      Container(
-                                          width: 60,
-                                          child: textNoBold(
-                                            text: 'Calories',
-                                          )),
-                                      SizedBox(
-                                        width: 20,
-                                      ),
-                                      Container(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.47,
-                                        child: Wrap(
-                                          direction: Axis.horizontal,
-                                          textDirection: TextDirection.ltr,
-                                          children: [
-                                            textBold(
-                                                text: double.parse(totalCalories
-                                                        .toStringAsFixed(2))
-                                                    .toString()),
-                                            textNoBold(
-                                                text: ' / ' +
-                                                    userController
-                                                        .calBudgetController
-                                                        .text +
-                                                    ' kcal')
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
+                                    )
+                                  ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
                                 // Nutrient in Overview
-                                Container(
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Container(
-                                          width: 20,
-                                          child: Icon(Ionicons.pizza_outline,
-                                              color: Colors.white)),
-                                      SizedBox(
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    const SizedBox(
                                         width: 20,
+                                        child: Icon(Ionicons.pizza_outline,
+                                            color: Colors.white)),
+                                    const SizedBox(
+                                      width: 20,
+                                    ),
+                                    const SizedBox(
+                                        width: 60,
+                                        child: TextNoBold(text: 'Nutrients')),
+                                    const SizedBox(
+                                      width: 20,
+                                    ),
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.47,
+                                      child: Wrap(
+                                        direction: Axis.horizontal,
+                                        textDirection: TextDirection.ltr,
+                                        children: [
+                                          TextBold(
+                                              text: double.parse(totalCarbs
+                                                      .toStringAsFixed(2))
+                                                  .toString()),
+                                          const TextNoBold(text: ' g Carbs, '),
+                                          TextBold(
+                                              text: double.parse(totalFat
+                                                      .toStringAsFixed(2))
+                                                  .toString()),
+                                          const TextNoBold(text: ' g Fat, '),
+                                          TextBold(
+                                              text: double.parse(totalProtein
+                                                      .toStringAsFixed(2))
+                                                  .toString()),
+                                          const TextNoBold(text: ' g Protein'),
+                                        ],
                                       ),
-                                      Container(
-                                          width: 60,
-                                          child: textNoBold(text: 'Nutrients')),
-                                      SizedBox(
-                                        width: 20,
-                                      ),
-                                      Container(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.47,
-                                        child: Wrap(
-                                          direction: Axis.horizontal,
-                                          textDirection: TextDirection.ltr,
-                                          children: [
-                                            textBold(
-                                                text: double.parse(totalCarbs
-                                                        .toStringAsFixed(2))
-                                                    .toString()),
-                                            textNoBold(text: ' g Carbs, '),
-                                            textBold(
-                                                text: double.parse(totalFat
-                                                        .toStringAsFixed(2))
-                                                    .toString()),
-                                            textNoBold(text: ' g Fat, '),
-                                            textBold(
-                                                text: double.parse(totalProtein
-                                                        .toStringAsFixed(2))
-                                                    .toString()),
-                                            textNoBold(text: ' g Protein'),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 )
                               ],
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
 
@@ -388,21 +379,21 @@ class _HomeViewState extends State<HomeView> {
                           mealType: "Breakfast",
                           dTime: dateLogic.getFormattedDate(),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         MealsViewPage(
                           mealType: "Lunch",
                           dTime: dateLogic.getFormattedDate(),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         MealsViewPage(
                           mealType: "Dinner",
                           dTime: dateLogic.getFormattedDate(),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                       ],
@@ -420,7 +411,7 @@ class _HomeViewState extends State<HomeView> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             IconButton(
-                              icon: Icon(HeroiconsSolid.chevronLeft),
+                              icon: const Icon(HeroiconsSolid.chevronLeft),
                               onPressed: () {
                                 setState(() {
                                   dateLogic.navigateToPreviousWeek();
@@ -428,25 +419,25 @@ class _HomeViewState extends State<HomeView> {
                                 });
                               },
                             ),
-                            Spacer(),
+                            const Spacer(),
                             Column(
                               children: [
                                 Text(
                                   "Week ${dateLogic.getWeekNumber(dateLogic.getCurrentDate())}",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.w600),
                                 ),
                                 Text(
                                   "${intl.DateFormat('dd MMM').format(dateLogic.getCurrentDate())} - "
-                                  "${intl.DateFormat('dd MMM').format(dateLogic.getCurrentDate().add(Duration(days: 6)))}",
-                                  style: TextStyle(fontSize: 16),
+                                  "${intl.DateFormat('dd MMM').format(dateLogic.getCurrentDate().add(const Duration(days: 6)))}",
+                                  style: const TextStyle(fontSize: 16),
                                 ),
                               ],
                             ),
-                            Spacer(),
+                            const Spacer(),
                             IconButton(
-                              icon: Icon(HeroiconsSolid.chevronRight),
+                              icon: const Icon(HeroiconsSolid.chevronRight),
                               onPressed: () {
                                 setState(() {
                                   dateLogic.navigateToNextWeek();
@@ -456,7 +447,7 @@ class _HomeViewState extends State<HomeView> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
                         // Meals for the week
                         Column(
                           children: List.generate(
@@ -470,7 +461,7 @@ class _HomeViewState extends State<HomeView> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNav(currentIndex: 0),
+      bottomNavigationBar: const BottomNav(currentIndex: 0),
     );
   }
 
@@ -494,7 +485,7 @@ class _HomeViewState extends State<HomeView> {
                 color: Colors.grey.withOpacity(0.5),
                 spreadRadius: 0,
                 blurRadius: 5,
-                offset: Offset(0, 3),
+                offset: const Offset(0, 3),
               ),
             ],
           ),
@@ -506,7 +497,7 @@ class _HomeViewState extends State<HomeView> {
                   padding: const EdgeInsets.only(left: 5, bottom: 5, top: 5),
                   child: Align(
                     alignment: Alignment.topLeft,
-                    child: titleText(
+                    child: TitleText(
                       text: intl.DateFormat('EEEE, dd MMM')
                           .format(dateLogic
                               .getCurrentDate()
@@ -517,105 +508,100 @@ class _HomeViewState extends State<HomeView> {
                   ),
                 ),
                 // Calorie in Overview
-                SizedBox(height: 10),
-                Container(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(width: 10),
-                      Container(
-                        width: 20,
-                        child: Icon(HeroiconsSolid.fire, color: Colors.white),
+                const SizedBox(height: 10),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(width: 10),
+                    const SizedBox(
+                      width: 20,
+                      child: Icon(HeroiconsSolid.fire, color: Colors.white),
+                    ),
+                    const SizedBox(width: 20),
+                    const SizedBox(
+                        width: 60, child: TextNoBold(text: 'Calories')),
+                    const SizedBox(width: 20),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.47,
+                      child: Wrap(
+                        direction: Axis.horizontal,
+                        textDirection: TextDirection.ltr,
+                        children: [
+                          // Update the value for the current date
+                          TextBold(
+                              text:
+                                  double.parse(dailyCalories.toStringAsFixed(2))
+                                      .toString()),
+                          TextNoBold(
+                              text:
+                                  ' / ${userController.calBudgetController.text} kcal')
+                        ],
                       ),
-                      SizedBox(width: 20),
-                      Container(width: 60, child: textNoBold(text: 'Calories')),
-                      SizedBox(width: 20),
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.47,
-                        child: Wrap(
-                          direction: Axis.horizontal,
-                          textDirection: TextDirection.ltr,
-                          children: [
-                            // Update the value for the current date
-                            textBold(
-                                text: double.parse(
-                                        dailyCalories.toStringAsFixed(2))
-                                    .toString()),
-                            textNoBold(
-                                text: ' / ' +
-                                    userController.calBudgetController.text +
-                                    ' kcal')
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 // Nutrient in Overview
-                Container(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(width: 10),
-                      Container(
-                          width: 20,
-                          child: Icon(Ionicons.pizza_outline,
-                              color: Colors.white)),
-                      SizedBox(width: 20),
-                      Container(
-                          width: 60, child: textNoBold(text: 'Nutrients')),
-                      SizedBox(width: 20),
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.47,
-                        child: Wrap(
-                          direction: Axis.horizontal,
-                          textDirection: TextDirection.ltr,
-                          children: [
-                            // Update the value for the current date
-                            textBold(
-                                text:
-                                    double.parse(dailyCarbs.toStringAsFixed(2))
-                                        .toString()),
-                            textNoBold(text: ' g Carbs, '),
-                            textBold(
-                                text: double.parse(dailyFat.toStringAsFixed(2))
-                                    .toString()),
-                            textNoBold(text: ' g Fat, '),
-                            textBold(
-                                text: double.parse(
-                                        dailyProtein.toStringAsFixed(2))
-                                    .toString()),
-                            textNoBold(text: ' g Protein'),
-                          ],
-                        ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(width: 10),
+                    const SizedBox(
+                        width: 20,
+                        child:
+                            Icon(Ionicons.pizza_outline, color: Colors.white)),
+                    const SizedBox(width: 20),
+                    const SizedBox(
+                        width: 60, child: TextNoBold(text: 'Nutrients')),
+                    const SizedBox(width: 20),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.47,
+                      child: Wrap(
+                        direction: Axis.horizontal,
+                        textDirection: TextDirection.ltr,
+                        children: [
+                          // Update the value for the current date
+                          TextBold(
+                              text: double.parse(dailyCarbs.toStringAsFixed(2))
+                                  .toString()),
+                          const TextNoBold(text: ' g Carbs, '),
+                          TextBold(
+                              text: double.parse(dailyFat.toStringAsFixed(2))
+                                  .toString()),
+                          const TextNoBold(text: ' g Fat, '),
+                          TextBold(
+                              text:
+                                  double.parse(dailyProtein.toStringAsFixed(2))
+                                      .toString()),
+                          const TextNoBold(text: ' g Protein'),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 )
               ],
             ),
           ),
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         MealsViewPage(
           mealType: "Breakfast",
           dTime: intl.DateFormat('yyyyMMdd')
               .format(dateLogic.getCurrentDate().add(Duration(days: index))),
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         MealsViewPage(
           mealType: "Lunch",
           dTime: intl.DateFormat('yyyyMMdd')
               .format(dateLogic.getCurrentDate().add(Duration(days: index))),
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         MealsViewPage(
           mealType: "Dinner",
           dTime: intl.DateFormat('yyyyMMdd')
               .format(dateLogic.getCurrentDate().add(Duration(days: index))),
         ),
-        SizedBox(height: 30),
+        const SizedBox(height: 30),
       ],
     );
   }

@@ -48,9 +48,9 @@ class _PersonalInfoState extends State<PersonalInfo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Padding(
-          padding: const EdgeInsets.only(left: 10),
-          child: const Text(
+        title: const Padding(
+          padding: EdgeInsets.only(left: 10),
+          child: Text(
             'Personal Info',
             style: TextStyle(
               color: Colors.black,
@@ -67,44 +67,44 @@ class _PersonalInfoState extends State<PersonalInfo> {
           child: Column(
             children: [
               personalRow(Ionicons.male_female_outline, "Sex", sex),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               personalRow(HeroiconsOutline.cake, "Age", age.toString()),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               personalRow(
                   Ionicons.accessibility_outline, "Height", "$height cm"),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               personalRow(Ionicons.scale_outline, "Weight", "$weight kg"),
-              SizedBox(height: 60),
+              const SizedBox(height: 60),
               // calorieRow("Weight Maintenance Calories", "2000",
               //     "This value is the daily food calories needed to maintain your body weight."),
               // SizedBox(height: 20),
               // Use BMR
               calorieRow("BMR Calories", bmr.toString(),
                   "This value is the daily calories your body burns at rest to maintain normal body function."),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               // Use BMI
               calorieRow("Body Mass Index - BMI", bmi.toStringAsFixed(2),
                   "BMI is an estimate of your body fat and a good measure of risk for diseases that can occur with overweight."),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               Row(
                 children: [
-                  Text("Your BMI "),
+                  const Text("Your BMI "),
                   Text(
                     bmi.toStringAsFixed(2),
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: purpleColor, fontWeight: FontWeight.w600),
                   ),
-                  Text(" is considered "),
+                  const Text(" is considered "),
                   Text(
                     healthController
                         .classifyBMI(double.parse(bmi.toStringAsFixed(2))),
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: purpleColor, fontWeight: FontWeight.w600),
                   ),
-                  Text("."),
+                  const Text("."),
                 ],
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
             ],
           ),
         ),
@@ -119,20 +119,20 @@ class _PersonalInfoState extends State<PersonalInfo> {
         Row(
           children: [
             Text(title,
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-            Spacer(),
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+            const Spacer(),
             Text(value,
-                style: TextStyle(
+                style: const TextStyle(
                     color: purpleColor,
                     fontSize: 16,
                     fontWeight: FontWeight.w500)),
           ],
         ),
-        SizedBox(height: 5),
+        const SizedBox(height: 5),
         Text(
           description,
           textAlign: TextAlign.justify,
-          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w300),
+          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w300),
         )
       ],
     );
@@ -147,17 +147,17 @@ class _PersonalInfoState extends State<PersonalInfo> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Icon(icon, color: Colors.grey, size: 30),
-            SizedBox(width: 20),
+            const SizedBox(width: 20),
             Text(
               title,
-              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
+              style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
             ),
           ],
         ),
-        Spacer(),
+        const Spacer(),
         Text(
           value,
-          style: TextStyle(
+          style: const TextStyle(
               color: purpleColor, fontWeight: FontWeight.w500, fontSize: 18),
         ),
       ],

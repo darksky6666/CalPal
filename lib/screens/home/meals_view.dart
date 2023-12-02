@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MealsViewPage extends StatefulWidget {
-  MealsViewPage({Key? key, required this.mealType, required this.dTime})
+  const MealsViewPage({Key? key, required this.mealType, required this.dTime})
       : super(key: key);
 
   final String mealType;
@@ -35,7 +35,7 @@ class _MealsViewPageState extends State<MealsViewPage> {
               color: Colors.grey.withOpacity(0.5),
               spreadRadius: 0,
               blurRadius: 5,
-              offset: Offset(0, 3), // changes position of shadow
+              offset: const Offset(0, 3), // changes position of shadow
             ),
           ],
         ),
@@ -47,13 +47,13 @@ class _MealsViewPageState extends State<MealsViewPage> {
                 padding: const EdgeInsets.only(left: 5, bottom: 5, top: 5),
                 child: Align(
                   alignment: Alignment.topLeft,
-                  child: titleText(
+                  child: TitleText(
                     text: widget.mealType,
                     color: Colors.black,
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Padding(
@@ -66,15 +66,14 @@ class _MealsViewPageState extends State<MealsViewPage> {
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       if (snapshot.data!.isEmpty) {
-                        return Container(
-                            child: Text('No data',
-                                style: TextStyle(
-                                    fontSize: 20, color: primaryColor)));
+                        return const Text('No data',
+                            style:
+                                TextStyle(fontSize: 20, color: primaryColor));
                       } else {
                         return ListView.builder(
                           shrinkWrap: true,
                           itemCount: snapshot.data?.length,
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
                             return Column(
                               children: [
@@ -109,7 +108,7 @@ class _MealsViewPageState extends State<MealsViewPage> {
                                               .toString()),
                                           fit: BoxFit.cover,
                                         )), // Food image
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 20,
                                     ),
                                     Container(
@@ -125,21 +124,21 @@ class _MealsViewPageState extends State<MealsViewPage> {
                                               Text(
                                                 snapshot.data![index].name
                                                     .toString(), // Food name from Firebase
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     fontWeight: FontWeight.w600,
                                                     fontSize: 16),
                                                 textAlign: TextAlign.left,
                                               ),
                                             ],
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             height: 5,
                                           ),
                                           Wrap(
                                             children: [
                                               Text(
                                                 "${snapshot.data![index].servingSize} ${snapshot.data![index].servingUnit} - ${snapshot.data![index].calories} kcal", // Food weight, serving unit, and calories
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     fontWeight: FontWeight.w300,
                                                     fontSize: 15),
                                                 textAlign: TextAlign.left,
@@ -151,7 +150,7 @@ class _MealsViewPageState extends State<MealsViewPage> {
                                     )
                                   ]),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
                               ],
@@ -160,9 +159,7 @@ class _MealsViewPageState extends State<MealsViewPage> {
                         );
                       }
                     } else {
-                      return Container(
-                        child: CircularProgressIndicator(),
-                      );
+                      return const CircularProgressIndicator();
                     }
                   },
                 ),

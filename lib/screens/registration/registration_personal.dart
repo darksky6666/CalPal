@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:heroicons_flutter/heroicons_flutter.dart';
 
 class RegistrationPage1 extends StatefulWidget {
-  RegistrationPage1(
+  const RegistrationPage1(
       {super.key, required this.pageController, required this.totalPages});
 
   final PageController pageController;
@@ -28,30 +28,30 @@ class _RegistrationPage1State extends State<RegistrationPage1> {
   @override
   Widget build(BuildContext context) {
     final registrationController = Get.put(RegistrationController());
-    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     return Form(
-      key: _formKey,
+      key: formKey,
       child: Scaffold(
         body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Padding(
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   "Registration",
                   style: TextStyle(fontWeight: FontWeight.w900, fontSize: 30),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
-                Text(
+                const Text(
                   "Please enter your personal details.",
                   textAlign: TextAlign.justify,
                   style: TextStyle(fontWeight: FontWeight.w300, fontSize: 15),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 TextFormField(
@@ -223,9 +223,9 @@ class _RegistrationPage1State extends State<RegistrationPage1> {
                 icon: const Icon(HeroiconsSolid.chevronRight,
                     color: Colors.white),
                 onPressed: () {
-                  if (_formKey.currentState!.validate()) {
+                  if (formKey.currentState!.validate()) {
                     widget.pageController.nextPage(
-                      duration: Duration(milliseconds: 500),
+                      duration: const Duration(milliseconds: 500),
                       curve: Curves.ease,
                     );
                   }

@@ -50,7 +50,7 @@ class _GoalViewState extends State<GoalView> {
             double.parse(controller.targetWeightController.text) -
                 double.parse(controller.weightController.text);
 
-        log("Debug: " + weightDifference.toString());
+        log("Debug: $weightDifference");
 
         // Calculate calorie deficit with the retrieved data.
         calDeficit = healthController.calculateCalorieChange(
@@ -80,7 +80,7 @@ class _GoalViewState extends State<GoalView> {
           int.parse(controller.ageController.text),
           int.parse(controller.calBudgetController.text),
         );
-        log("Debug: " + canReachTargetWeight.toString());
+        log("Debug: $canReachTargetWeight");
       });
     });
   }
@@ -89,8 +89,8 @@ class _GoalViewState extends State<GoalView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Padding(
-          padding: const EdgeInsets.only(top: 20, left: 5),
+        title: const Padding(
+          padding: EdgeInsets.only(top: 20, left: 5),
           child: Text(
             'Goal',
             style: TextStyle(
@@ -114,7 +114,7 @@ class _GoalViewState extends State<GoalView> {
                     BoxShadow(
                         color: Colors.grey.withOpacity(0.5),
                         blurRadius: 10,
-                        offset: Offset(0, 3))
+                        offset: const Offset(0, 3))
                   ],
                 ),
                 child: Padding(
@@ -122,12 +122,12 @@ class _GoalViewState extends State<GoalView> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         "Summary",
                         style: TextStyle(
                             fontWeight: FontWeight.w700, fontSize: 18),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       Row(
@@ -140,30 +140,30 @@ class _GoalViewState extends State<GoalView> {
                               controller.targetWeightController.text
                                   .toString()
                                   .trim())
-                            Icon(
+                            const Icon(
                               HeroiconsSolid.star,
                               color: Colors.green,
                               size: 65,
                             )
                           else if (canReachTargetWeight && daysToTarget >= 0)
-                            Icon(
+                            const Icon(
                               HeroiconsSolid.faceSmile,
                               color: Colors.green,
                               size: 65,
                             )
                           else if (daysToTarget < 0)
-                            Icon(
+                            const Icon(
                               HeroiconsSolid.faceFrown,
                               color: Colors.red,
                               size: 65,
                             )
                           else
-                            Icon(
+                            const Icon(
                               HeroiconsSolid.faceFrown,
                               color: Colors.red,
                               size: 65,
                             ),
-                          SizedBox(
+                          const SizedBox(
                             width: 20,
                           ),
                           Column(
@@ -176,7 +176,7 @@ class _GoalViewState extends State<GoalView> {
                                   controller.targetWeightController.text
                                       .toString()
                                       .trim())
-                                Text(
+                                const Text(
                                   "You've reached your goal!",
                                   style: TextStyle(
                                       color: Colors.green,
@@ -185,7 +185,7 @@ class _GoalViewState extends State<GoalView> {
                                 )
                               else if (canReachTargetWeight &&
                                   daysToTarget >= 0)
-                                Text(
+                                const Text(
                                   "You're on track!",
                                   style: TextStyle(
                                       color: Colors.green,
@@ -193,7 +193,7 @@ class _GoalViewState extends State<GoalView> {
                                       fontSize: 16),
                                 )
                               else if (daysToTarget < 0)
-                                Text(
+                                const Text(
                                   "You're late!",
                                   style: TextStyle(
                                       color: Colors.red,
@@ -201,7 +201,7 @@ class _GoalViewState extends State<GoalView> {
                                       fontSize: 16),
                                 )
                               else
-                                Text(
+                                const Text(
                                   "Keep going! You can do it!",
                                   style: TextStyle(
                                       color: Colors.red,
@@ -216,7 +216,7 @@ class _GoalViewState extends State<GoalView> {
                                   controller.targetWeightController.text
                                       .toString()
                                       .trim())
-                                Text(
+                                const Text(
                                   "Congratulations!",
                                   style: TextStyle(
                                       color: Colors.green,
@@ -225,22 +225,22 @@ class _GoalViewState extends State<GoalView> {
                                 )
                               else if (canReachTargetWeight &&
                                   daysToTarget >= 0)
-                                Text(
+                                const Text(
                                   "You can reach your goal at",
                                 )
                               else if (daysToTarget < 0)
-                                Text(
+                                const Text(
                                   "Target date has passed!",
                                 )
                               else
-                                Text(
+                                const Text(
                                   "You can't reach your goal at",
                                 ),
 
                               // Goal line 3
                               Text(
                                 targetDate,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: primaryColor,
                                     fontWeight: FontWeight.w500),
                               )
@@ -248,7 +248,7 @@ class _GoalViewState extends State<GoalView> {
                           )
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       // Goal summary
@@ -256,42 +256,30 @@ class _GoalViewState extends State<GoalView> {
                           controller.targetWeightController.text
                               .toString()
                               .trim())
-                        Text(
+                        const Text(
                           "Keep up the good work! Congratulations on reaching your goal! You can set a new goal by editing your goal.",
                           textAlign: TextAlign.justify,
                         )
                       else if (daysToTarget < 0)
-                        Text(
+                        const Text(
                           "Please set a new target date to view summary.",
                           textAlign: TextAlign.justify,
                         )
                       else if (weightDifference > 0 && calDeficit > 0)
                         Text(
-                          "I plan to keep healthy and gain " +
-                              weightDifference.abs().toStringAsFixed(2) +
-                              " kg in " +
-                              daysToTarget.toString() +
-                              " days by eating " +
-                              calDeficit.abs().toString() +
-                              " calories per day.",
+                          "I plan to keep healthy and gain ${weightDifference.abs().toStringAsFixed(2)} kg in $daysToTarget days by eating ${calDeficit.abs()} calories per day.",
                           textAlign: TextAlign.justify,
                         )
                       else // if (weightDifference > 0 && calDeficit > 0)
                         Text(
-                          "I plan to keep healthy and lose " +
-                              weightDifference.abs().toStringAsFixed(2) +
-                              " kg in " +
-                              daysToTarget.toString() +
-                              " days by eating less " +
-                              calDeficit.abs().toString() +
-                              " calories per day.",
+                          "I plan to keep healthy and lose ${weightDifference.abs().toStringAsFixed(2)} kg in $daysToTarget days by eating less ${calDeficit.abs()} calories per day.",
                           textAlign: TextAlign.justify,
                         ),
                     ],
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               Container(
@@ -302,7 +290,7 @@ class _GoalViewState extends State<GoalView> {
                     BoxShadow(
                         color: Colors.grey.withOpacity(0.5),
                         blurRadius: 10,
-                        offset: Offset(0, 3))
+                        offset: const Offset(0, 3))
                   ],
                 ),
                 child: Padding(
@@ -310,12 +298,12 @@ class _GoalViewState extends State<GoalView> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         "Weight Goal",
                         style: TextStyle(
                             fontWeight: FontWeight.w700, fontSize: 18),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       InkWell(
@@ -327,7 +315,7 @@ class _GoalViewState extends State<GoalView> {
                               "Current Weight",
                               controller.weightController.text,
                               "kg")),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       InkWell(
@@ -340,7 +328,7 @@ class _GoalViewState extends State<GoalView> {
                             controller.targetWeightController.text,
                             "kg"),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       InkWell(
@@ -354,7 +342,7 @@ class _GoalViewState extends State<GoalView> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               Container(
@@ -365,7 +353,7 @@ class _GoalViewState extends State<GoalView> {
                     BoxShadow(
                         color: Colors.grey.withOpacity(0.5),
                         blurRadius: 10,
-                        offset: Offset(0, 3))
+                        offset: const Offset(0, 3))
                   ],
                 ),
                 child: Padding(
@@ -373,12 +361,12 @@ class _GoalViewState extends State<GoalView> {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           "Calories Goal",
                           style: TextStyle(
                               fontWeight: FontWeight.w700, fontSize: 18),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         InkWell(
@@ -388,20 +376,20 @@ class _GoalViewState extends State<GoalView> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text("Daily Calories Budget"),
+                                const Text("Daily Calories Budget"),
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Text(
                                       controller.calBudgetController.text,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           color: primaryColor,
                                           fontWeight: FontWeight.w700),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 5,
                                     ),
-                                    Icon(
+                                    const Icon(
                                       HeroiconsSolid.chevronRight,
                                       size: 20,
                                     ),
@@ -409,29 +397,29 @@ class _GoalViewState extends State<GoalView> {
                                 )
                               ],
                             )),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             if (calDeficit < 0)
-                              Text("Recommended Calories Deficit")
+                              const Text("Recommended Calories Deficit")
                             else
-                              Text("Recommended Calories to Gain"),
+                              const Text("Recommended Calories to Gain"),
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
                                   calDeficit.abs().toString(),
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: primaryColor,
                                       fontWeight: FontWeight.w700),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 5,
                                 ),
-                                Text(
+                                const Text(
                                   "kcal/day",
                                   style: TextStyle(fontWeight: FontWeight.w500),
                                 ),
@@ -439,26 +427,26 @@ class _GoalViewState extends State<GoalView> {
                             )
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("Recommended Daily Calories"),
+                            const Text("Recommended Daily Calories"),
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
                                   recommendedCalories.toString(),
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: primaryColor,
                                       fontWeight: FontWeight.w700),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 5,
                                 ),
-                                Text(
+                                const Text(
                                   "kcal",
                                   style: TextStyle(fontWeight: FontWeight.w500),
                                 ),
@@ -469,14 +457,14 @@ class _GoalViewState extends State<GoalView> {
                       ]),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
             ],
           ),
         ),
       ),
-      bottomNavigationBar: BottomNav(currentIndex: 3),
+      bottomNavigationBar: const BottomNav(currentIndex: 3),
     );
   }
 
@@ -491,7 +479,7 @@ class _GoalViewState extends State<GoalView> {
               icon1,
               color: primaryColor,
             ),
-            SizedBox(
+            const SizedBox(
               width: 15,
             ),
             Text(title),
@@ -503,19 +491,19 @@ class _GoalViewState extends State<GoalView> {
               children: [
                 Text(
                   value.toString(),
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: primaryColor, fontWeight: FontWeight.w700),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 5,
                 ),
                 Text(unit),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               width: 15,
             ),
-            Icon(
+            const Icon(
               HeroiconsSolid.chevronRight,
               size: 20,
             ),

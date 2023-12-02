@@ -38,19 +38,19 @@ class _RegistrationPage3State extends State<RegistrationPage3> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   "Set Your Goal",
                   style: TextStyle(fontWeight: FontWeight.w900, fontSize: 30),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
-                Text(
+                const Text(
                   "Setting a goal helps to track your progress.",
                   textAlign: TextAlign.justify,
                   style: TextStyle(fontWeight: FontWeight.w300, fontSize: 15),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 InputRow(
@@ -87,22 +87,22 @@ class _RegistrationPage3State extends State<RegistrationPage3> {
                     controller: registrationController.targetWeightController,
                     label: "Weight Goal",
                     suffixText: "kg",
-                    keyboardType: TextInputType.numberWithOptions(
+                    keyboardType: const TextInputType.numberWithOptions(
                         decimal: true, signed: false)),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 Text(
                   weightDifference >= 0
                       ? "After 1 month, you will gain $weightDifference kg."
                       : "After 1 month, you will lose ${weightDifference.abs()} kg.",
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.w300,
                     fontSize: 16,
                   ),
                   textAlign: TextAlign.justify,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 InputRow(
@@ -124,14 +124,14 @@ class _RegistrationPage3State extends State<RegistrationPage3> {
                     controller: registrationController.calBudgetController,
                     label: "Calorie Goal",
                     suffixText: "kcal",
-                    keyboardType: TextInputType.numberWithOptions(
+                    keyboardType: const TextInputType.numberWithOptions(
                         decimal: true, signed: false)),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 Row(
                   children: [
-                    Text(
+                    const Text(
                       "Suggested: ",
                       style:
                           TextStyle(fontWeight: FontWeight.w300, fontSize: 16),
@@ -140,10 +140,10 @@ class _RegistrationPage3State extends State<RegistrationPage3> {
                     Text(
                       registrationController.getCalorieBudget().toString(),
                       style:
-                          TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+                          const TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
                       textAlign: TextAlign.justify,
                     ),
-                    Text(
+                    const Text(
                       " kcal/day",
                       style:
                           TextStyle(fontWeight: FontWeight.w300, fontSize: 16),
@@ -151,10 +151,10 @@ class _RegistrationPage3State extends State<RegistrationPage3> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
-                Text(
+                const Text(
                   "This is an estimated value calculated from your weight, height, biological sex, and age inputs.",
                   style: TextStyle(fontWeight: FontWeight.w300, fontSize: 16),
                   textAlign: TextAlign.justify,
@@ -184,7 +184,7 @@ class _RegistrationPage3State extends State<RegistrationPage3> {
                     const Icon(HeroiconsSolid.chevronLeft, color: Colors.white),
                 onPressed: () {
                   widget.pageController.previousPage(
-                    duration: Duration(milliseconds: 500),
+                    duration: const Duration(milliseconds: 500),
                     curve: Curves.ease,
                   );
                 },
@@ -223,7 +223,7 @@ class _RegistrationPage3State extends State<RegistrationPage3> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) {
-                                return RegistrationStatus(success: true);
+                                return const RegistrationStatus(success: true);
                               }),
                             );
                           } else {

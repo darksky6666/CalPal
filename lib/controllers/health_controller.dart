@@ -69,12 +69,7 @@ class HealthCalculatorController {
         adjustedWeightChange * 7700; // 7700 kcal/kg (approx.)
     double dailyCalorieChange = totalCalorieChange / daysDifference;
 
-    log("Debug: " +
-        weightDifference.toString() +
-        " " +
-        isWeightLoss.toString() +
-        " " +
-        dailyCalorieChange.toString());
+    log("Debug: $weightDifference $isWeightLoss $dailyCalorieChange");
 
     // If it's a weight loss goal, return negative calorie change; else, return positive
     return isWeightLoss
@@ -87,7 +82,7 @@ class HealthCalculatorController {
     DateTime now = DateTime.now();
     DateTime today = DateTime(now.year, now.month, now.day);
     DateTime target = DateFormat('dd/MM/yyyy').parse(targetDate);
-    log("Debug date: " + today.toString() + " " + target.toString());
+    log("Debug date: $today $target");
     return target.difference(today).inDays;
   }
 
@@ -119,19 +114,7 @@ class HealthCalculatorController {
     double maxAllowableDeficit =
         maxSafeWeightChange * 7700; // 7700 kcal/kg (approx.)
 
-    log("Debug: " +
-        " " +
-        daysDifference.toString() +
-        " " +
-        recommendedCalorieIntake.toString() +
-        " " +
-        maxAllowableDeficit.toString() +
-        " cb " +
-        calBudget.toString() +
-        " " +
-        recommendedCalorieIntake.toString() +
-        " " +
-        dailyCalorieChange.toString());
+    log("Debug:  $daysDifference $recommendedCalorieIntake $maxAllowableDeficit cb $calBudget $recommendedCalorieIntake $dailyCalorieChange");
 
     // Check if the user has enough time to reach the target weight and calorie budget is non-negative
     if (daysDifference > 0 && calBudget >= 0) {
@@ -156,10 +139,7 @@ class HealthCalculatorController {
                 calBudget >= dailyCalorieChange &&
                 dailyCalorieChange <= maxAllowableDeficit;
 
-        log("Debug: " +
-            enoughCaloriesForWeightGain.toString() +
-            " " +
-            enoughCaloriesForMaintenance.toString());
+        log("Debug: $enoughCaloriesForWeightGain $enoughCaloriesForMaintenance");
 
         return enoughCaloriesForWeightGain || enoughCaloriesForMaintenance;
       }

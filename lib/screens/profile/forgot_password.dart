@@ -30,17 +30,17 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           child: Padding(
             padding: const EdgeInsets.all(30.0),
             child: Column(children: [
-              Align(
+              const Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
                   "Forgot Password?",
                   style: TextStyle(fontWeight: FontWeight.w800, fontSize: 30),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
-              Align(
+              const Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
                     "Please enter your email address and we'll send you a link to reset your password.",
@@ -48,7 +48,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     style:
                         TextStyle(fontWeight: FontWeight.w300, fontSize: 14)),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               FractionallySizedBox(
@@ -82,7 +82,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 40,
               ),
               FractionallySizedBox(
@@ -100,13 +100,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       Navigator.pop(context);
                     }
                   },
-                  child: Text(
+                  child: const Text(
                     "Send Reset Link",
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
             ]),

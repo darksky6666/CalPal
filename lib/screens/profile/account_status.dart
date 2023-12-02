@@ -26,11 +26,11 @@ class _AccountStatusState extends State<AccountStatus> {
           padding: const EdgeInsets.all(20.0),
           child: widget.success
               // If successful
-              ? successView(
+              ? SuccessView(
                   message: widget.message ?? " ",
                 )
               // If not successful
-              : notSuccessView(
+              : NotSuccessView(
                   error: widget.message ??
                       "There's some unexpected error. Please try again.",
                 ),
@@ -38,8 +38,8 @@ class _AccountStatusState extends State<AccountStatus> {
   }
 }
 
-class successView extends StatelessWidget {
-  const successView({
+class SuccessView extends StatelessWidget {
+  const SuccessView({
     super.key,
     required this.message,
   });
@@ -49,25 +49,25 @@ class successView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-      Icon(HeroiconsSolid.checkCircle, size: 100, color: Colors.green),
-      SizedBox(height: 20),
-      Text(
+      const Icon(HeroiconsSolid.checkCircle, size: 100, color: Colors.green),
+      const SizedBox(height: 20),
+      const Text(
         'Operation Successful!',
         style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
       ),
-      SizedBox(height: 15),
+      const SizedBox(height: 15),
       Text(
         message,
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
       ),
-      SizedBox(height: 15),
-      Text(
+      const SizedBox(height: 15),
+      const Text(
         'Please login again to continue using CalPal.',
         textAlign: TextAlign.center,
         style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
       ),
-      SizedBox(height: 40),
+      const SizedBox(height: 40),
       FractionallySizedBox(
         widthFactor: 1,
         child: ElevatedButton(
@@ -81,10 +81,10 @@ class successView extends StatelessWidget {
             Navigator.popUntil(context, (route) => route.isFirst);
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (context) {
-              return LoginState();
+              return const LoginState();
             }));
           },
-          child: Text(
+          child: const Text(
             "Back to Login",
             style: TextStyle(color: Colors.white),
           ),
@@ -94,8 +94,8 @@ class successView extends StatelessWidget {
   }
 }
 
-class notSuccessView extends StatelessWidget {
-  const notSuccessView({super.key, required this.error});
+class NotSuccessView extends StatelessWidget {
+  const NotSuccessView({super.key, required this.error});
   final String error;
 
   @override
@@ -103,25 +103,25 @@ class notSuccessView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Icon(HeroiconsSolid.xCircle, size: 100, color: Colors.red),
-        SizedBox(height: 20),
-        Text(
+        const Icon(HeroiconsSolid.xCircle, size: 100, color: Colors.red),
+        const SizedBox(height: 20),
+        const Text(
           'Operation Failed',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
         ),
-        SizedBox(height: 15),
+        const SizedBox(height: 15),
         Text(
           'Error encountered: $error',
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
         ),
-        SizedBox(height: 15),
-        Text(
+        const SizedBox(height: 15),
+        const Text(
           'Please try again.',
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
         ),
-        SizedBox(height: 40),
+        const SizedBox(height: 40),
         FractionallySizedBox(
           widthFactor: 1,
           child: ElevatedButton(
@@ -134,7 +134,7 @@ class notSuccessView extends StatelessWidget {
             onPressed: () {
               Navigator.pop(context);
             },
-            child: Text(
+            child: const Text(
               "Go Back",
               style: TextStyle(color: Colors.white),
             ),

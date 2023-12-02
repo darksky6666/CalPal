@@ -18,9 +18,9 @@ class _AccountInfoState extends State<AccountInfo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Padding(
-          padding: const EdgeInsets.only(left: 10),
-          child: const Text(
+        title: const Padding(
+          padding: EdgeInsets.only(left: 10),
+          child: Text(
             'Account Settings',
             style: TextStyle(
               color: Colors.black,
@@ -38,10 +38,10 @@ class _AccountInfoState extends State<AccountInfo> {
             InkWell(
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return ChangeEmail();
+                  return const ChangeEmail();
                 }));
               },
-              child: Row(
+              child: const Row(
                 children: [
                   Text(
                     "Change Email",
@@ -52,14 +52,14 @@ class _AccountInfoState extends State<AccountInfo> {
                 ],
               ),
             ),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             InkWell(
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return ChangePassword();
+                  return const ChangePassword();
                 }));
               },
-              child: Row(
+              child: const Row(
                 children: [
                   Text(
                     "Change Password",
@@ -70,14 +70,14 @@ class _AccountInfoState extends State<AccountInfo> {
                 ],
               ),
             ),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             InkWell(
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return DeleteAccount();
+                  return const DeleteAccount();
                 }));
               },
-              child: Row(
+              child: const Row(
                 children: [
                   Text(
                     "Delete Account",
@@ -88,11 +88,11 @@ class _AccountInfoState extends State<AccountInfo> {
                 ],
               ),
             ),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
           ]),
         ),
       ),
-      bottomNavigationBar: BottomNav(currentIndex: 4),
+      bottomNavigationBar: const BottomNav(currentIndex: 4),
     );
   }
 }

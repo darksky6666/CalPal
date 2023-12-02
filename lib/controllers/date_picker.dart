@@ -15,11 +15,11 @@ class DateLogic {
   }
 
   void navigateToPreviousDay() {
-    currentDate = currentDate.subtract(Duration(days: 1));
+    currentDate = currentDate.subtract(const Duration(days: 1));
   }
 
   void navigateToNextDay() {
-    currentDate = currentDate.add(Duration(days: 1));
+    currentDate = currentDate.add(const Duration(days: 1));
   }
 
   DateTime getCurrentDate() {
@@ -36,11 +36,11 @@ class DateLogic {
   }
 
   void navigateToPreviousWeek() {
-    currentDate = getStartOfWeek(currentDate).subtract(Duration(days: 7));
+    currentDate = getStartOfWeek(currentDate).subtract(const Duration(days: 7));
   }
 
   void navigateToNextWeek() {
-    currentDate = getStartOfWeek(currentDate).add(Duration(days: 7));
+    currentDate = getStartOfWeek(currentDate).add(const Duration(days: 7));
   }
 
   int getWeekNumber(DateTime date) {

@@ -27,9 +27,9 @@ class _RegistrationStatusState extends State<RegistrationStatus> {
           padding: const EdgeInsets.all(20.0),
           child: widget.success
               // If successful
-              ? successView()
+              ? const SuccessView()
               // If not successful
-              : notSuccessView(
+              : NotSuccessView(
                   error: widget.error ??
                       "There's some unexpected error. Please try again.",
                 ),
@@ -37,8 +37,8 @@ class _RegistrationStatusState extends State<RegistrationStatus> {
   }
 }
 
-class successView extends StatelessWidget {
-  const successView({
+class SuccessView extends StatelessWidget {
+  const SuccessView({
     super.key,
   });
 
@@ -46,37 +46,37 @@ class successView extends StatelessWidget {
   Widget build(BuildContext context) {
     final registrationController = Get.put(RegistrationController());
     return Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-      Icon(HeroiconsSolid.checkCircle, size: 100, color: Colors.green),
-      SizedBox(height: 20),
-      Text(
+      const Icon(HeroiconsSolid.checkCircle, size: 100, color: Colors.green),
+      const SizedBox(height: 20),
+      const Text(
         'Account Created Successfully!',
         style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
       ),
-      SizedBox(height: 15),
+      const SizedBox(height: 15),
       Text(
         'Welcome to CalPal, ${registrationController.nameController.text}!',
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
       ),
-      SizedBox(height: 15),
+      const SizedBox(height: 15),
       Column(
         children: [
-          Text(
+          const Text(
             'Please check your email at',
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
           ),
           Text(
             registrationController.emailController.text,
-            style: TextStyle(
+            style: const TextStyle(
                 fontSize: 16, fontWeight: FontWeight.w400, color: purpleColor),
           ),
-          Text(
+          const Text(
             'to verify your account.',
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
           ),
         ],
       ),
-      SizedBox(height: 40),
+      const SizedBox(height: 40),
       FractionallySizedBox(
         widthFactor: 1,
         child: ElevatedButton(
@@ -91,10 +91,10 @@ class successView extends StatelessWidget {
             Navigator.popUntil(context, (route) => route.isFirst);
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (context) {
-              return LoginState();
+              return const LoginState();
             }));
           },
-          child: Text(
+          child: const Text(
             "Back to Login",
             style: TextStyle(color: Colors.white),
           ),
@@ -104,8 +104,8 @@ class successView extends StatelessWidget {
   }
 }
 
-class notSuccessView extends StatelessWidget {
-  const notSuccessView({super.key, required this.error});
+class NotSuccessView extends StatelessWidget {
+  const NotSuccessView({super.key, required this.error});
   final String error;
 
   @override
@@ -113,19 +113,19 @@ class notSuccessView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Icon(HeroiconsSolid.xCircle, size: 100, color: Colors.red),
-        SizedBox(height: 20),
-        Text(
+        const Icon(HeroiconsSolid.xCircle, size: 100, color: Colors.red),
+        const SizedBox(height: 20),
+        const Text(
           'Account Creation Failed',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
         ),
-        SizedBox(height: 15),
+        const SizedBox(height: 15),
         Text(
           'Error encountered: $error',
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
         ),
-        SizedBox(height: 40),
+        const SizedBox(height: 40),
         FractionallySizedBox(
           widthFactor: 1,
           child: ElevatedButton(
@@ -138,10 +138,10 @@ class notSuccessView extends StatelessWidget {
             onPressed: () {
               Navigator.popUntil(context, (route) => route.isFirst);
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return RegistrationPage();
+                return const RegistrationPage();
               }));
             },
-            child: Text(
+            child: const Text(
               "Back to Registration",
               style: TextStyle(color: Colors.white),
             ),

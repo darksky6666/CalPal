@@ -49,17 +49,17 @@ class _ChangeEmailState extends State<ChangeEmail> {
           child: Padding(
             padding: const EdgeInsets.all(30.0),
             child: Column(children: [
-              Align(
+              const Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
                   "Change Email?",
                   style: TextStyle(fontWeight: FontWeight.w800, fontSize: 30),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
-              Align(
+              const Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
                     "Please enter your email address and password. We need to verify that it's you before we change your email address.",
@@ -67,7 +67,7 @@ class _ChangeEmailState extends State<ChangeEmail> {
                     style:
                         TextStyle(fontWeight: FontWeight.w300, fontSize: 14)),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
 
@@ -106,7 +106,7 @@ class _ChangeEmailState extends State<ChangeEmail> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               // New email address
@@ -239,7 +239,7 @@ class _ChangeEmailState extends State<ChangeEmail> {
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: Text("Confirm Changing Email?"),
+                            title: const Text("Confirm Changing Email?"),
                             content: Text(
                               "Your new email is ${newEmailController.text}",
                             ),
@@ -249,7 +249,7 @@ class _ChangeEmailState extends State<ChangeEmail> {
                                   Navigator.of(context)
                                       .pop(); // Close the alert dialog
                                 },
-                                child: Text("Cancel",
+                                child: const Text("Cancel",
                                     style: TextStyle(
                                       color: Colors.black,
                                     )),
@@ -296,7 +296,7 @@ class _ChangeEmailState extends State<ChangeEmail> {
                                         fontSize: 16.0);
                                   }
                                 },
-                                child: Text("Confirm",
+                                child: const Text("Confirm",
                                     style:
                                         TextStyle(fontWeight: FontWeight.w900)),
                               ),
@@ -306,13 +306,13 @@ class _ChangeEmailState extends State<ChangeEmail> {
                       );
                     }
                   },
-                  child: Text(
+                  child: const Text(
                     "Change Email",
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
             ]),

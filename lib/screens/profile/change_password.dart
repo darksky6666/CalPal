@@ -49,17 +49,17 @@ class _ChangePasswordState extends State<ChangePassword> {
           child: Padding(
             padding: const EdgeInsets.all(30.0),
             child: Column(children: [
-              Align(
+              const Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
                   "Change Password?",
                   style: TextStyle(fontWeight: FontWeight.w800, fontSize: 30),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
-              Align(
+              const Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
                     "Please enter your current email address and password. We need to verify that it's you before we change your password.",
@@ -67,7 +67,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                     style:
                         TextStyle(fontWeight: FontWeight.w300, fontSize: 14)),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               FractionallySizedBox(
@@ -104,7 +104,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               TextFormField(
@@ -246,8 +246,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: Text("Confirm changing password?"),
-                            content: Text(
+                            title: const Text("Confirm changing password?"),
+                            content: const Text(
                               "Warning: This action cannot be undone!",
                               style: TextStyle(fontWeight: FontWeight.w800),
                             ),
@@ -257,7 +257,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                                   Navigator.of(context)
                                       .pop(); // Close the alert dialog
                                 },
-                                child: Text("Cancel",
+                                child: const Text("Cancel",
                                     style: TextStyle(
                                       color: Colors.black,
                                     )),
@@ -302,7 +302,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                                         fontSize: 16.0);
                                   }
                                 },
-                                child: Text("Confirm",
+                                child: const Text("Confirm",
                                     style:
                                         TextStyle(fontWeight: FontWeight.w900)),
                               ),
@@ -312,13 +312,13 @@ class _ChangePasswordState extends State<ChangePassword> {
                       );
                     }
                   },
-                  child: Text(
+                  child: const Text(
                     "Change Password",
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
             ]),

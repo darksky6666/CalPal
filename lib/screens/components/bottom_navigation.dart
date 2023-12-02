@@ -60,7 +60,7 @@ class _BottomNavState extends State<BottomNav> {
                   context,
                   PageRouteBuilder(
                     pageBuilder: (context, animation1, animation2) =>
-                        HomeView(),
+                        const HomeView(),
                     transitionDuration: Duration.zero,
                     reverseTransitionDuration: Duration.zero,
                   ));
@@ -70,7 +70,7 @@ class _BottomNavState extends State<BottomNav> {
                 context,
                 PageRouteBuilder(
                   pageBuilder: (context, animation1, animation2) =>
-                      AnalysisView(),
+                      const AnalysisView(),
                   transitionDuration: Duration.zero,
                   reverseTransitionDuration: Duration.zero,
                 ),

@@ -80,9 +80,9 @@ class _EditGoalState extends State<EditGoal> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Padding(
-          padding: const EdgeInsets.only(left: 10),
-          child: const Text(
+        title: const Padding(
+          padding: EdgeInsets.only(left: 10),
+          child: Text(
             'Edit Goal',
             style: TextStyle(
               color: Colors.black,
@@ -150,7 +150,7 @@ class _EditGoalState extends State<EditGoal> {
                 }
               }
             },
-            child: Text(
+            child: const Text(
               'Save',
               style: TextStyle(
                   color: primaryColor,
@@ -166,32 +166,32 @@ class _EditGoalState extends State<EditGoal> {
           scrollDirection: Axis.vertical,
           clipBehavior: Clip.none,
           child: Column(children: [
-            Text(
+            const Text(
               "This data will be used to estimate your calorie budget, which uses height, weight, biological sex, and age as inputs.",
               textAlign: TextAlign.justify,
               style: TextStyle(
                 fontWeight: FontWeight.w300,
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             InputRow(
                 controller: controller.weightController,
                 label: "Current Weight",
                 suffixText: "kg",
-                keyboardType: TextInputType.numberWithOptions(
+                keyboardType: const TextInputType.numberWithOptions(
                     decimal: true, signed: false)),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             InputRow(
                 controller: controller.targetWeightController,
                 label: "Target Weight",
                 suffixText: "kg",
-                keyboardType: TextInputType.numberWithOptions(
+                keyboardType: const TextInputType.numberWithOptions(
                     decimal: true, signed: false)),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text(
+                const Text(
                   "Target Date",
                   textAlign: TextAlign.left,
                   style: TextStyle(
@@ -207,7 +207,7 @@ class _EditGoalState extends State<EditGoal> {
                       onTap: () {
                         _selectDate(context);
                       },
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         suffixIcon: Icon(
                           HeroiconsSolid.calendar,
                           size: 20,
@@ -220,23 +220,23 @@ class _EditGoalState extends State<EditGoal> {
                     )),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             InputRow(
                 controller: controller.calBudgetController,
                 label: "Daily Calorie Budget",
                 suffixText: "",
-                keyboardType: TextInputType.numberWithOptions(
+                keyboardType: const TextInputType.numberWithOptions(
                     decimal: false, signed: false)),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(),
-                Spacer(),
-                Container(
+                const Spacer(),
+                SizedBox(
                   width: MediaQuery.of(context).size.width * 0.4,
                   child: Text(
-                    "Suggest: " + recommendedCalories.toString() + " kcal/day",
+                    "Suggest: $recommendedCalories kcal/day",
                   ),
                 ),
               ],

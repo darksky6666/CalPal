@@ -122,10 +122,10 @@ class _NutrientViewState extends State<NutrientView> {
                   padding: const EdgeInsets.only(
                       top: 15, left: 15, right: 15, bottom: 25),
                   child: Column(children: [
-                    Align(
+                    const Align(
                       alignment: Alignment.centerLeft,
                       child: Text("Nutrient Summary",
-                          style: const TextStyle(
+                          style: TextStyle(
                               fontWeight: FontWeight.w700, fontSize: 18)),
                     ),
                     const SizedBox(height: 20),
@@ -152,14 +152,14 @@ class _NutrientViewState extends State<NutrientView> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             percentage > 100
-                                ? Text(
+                                ? const Text(
                                     "You've exceeded your goal!",
                                     style: TextStyle(
                                         color: Colors.red,
                                         fontWeight: FontWeight.w800,
                                         fontSize: 17),
                                   )
-                                : Text(
+                                : const Text(
                                     "You're on track!",
                                     style: TextStyle(
                                         color: primaryColor,
@@ -168,14 +168,14 @@ class _NutrientViewState extends State<NutrientView> {
                                   ),
                             const SizedBox(height: 5),
                             percentage > 100
-                                ? Text(
+                                ? const Text(
                                     "Try to reduce your intake.",
                                     style: TextStyle(
                                         color: Colors.red,
                                         fontWeight: FontWeight.w500,
                                         fontSize: 16),
                                   )
-                                : Text(
+                                : const Text(
                                     "Keep it up!",
                                     style: TextStyle(
                                         color: primaryColor,

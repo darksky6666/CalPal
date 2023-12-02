@@ -159,7 +159,7 @@ class AuthService {
       if (user != null) {
         // Create a new user data
         DateTime currentDate = DateTime.now();
-        DateTime dateAfterOneMonth = currentDate.add(Duration(days: 30));
+        DateTime dateAfterOneMonth = currentDate.add(const Duration(days: 30));
         String formattedDate =
             DateFormat('dd/MM/yyyy').format(dateAfterOneMonth);
 

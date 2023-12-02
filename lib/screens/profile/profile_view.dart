@@ -37,8 +37,8 @@ class _ProfileViewState extends State<ProfileView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Padding(
-          padding: const EdgeInsets.only(top: 20, left: 5),
+        title: const Padding(
+          padding: EdgeInsets.only(top: 20, left: 5),
           child: Text(
             'User Profile',
             style: TextStyle(
@@ -56,13 +56,13 @@ class _ProfileViewState extends State<ProfileView> {
               InkWell(
                 onTap: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => UserProfile()));
+                      MaterialPageRoute(builder: (context) => const UserProfile()));
                 },
                 child: Container(
                   height: MediaQuery.of(context).size.height * 0.1,
                   decoration: BoxDecoration(
                     color: purpleColor,
-                    borderRadius: BorderRadius.all(
+                    borderRadius: const BorderRadius.all(
                       Radius.circular(10),
                     ),
                     boxShadow: [
@@ -70,7 +70,7 @@ class _ProfileViewState extends State<ProfileView> {
                         color: Colors.grey.withOpacity(0.5),
                         spreadRadius: 0,
                         blurRadius: 10,
-                        offset: Offset(0, 3), // changes position of shadow
+                        offset: const Offset(0, 3), // changes position of shadow
                       ),
                     ],
                   ),
@@ -79,48 +79,46 @@ class _ProfileViewState extends State<ProfileView> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Container(
-                          child: Row(
-                            children: [
-                              CircularProfileAvatar(
-                                '', // Change image here
-                                radius: 25,
-                                backgroundColor: Colors.white,
-                                showInitialTextAbovePicture: true,
-                                imageFit: BoxFit.cover,
-                                initialsText: Text(
-                                  name[0],
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w700),
-                                ),
+                        Row(
+                          children: [
+                            CircularProfileAvatar(
+                              '', // Change image here
+                              radius: 25,
+                              backgroundColor: Colors.white,
+                              showInitialTextAbovePicture: true,
+                              imageFit: BoxFit.cover,
+                              initialsText: Text(
+                                name[0],
+                                style: const TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w700),
                               ),
-                              SizedBox(
-                                width: 15,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    name,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                    ),
+                            ),
+                            const SizedBox(
+                              width: 15,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  name,
+                                  style: const TextStyle(
+                                    color: Colors.white,
                                   ),
-                                  Text(
-                                    'Edit Profile',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
+                                ),
+                                const Text(
+                                  'Edit Profile',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ],
                         ),
-                        Spacer(),
-                        Icon(
+                        const Spacer(),
+                        const Icon(
                           HeroiconsSolid.chevronRight,
                           color: Colors.white,
                         )
@@ -129,7 +127,7 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
 
@@ -145,7 +143,7 @@ class _ProfileViewState extends State<ProfileView> {
                       color: Colors.grey.withOpacity(0.5),
                       spreadRadius: 0,
                       blurRadius: 5,
-                      offset: Offset(0, 3), // changes position of shadow
+                      offset: const Offset(0, 3), // changes position of shadow
                     ),
                   ],
                 ),
@@ -155,12 +153,12 @@ class _ProfileViewState extends State<ProfileView> {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           'Information',
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.w700),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         InkWell(
@@ -168,9 +166,9 @@ class _ProfileViewState extends State<ProfileView> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => PersonalInfo()));
+                                    builder: (context) => const PersonalInfo()));
                           },
-                          child: Row(
+                          child: const Row(
                             children: [
                               Text('Personal Info',
                                   style: TextStyle(
@@ -187,7 +185,7 @@ class _ProfileViewState extends State<ProfileView> {
                       ]),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
 
@@ -203,7 +201,7 @@ class _ProfileViewState extends State<ProfileView> {
                       color: Colors.grey.withOpacity(0.5),
                       spreadRadius: 0,
                       blurRadius: 5,
-                      offset: Offset(0, 3), // changes position of shadow
+                      offset: const Offset(0, 3), // changes position of shadow
                     ),
                   ],
                 ),
@@ -213,12 +211,12 @@ class _ProfileViewState extends State<ProfileView> {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           'Account',
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.w700),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         InkWell(
@@ -226,9 +224,9 @@ class _ProfileViewState extends State<ProfileView> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => AccountInfo()));
+                                    builder: (context) => const AccountInfo()));
                           },
-                          child: Row(
+                          child: const Row(
                             children: [
                               Text('Account Settings',
                                   style: TextStyle(
@@ -242,7 +240,7 @@ class _ProfileViewState extends State<ProfileView> {
                             ],
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         InkWell(
@@ -250,9 +248,9 @@ class _ProfileViewState extends State<ProfileView> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => AboutApp()));
+                                    builder: (context) => const AboutApp()));
                           },
-                          child: Row(
+                          child: const Row(
                             children: [
                               Text('About App',
                                   style: TextStyle(
@@ -266,7 +264,7 @@ class _ProfileViewState extends State<ProfileView> {
                             ],
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         InkWell(
@@ -276,16 +274,16 @@ class _ProfileViewState extends State<ProfileView> {
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
-                                  title: Text("Confirm log out?"),
+                                  title: const Text("Confirm log out?"),
                                   content:
-                                      Text("Are you sure you want to log out?"),
+                                      const Text("Are you sure you want to log out?"),
                                   actions: [
                                     TextButton(
                                       onPressed: () {
                                         Navigator.of(context)
                                             .pop(); // Close the alert dialog
                                       },
-                                      child: Text("Cancel"),
+                                      child: const Text("Cancel"),
                                     ),
                                     TextButton(
                                       onPressed: () {
@@ -297,7 +295,7 @@ class _ProfileViewState extends State<ProfileView> {
                                         Navigator.pushReplacementNamed(
                                             context, '/');
                                       },
-                                      child: Text(
+                                      child: const Text(
                                         "Logout",
                                       ),
                                     ),
@@ -306,7 +304,7 @@ class _ProfileViewState extends State<ProfileView> {
                               },
                             );
                           },
-                          child: Row(
+                          child: const Row(
                             children: [
                               Text('Log out',
                                   style: TextStyle(
@@ -327,7 +325,7 @@ class _ProfileViewState extends State<ProfileView> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNav(currentIndex: 4),
+      bottomNavigationBar: const BottomNav(currentIndex: 4),
     );
   }
 }

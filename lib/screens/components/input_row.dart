@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class InputRow extends StatelessWidget {
-  InputRow({
+  const InputRow({
     super.key,
     required this.controller,
     required this.label,

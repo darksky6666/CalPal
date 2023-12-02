@@ -32,19 +32,19 @@ class _RegistrationPage2State extends State<RegistrationPage2> {
             padding: const EdgeInsets.all(20.0),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(
+              const Text(
                 "Physical Profile",
                 style: TextStyle(fontWeight: FontWeight.w900, fontSize: 30),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
-              Text(
+              const Text(
                 "This data will be used to estimate your calorie budget, which uses height, weight, biological sex, and age as inputs.",
                 textAlign: TextAlign.justify,
                 style: TextStyle(fontWeight: FontWeight.w300, fontSize: 15),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               InputRow(
@@ -62,9 +62,9 @@ class _RegistrationPage2State extends State<RegistrationPage2> {
                   controller: registrationController.heightController,
                   label: 'Height',
                   suffixText: 'cm',
-                  keyboardType: TextInputType.numberWithOptions(
+                  keyboardType: const TextInputType.numberWithOptions(
                       decimal: false, signed: false)),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               InputRow(
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -80,9 +80,9 @@ class _RegistrationPage2State extends State<RegistrationPage2> {
                   controller: registrationController.weightController,
                   label: 'Weight',
                   suffixText: 'kg',
-                  keyboardType: TextInputType.numberWithOptions(
+                  keyboardType: const TextInputType.numberWithOptions(
                       decimal: true, signed: false)),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               InputRow(
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -98,14 +98,14 @@ class _RegistrationPage2State extends State<RegistrationPage2> {
                   controller: registrationController.ageController,
                   label: 'Age',
                   suffixText: 'years',
-                  keyboardType: TextInputType.numberWithOptions(
+                  keyboardType: const TextInputType.numberWithOptions(
                       decimal: false, signed: false)),
-              SizedBox(
+              const SizedBox(
                 height: 25,
               ),
               Row(
                 children: [
-                  Text(
+                  const Text(
                     "Biological Sex",
                     textAlign: TextAlign.left,
                     style: TextStyle(
@@ -124,7 +124,7 @@ class _RegistrationPage2State extends State<RegistrationPage2> {
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
-                        child: Container(
+                        child: SizedBox(
                             width: MediaQuery.of(context).size.width * 0.3,
                             child: Text(value)),
                       );
@@ -132,12 +132,12 @@ class _RegistrationPage2State extends State<RegistrationPage2> {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 25,
               ),
               Row(
                 children: [
-                  Text(
+                  const Text(
                     "Medical Condition",
                     textAlign: TextAlign.left,
                     style: TextStyle(
@@ -156,7 +156,7 @@ class _RegistrationPage2State extends State<RegistrationPage2> {
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
-                        child: Container(
+                        child: SizedBox(
                             width: MediaQuery.of(context).size.width * 0.3,
                             child: Text(value)),
                       );
@@ -188,7 +188,7 @@ class _RegistrationPage2State extends State<RegistrationPage2> {
                     const Icon(HeroiconsSolid.chevronLeft, color: Colors.white),
                 onPressed: () {
                   widget.pageController.previousPage(
-                    duration: Duration(milliseconds: 500),
+                    duration: const Duration(milliseconds: 500),
                     curve: Curves.ease,
                   );
                 },
@@ -209,7 +209,7 @@ class _RegistrationPage2State extends State<RegistrationPage2> {
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     widget.pageController.nextPage(
-                      duration: Duration(milliseconds: 500),
+                      duration: const Duration(milliseconds: 500),
                       curve: Curves.ease,
                     );
                   }

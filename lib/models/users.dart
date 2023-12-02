@@ -50,7 +50,7 @@ class UserModel {
           gravity: ToastGravity.BOTTOM,
           backgroundColor: Colors.red,
           textColor: Colors.white);
-      return UserModel();
+      return const UserModel();
     }
   }
 }

@@ -26,16 +26,16 @@ class _NutrientProgressBarState extends State<NutrientProgressBar> {
       children: [
         Text(
           widget.nutrientName,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 16,
           ),
         ),
-        Spacer(),
+        const Spacer(),
         Row(
           children: [
             Text(
-              '${widget.consumed.toStringAsFixed(1)}',
-              style: TextStyle(
+              widget.consumed.toStringAsFixed(1),
+              style: const TextStyle(
                 color: primaryColor,
                 fontWeight: FontWeight.w900,
                 fontSize: 16,
@@ -45,12 +45,12 @@ class _NutrientProgressBarState extends State<NutrientProgressBar> {
                 widget.nutrientName == 'Sodium' ||
                 widget.nutrientName == 'Potassium')
               Text(' mg / ${widget.dailyGoal.toStringAsFixed(1)} mg',
-                  style: TextStyle(fontSize: 16))
+                  style: const TextStyle(fontSize: 16))
             else
               Text(' g / ${widget.dailyGoal.toStringAsFixed(1)} g',
-                  style: TextStyle(fontSize: 16)),
-            SizedBox(width: 10),
-            Container(
+                  style: const TextStyle(fontSize: 16)),
+            const SizedBox(width: 10),
+            SizedBox(
               width: MediaQuery.of(context).orientation == Orientation.portrait
                   ? MediaQuery.of(context).size.width * 0.13
                   : MediaQuery.of(context).size.width * 0.5,
@@ -68,8 +68,8 @@ class _NutrientProgressBarState extends State<NutrientProgressBar> {
                 ),
               ),
             ),
-            SizedBox(width: 10),
-            Icon(HeroiconsSolid.chevronRight),
+            const SizedBox(width: 10),
+            const Icon(HeroiconsSolid.chevronRight),
           ],
         ),
       ],

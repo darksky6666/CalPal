@@ -15,7 +15,7 @@ import 'package:get/get.dart';
 import 'package:heroicons_flutter/heroicons_flutter.dart';
 
 class EditMeal extends StatefulWidget {
-  EditMeal(
+  const EditMeal(
       {super.key,
       required this.docId,
       required this.date,
@@ -134,7 +134,7 @@ class _EditMealState extends State<EditMeal> {
           padding: const EdgeInsets.only(left: 10),
           child: Text(
             foodNameDB,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.w800,
               fontSize: 20,
@@ -185,7 +185,7 @@ class _EditMealState extends State<EditMeal> {
                     context,
                     PageRouteBuilder(
                       pageBuilder: (context, animation1, animation2) =>
-                          HomeView(),
+                          const HomeView(),
                       transitionDuration: Duration.zero,
                       reverseTransitionDuration: Duration.zero,
                     ));
@@ -208,7 +208,7 @@ class _EditMealState extends State<EditMeal> {
                     fontSize: 16.0);
               }
             },
-            child: Text(
+            child: const Text(
               'Save',
               style: TextStyle(
                   color: primaryColor,
@@ -231,7 +231,7 @@ class _EditMealState extends State<EditMeal> {
                   BoxShadow(
                       color: Colors.grey.withOpacity(0.5),
                       blurRadius: 10,
-                      offset: Offset(0, 3))
+                      offset: const Offset(0, 3))
                 ],
               ),
               height: 250,
@@ -242,7 +242,7 @@ class _EditMealState extends State<EditMeal> {
                 fit: BoxFit.cover,
               ),
             ),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             if (isSuitable == false)
               Container(
                 width: MediaQuery.of(context).size.width * 0.9,
@@ -253,7 +253,7 @@ class _EditMealState extends State<EditMeal> {
                     BoxShadow(
                         color: Colors.grey.withOpacity(0.5),
                         blurRadius: 10,
-                        offset: Offset(0, 3))
+                        offset: const Offset(0, 3))
                   ],
                 ),
                 child: Padding(
@@ -262,25 +262,25 @@ class _EditMealState extends State<EditMeal> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TitleName("Alert"),
-                      SizedBox(height: 15),
-                      Align(
+                      titleName("Alert"),
+                      const SizedBox(height: 15),
+                      const Align(
                           alignment: Alignment.center,
                           child: Icon(HeroiconsSolid.faceFrown,
                               color: Colors.red, size: 60)),
-                      SizedBox(height: 10),
-                      Text(
+                      const SizedBox(height: 10),
+                      const Text(
                         "This food is not suitable for your health condition.",
                         style: TextStyle(fontSize: 16),
                         textAlign: TextAlign.center,
                       ),
-                      SizedBox(height: 10),
-                      Text(
+                      const SizedBox(height: 10),
+                      const Text(
                         "Reason:",
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w600),
                       ),
-                      SizedBox(height: 3),
+                      const SizedBox(height: 3),
                       ExpandableText(
                         reason,
                         expandText: "show more",
@@ -289,7 +289,7 @@ class _EditMealState extends State<EditMeal> {
                         linkColor: primaryColor,
                         textAlign: TextAlign.justify,
                       ),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                       Align(
                         alignment: Alignment.bottomRight,
                         child: TextButton(
@@ -298,7 +298,7 @@ class _EditMealState extends State<EditMeal> {
                                 isSuitable = true;
                               });
                             },
-                            child: Text(
+                            child: const Text(
                               "Dismiss",
                               style: TextStyle(
                                   color: purpleColor,
@@ -320,7 +320,7 @@ class _EditMealState extends State<EditMeal> {
                   BoxShadow(
                       color: Colors.grey.withOpacity(0.5),
                       blurRadius: 10,
-                      offset: Offset(0, 3))
+                      offset: const Offset(0, 3))
                 ],
               ),
               child: Padding(
@@ -328,11 +328,11 @@ class _EditMealState extends State<EditMeal> {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TitleName("Meal Details"),
-                      SizedBox(height: 20),
+                      titleName("Meal Details"),
+                      const SizedBox(height: 20),
                       Row(
                         children: [
-                          Text(
+                          const Text(
                             "Meal Type",
                             textAlign: TextAlign.left,
                             style: TextStyle(
@@ -352,7 +352,7 @@ class _EditMealState extends State<EditMeal> {
                                 .map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
-                                child: Container(
+                                child: SizedBox(
                                     width:
                                         MediaQuery.of(context).size.width * 0.3,
                                     child: Text(value)),
@@ -361,10 +361,10 @@ class _EditMealState extends State<EditMeal> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       Row(
                         children: [
-                          Text(
+                          const Text(
                             "Serving Unit",
                             textAlign: TextAlign.left,
                             style: TextStyle(
@@ -391,7 +391,7 @@ class _EditMealState extends State<EditMeal> {
                             ].map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
-                                child: Container(
+                                child: SizedBox(
                                     width:
                                         MediaQuery.of(context).size.width * 0.3,
                                     child: Text(value)),
@@ -403,7 +403,7 @@ class _EditMealState extends State<EditMeal> {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Text(
+                          const Text(
                             "Serving Size",
                             textAlign: TextAlign.left,
                             style: TextStyle(
@@ -420,8 +420,9 @@ class _EditMealState extends State<EditMeal> {
                               },
                               focusNode: _focusNode,
                               controller: servingSizeController,
-                              keyboardType: TextInputType.numberWithOptions(
-                                  decimal: true, signed: false),
+                              keyboardType:
+                                  const TextInputType.numberWithOptions(
+                                      decimal: true, signed: false),
                             ),
                           ),
                         ],
@@ -429,7 +430,7 @@ class _EditMealState extends State<EditMeal> {
                     ]),
               ),
             ),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             Container(
               width: MediaQuery.of(context).size.width * 0.9,
               decoration: BoxDecoration(
@@ -439,7 +440,7 @@ class _EditMealState extends State<EditMeal> {
                   BoxShadow(
                       color: Colors.grey.withOpacity(0.5),
                       blurRadius: 10,
-                      offset: Offset(0, 3))
+                      offset: const Offset(0, 3))
                 ],
               ),
               child: Padding(
@@ -447,44 +448,44 @@ class _EditMealState extends State<EditMeal> {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TitleName("Calories and Nutrients Info"),
-                      SizedBox(height: 20),
-                      NutrientInfoRow("Serving Size (in grams)",
+                      titleName("Calories and Nutrients Info"),
+                      const SizedBox(height: 20),
+                      nutrientInfoRow("Serving Size (in grams)",
                           "${foodData?['serving_weight_grams']}", "g"),
-                      SizedBox(height: 20),
-                      NutrientInfoRow(
+                      const SizedBox(height: 20),
+                      nutrientInfoRow(
                           "Calories", "${foodData?['nf_calories']}", "kcal"),
-                      SizedBox(height: 20),
-                      NutrientInfoRow("Carbohydrate",
+                      const SizedBox(height: 20),
+                      nutrientInfoRow("Carbohydrate",
                           "${foodData?['nf_total_carbohydrate']}", "g"),
-                      SizedBox(height: 20),
-                      NutrientInfoRow(
+                      const SizedBox(height: 20),
+                      nutrientInfoRow(
                           "Protein", "${foodData?['nf_protein']}", "g"),
-                      SizedBox(height: 20),
-                      NutrientInfoRow(
+                      const SizedBox(height: 20),
+                      nutrientInfoRow(
                           "Fat", "${foodData?['nf_total_fat']}", "g"),
-                      SizedBox(height: 20),
-                      NutrientInfoRow("Saturated Fat",
+                      const SizedBox(height: 20),
+                      nutrientInfoRow("Saturated Fat",
                           "${foodData?['nf_saturated_fat']}", "g"),
-                      SizedBox(height: 20),
-                      NutrientInfoRow("Cholesterol",
+                      const SizedBox(height: 20),
+                      nutrientInfoRow("Cholesterol",
                           "${foodData?['nf_cholesterol']}", "mg"),
-                      SizedBox(height: 20),
-                      NutrientInfoRow(
+                      const SizedBox(height: 20),
+                      nutrientInfoRow(
                           "Sodium", "${foodData?['nf_sodium']}", "mg"),
-                      SizedBox(height: 20),
-                      NutrientInfoRow("Dietary Fiber",
+                      const SizedBox(height: 20),
+                      nutrientInfoRow("Dietary Fiber",
                           "${foodData?['nf_dietary_fiber']}", "g"),
-                      SizedBox(height: 20),
-                      NutrientInfoRow(
+                      const SizedBox(height: 20),
+                      nutrientInfoRow(
                           "Sugars", "${foodData?['nf_sugars']}", "g"),
-                      SizedBox(height: 20),
-                      NutrientInfoRow(
+                      const SizedBox(height: 20),
+                      nutrientInfoRow(
                           "Potassium", "${foodData?['nf_potassium']}", "mg"),
                     ]),
               ),
             ),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             ElevatedButton(
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
@@ -506,54 +507,54 @@ class _EditMealState extends State<EditMeal> {
                     context,
                     PageRouteBuilder(
                       pageBuilder: (context, animation1, animation2) =>
-                          HomeView(),
+                          const HomeView(),
                       transitionDuration: Duration.zero,
                       reverseTransitionDuration: Duration.zero,
                     ));
               },
-              child: Text(
+              child: const Text(
                 'Delete food',
                 style: TextStyle(
                   color: Colors.white,
                 ),
               ),
             ),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
           ],
         ),
       ),
-      bottomNavigationBar: BottomNav(currentIndex: 2),
+      bottomNavigationBar: const BottomNav(currentIndex: 2),
     );
   }
 
-  Row NutrientInfoRow(String title, String value, String unit) {
+  Row nutrientInfoRow(String title, String value, String unit) {
     return Row(
       children: [
         Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
               color: primaryColor, fontWeight: FontWeight.w500, fontSize: 16),
         ),
-        Spacer(),
+        const Spacer(),
         Row(children: [
           Text(
             value,
-            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
           ),
-          SizedBox(width: 5),
+          const SizedBox(width: 5),
           Text(
             unit,
-            style: TextStyle(fontWeight: FontWeight.w400, fontSize: 16),
+            style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 16),
           ),
         ]),
       ],
     );
   }
 
-  Text TitleName(String text) {
+  Text titleName(String text) {
     return Text(
       text,
-      style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
+      style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
     );
   }
 }

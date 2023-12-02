@@ -30,8 +30,8 @@ class _LoginScreenState extends State<LoginScreen> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text('Email Verification'),
-              content: Text(
+              title: const Text('Email Verification'),
+              content: const Text(
                   'Your email is not verified. Resend verification email?'),
               actions: <Widget>[
                 TextButton(
@@ -39,14 +39,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     Navigator.of(context)
                         .pop(false); // Return false when cancelled
                   },
-                  child: Text('Cancel'),
+                  child: const Text('Cancel'),
                 ),
                 TextButton(
                   onPressed: () {
                     Navigator.of(context)
                         .pop(true); // Return true when confirmed
                   },
-                  child: Text('Resend'),
+                  child: const Text('Resend'),
                 ),
               ],
             );
@@ -118,7 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 color: Colors.white.withOpacity(0.8),
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
-                child: Column(
+                child: const Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CircularProgressIndicator(
@@ -249,7 +249,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 onTap: () {
                   // Implement the logic for 'Forgot Password' action here.
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return ForgotPassword();
+                    return const ForgotPassword();
                   }));
                 },
                 child: const Text(
@@ -321,14 +321,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     // Implement the Sign Up action here.
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return RegistrationPage();
+                      return const RegistrationPage();
                     }));
                   },
               ),
             ],
           ),
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
       ]),
     );
   }

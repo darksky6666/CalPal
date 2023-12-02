@@ -16,7 +16,7 @@ import 'package:heroicons_flutter/heroicons_flutter.dart';
 import 'package:intl/intl.dart';
 
 class AnalysisView extends StatefulWidget {
-  AnalysisView({super.key});
+  const AnalysisView({super.key});
 
   @override
   State<AnalysisView> createState() => _AnalysisViewState();
@@ -271,7 +271,7 @@ class _AnalysisViewState extends State<AnalysisView> {
                                         ),
                                         const SizedBox(height: 40),
                                         // Line chart to show calorie intake for the last 7 days
-                                        Container(
+                                        SizedBox(
                                           height: MediaQuery.of(context)
                                                   .size
                                                   .height *

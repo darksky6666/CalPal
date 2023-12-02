@@ -47,17 +47,17 @@ class _DeleteAccountState extends State<DeleteAccount> {
           child: Padding(
             padding: const EdgeInsets.all(30.0),
             child: Column(children: [
-              Align(
+              const Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
                   "Delete Account?",
                   style: TextStyle(fontWeight: FontWeight.w800, fontSize: 30),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
-              Align(
+              const Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
                     "Please enter your email address and password. We need to verify that it's you before we delete your account.",
@@ -65,7 +65,7 @@ class _DeleteAccountState extends State<DeleteAccount> {
                     style:
                         TextStyle(fontWeight: FontWeight.w300, fontSize: 14)),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               FractionallySizedBox(
@@ -102,7 +102,7 @@ class _DeleteAccountState extends State<DeleteAccount> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               TextFormField(
@@ -195,8 +195,8 @@ class _DeleteAccountState extends State<DeleteAccount> {
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: Text("Confirm Account Deletion?"),
-                            content: Text(
+                            title: const Text("Confirm Account Deletion?"),
+                            content: const Text(
                               "Warning: This action cannot be undone!",
                               style: TextStyle(fontWeight: FontWeight.w800),
                             ),
@@ -206,7 +206,7 @@ class _DeleteAccountState extends State<DeleteAccount> {
                                   Navigator.of(context)
                                       .pop(); // Close the alert dialog
                                 },
-                                child: Text("Cancel",
+                                child: const Text("Cancel",
                                     style: TextStyle(
                                       color: Colors.black,
                                     )),
@@ -250,7 +250,7 @@ class _DeleteAccountState extends State<DeleteAccount> {
                                         fontSize: 16.0);
                                   }
                                 },
-                                child: Text("Delete",
+                                child: const Text("Delete",
                                     style: TextStyle(
                                         color: Colors.red,
                                         fontWeight: FontWeight.w900)),
@@ -261,13 +261,13 @@ class _DeleteAccountState extends State<DeleteAccount> {
                       );
                     }
                   },
-                  child: Text(
+                  child: const Text(
                     "Delete Account",
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
             ]),

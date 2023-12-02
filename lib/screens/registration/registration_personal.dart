@@ -163,7 +163,7 @@ class _RegistrationPage1State extends State<RegistrationPage1> {
                   controller: registrationController.reenterPasswordController,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please reenter your password';
+                      return 'Please re-enter your password';
                     } else if (value !=
                         registrationController.passwordController.text) {
                       return 'Passwords do not match';
@@ -176,7 +176,7 @@ class _RegistrationPage1State extends State<RegistrationPage1> {
                       borderRadius: BorderRadius.circular(17.0),
                       borderSide: const BorderSide(color: Colors.grey),
                     ),
-                    labelText: 'Reenter Password',
+                    labelText: 'Re-enter Password',
                     prefixIcon: const Icon(
                       Icons.lock,
                       color: Colors.grey,

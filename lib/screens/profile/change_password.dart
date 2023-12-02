@@ -196,7 +196,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                 controller: confirmPasswordController,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please reenter your password';
+                    return 'Please re-enter your password';
                   } else if (value != newPasswordController.text) {
                     return 'Passwords do not match';
                   }
@@ -208,7 +208,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                     borderRadius: BorderRadius.circular(17.0),
                     borderSide: const BorderSide(color: Colors.grey),
                   ),
-                  labelText: 'Reenter New Password',
+                  labelText: 'Re-enter New Password',
                   prefixIcon: const Icon(
                     Icons.lock,
                     color: Colors.grey,

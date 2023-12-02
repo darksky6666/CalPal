@@ -145,7 +145,7 @@ class _DeleteAccountState extends State<DeleteAccount> {
                 controller: confirmPasswordController,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please reenter your password';
+                    return 'Please re-enter your password';
                   } else if (value != passwordController.text) {
                     return 'Passwords do not match';
                   }
@@ -157,7 +157,7 @@ class _DeleteAccountState extends State<DeleteAccount> {
                     borderRadius: BorderRadius.circular(17.0),
                     borderSide: const BorderSide(color: Colors.grey),
                   ),
-                  labelText: 'Reenter Password',
+                  labelText: 'Re-enter Password',
                   prefixIcon: const Icon(
                     Icons.lock,
                     color: Colors.grey,

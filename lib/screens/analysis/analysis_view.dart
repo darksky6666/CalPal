@@ -39,6 +39,19 @@ class _AnalysisViewState extends State<AnalysisView> {
   double targetCarbs = 0.0;
   double targetFat = 0.0;
   double targetProtein = 0.0;
+  double targetSaturatedFat = 0.0;
+  double totalSaturatedFat = 0.0;
+  double targetCholesterol = 0.0;
+  double totalCholesterol = 0.0;
+  double targetSodium = 0.0;
+  double totalSodium = 0.0;
+  double targetFiber = 0.0;
+  double totalFiber = 0.0;
+  double targetSugar = 0.0;
+  double totalSugar = 0.0;
+  double targetPotassium = 0.0;
+  double totalPotassium = 0.0;
+  String gender = "Male";
 
   @override
   void initState() {
@@ -48,6 +61,8 @@ class _AnalysisViewState extends State<AnalysisView> {
       setState(() {
         userController.calBudgetController.text = userData.calBudget.toString();
         userController.weightController.text = userData.weight.toString();
+        userController.ageController.text = userData.age.toString();
+        gender = userData.biologicalSex.toString();
 
         // Update the target values for each nutrient
         targetCarbs = controller.getTargetCarbs(
@@ -56,6 +71,16 @@ class _AnalysisViewState extends State<AnalysisView> {
             double.parse(userController.calBudgetController.text));
         targetProtein = controller.getTargetProtein(
             double.parse(userController.weightController.text));
+        targetSaturatedFat = controller.getTargetSaturatedFat(
+            double.parse(userController.calBudgetController.text));
+        targetCholesterol = controller.getTargetCholesterol();
+        targetSodium = controller.getTargetSodium();
+        targetFiber = controller.getTargetFiber(
+            double.parse(userController.calBudgetController.text),
+            int.parse(userController.ageController.text),
+            gender);
+        targetSugar = controller.getTargetSugar(gender);
+        targetPotassium = controller.getTargetPotassium(gender);
       });
     });
     // Update the nutrient totals
@@ -69,6 +94,12 @@ class _AnalysisViewState extends State<AnalysisView> {
     totalCarbs = 0.0;
     totalFat = 0.0;
     totalProtein = 0.0;
+    totalSaturatedFat = 0.0;
+    totalCholesterol = 0.0;
+    totalSodium = 0.0;
+    totalFiber = 0.0;
+    totalSugar = 0.0;
+    totalPotassium = 0.0;
 
     foodController
         .getFoodInfo(DateFormat('yyyyMMdd').format(selectedDate))
@@ -79,6 +110,12 @@ class _AnalysisViewState extends State<AnalysisView> {
           totalCarbs += food.carbs ?? 0;
           totalFat += food.fat ?? 0;
           totalProtein += food.protein ?? 0;
+          totalSaturatedFat += food.saturatedFat ?? 0;
+          totalCholesterol += food.cholesterol ?? 0;
+          totalSodium += food.sodium ?? 0;
+          totalFiber += food.fiber ?? 0;
+          totalSugar += food.sugar ?? 0;
+          totalPotassium += food.potassium ?? 0;
 
           // If this is the last item in the list
           if (value.indexOf(food) == value.length - 1) {
@@ -159,19 +196,19 @@ class _AnalysisViewState extends State<AnalysisView> {
                 children: [
                   Text(
                     '${selectedDate.day.toString().padLeft(2, '0')} ${dateModel.monthAbbreviation[selectedDate.month]} Analysis',
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w800,
                         fontSize: 25),
                   ),
-                  SizedBox(width: 15),
+                  const SizedBox(width: 15),
                   isExpanded
-                      ? Icon(
+                      ? const Icon(
                           HeroiconsSolid.chevronUp,
                           color: Colors.black,
                           size: 22,
                         )
-                      : Icon(HeroiconsSolid.chevronDown,
+                      : const Icon(HeroiconsSolid.chevronDown,
                           color: Colors.black, size: 22),
                 ],
               ),
@@ -185,7 +222,7 @@ class _AnalysisViewState extends State<AnalysisView> {
             Column(
               children: [
                 // Tab Bar
-                TabBar(
+                const TabBar(
                   tabs: [
                     Tab(text: 'Calorie Analysis'),
                     Tab(text: 'Nutrient Analysis'),
@@ -217,7 +254,7 @@ class _AnalysisViewState extends State<AnalysisView> {
                                       BoxShadow(
                                           color: Colors.grey.withOpacity(0.5),
                                           blurRadius: 10,
-                                          offset: Offset(0, 3))
+                                          offset: const Offset(0, 3))
                                     ],
                                   ),
                                   child: Padding(
@@ -226,13 +263,13 @@ class _AnalysisViewState extends State<AnalysisView> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(
+                                        const Text(
                                           "Statistics (Last 7 days)",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w700,
                                               fontSize: 18),
                                         ),
-                                        SizedBox(height: 40),
+                                        const SizedBox(height: 40),
                                         // Line chart to show calorie intake for the last 7 days
                                         Container(
                                           height: MediaQuery.of(context)
@@ -432,7 +469,7 @@ class _AnalysisViewState extends State<AnalysisView> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(height: 20),
+                                const SizedBox(height: 20),
                                 Container(
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
@@ -441,7 +478,7 @@ class _AnalysisViewState extends State<AnalysisView> {
                                       BoxShadow(
                                           color: Colors.grey.withOpacity(0.5),
                                           blurRadius: 10,
-                                          offset: Offset(0, 3))
+                                          offset: const Offset(0, 3))
                                     ],
                                   ),
                                   child: Padding(
@@ -450,13 +487,13 @@ class _AnalysisViewState extends State<AnalysisView> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Text(
+                                          const Text(
                                             "Your Calorie Budget",
                                             style: TextStyle(
                                                 fontWeight: FontWeight.w700,
                                                 fontSize: 18),
                                           ),
-                                          SizedBox(height: 20),
+                                          const SizedBox(height: 20),
                                           Row(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.end,
@@ -467,7 +504,7 @@ class _AnalysisViewState extends State<AnalysisView> {
                                                     percentageCalorie > 100
                                                         ? Text(
                                                             "${percentageCalorie.toString()}%",
-                                                            style: TextStyle(
+                                                            style: const TextStyle(
                                                                 fontSize: 36,
                                                                 color:
                                                                     Colors.red,
@@ -479,7 +516,7 @@ class _AnalysisViewState extends State<AnalysisView> {
                                                           )
                                                         : Text(
                                                             "${percentageCalorie.toString()}%",
-                                                            style: TextStyle(
+                                                            style: const TextStyle(
                                                                 fontSize: 36,
                                                                 color: Colors
                                                                     .lightGreen,
@@ -490,14 +527,15 @@ class _AnalysisViewState extends State<AnalysisView> {
                                                                 TextAlign.end,
                                                           ),
                                               ),
-                                              SizedBox(width: 8),
+                                              const SizedBox(width: 8),
                                               Expanded(
                                                 child: Padding(
                                                   padding:
                                                       const EdgeInsets.only(
                                                           bottom: 12),
                                                   child: Container(
-                                                      decoration: BoxDecoration(
+                                                      decoration:
+                                                          const BoxDecoration(
                                                         border: Border(
                                                           bottom: BorderSide(
                                                             color: Colors.grey,
@@ -520,7 +558,7 @@ class _AnalysisViewState extends State<AnalysisView> {
                                                                         .toStringAsFixed(
                                                                             2))
                                                                     .toString(),
-                                                                style: TextStyle(
+                                                                style: const TextStyle(
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .w800,
@@ -530,7 +568,7 @@ class _AnalysisViewState extends State<AnalysisView> {
                                                                         20)),
                                                             Text(
                                                               " / ${userController.calBudgetController.text} kcal",
-                                                              style: TextStyle(
+                                                              style: const TextStyle(
                                                                   fontSize: 18,
                                                                   fontWeight:
                                                                       FontWeight
@@ -543,22 +581,22 @@ class _AnalysisViewState extends State<AnalysisView> {
                                               ),
                                             ],
                                           ),
-                                          SizedBox(height: 20),
+                                          const SizedBox(height: 20),
                                           // If the percentage is more than 100, show 'You’ve went over your budget, but that’s okay. Let’s do better tomorrow.'
                                           // Else if the percentage = 0, show 'You haven’t started tracking your calories yet. Let’s start today!'
                                           // Else, show 'You are on track of your budget. Good job!'
                                           percentageCalorie > 100
-                                              ? Text(
+                                              ? const Text(
                                                   "You’ve went over your budget, but that’s okay. Let’s do better tomorrow.",
                                                   textAlign: TextAlign.justify,
                                                 )
                                               : percentageCalorie == 0
-                                                  ? Text(
+                                                  ? const Text(
                                                       "You haven’t started tracking your calories yet. Let’s start today!",
                                                       textAlign:
                                                           TextAlign.justify,
                                                     )
-                                                  : Text(
+                                                  : const Text(
                                                       "You are on track of your budget. Good job!",
                                                       textAlign:
                                                           TextAlign.justify,
@@ -566,7 +604,7 @@ class _AnalysisViewState extends State<AnalysisView> {
                                         ]),
                                   ),
                                 ),
-                                SizedBox(height: 20),
+                                const SizedBox(height: 20),
                                 Container(
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
@@ -575,7 +613,7 @@ class _AnalysisViewState extends State<AnalysisView> {
                                       BoxShadow(
                                           color: Colors.grey.withOpacity(0.5),
                                           blurRadius: 10,
-                                          offset: Offset(0, 3))
+                                          offset: const Offset(0, 3))
                                     ],
                                   ),
                                   child: Padding(
@@ -584,13 +622,13 @@ class _AnalysisViewState extends State<AnalysisView> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(
+                                        const Text(
                                           "Top 3 Contributors to Calories",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w700,
                                               fontSize: 18),
                                         ),
-                                        SizedBox(height: 20),
+                                        const SizedBox(height: 20),
                                         FutureBuilder<List<FoodItem>>(
                                           future: controller.getTopFoodItems(
                                               "calories",
@@ -614,7 +652,7 @@ class _AnalysisViewState extends State<AnalysisView> {
                                                   alignment: Alignment.center,
                                                   child: Text(
                                                       "Error: ${snapshot.error}",
-                                                      style: TextStyle(
+                                                      style: const TextStyle(
                                                           color: primaryColor,
                                                           fontSize: 20)));
                                             } else if (!snapshot.hasData ||
@@ -624,7 +662,7 @@ class _AnalysisViewState extends State<AnalysisView> {
                                                       .size
                                                       .width,
                                                   alignment: Alignment.center,
-                                                  child: Text(
+                                                  child: const Text(
                                                       "No data available",
                                                       style: TextStyle(
                                                           color: primaryColor,
@@ -641,7 +679,7 @@ class _AnalysisViewState extends State<AnalysisView> {
                                                         foodItem.calories
                                                             .toString(),
                                                       ),
-                                                      SizedBox(height: 8),
+                                                      const SizedBox(height: 8),
                                                     ],
                                                   );
                                                 }).toList(),
@@ -653,7 +691,7 @@ class _AnalysisViewState extends State<AnalysisView> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(height: 30),
+                                const SizedBox(height: 30),
                               ],
                             ),
                           ),
@@ -670,14 +708,15 @@ class _AnalysisViewState extends State<AnalysisView> {
                                 left: 20, right: 15, bottom: 15, top: 30),
                             child: Column(
                               children: [
-                                Text(
+                                const Text(
                                   "Nutrient Breakdown",
                                   style: TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 20,
+                                    color: primaryColor,
                                   ),
                                 ),
-                                SizedBox(height: 30),
+                                const SizedBox(height: 40),
                                 InkWell(
                                   onTap: () {
                                     Navigator.push(
@@ -696,7 +735,7 @@ class _AnalysisViewState extends State<AnalysisView> {
                                     dailyGoal: targetProtein,
                                   ),
                                 ),
-                                SizedBox(height: 30),
+                                const SizedBox(height: 35),
                                 InkWell(
                                   onTap: () {
                                     Navigator.push(
@@ -715,7 +754,7 @@ class _AnalysisViewState extends State<AnalysisView> {
                                     dailyGoal: targetFat,
                                   ),
                                 ),
-                                SizedBox(height: 30),
+                                const SizedBox(height: 35),
                                 InkWell(
                                   onTap: () {
                                     Navigator.push(
@@ -734,7 +773,121 @@ class _AnalysisViewState extends State<AnalysisView> {
                                     dailyGoal: targetCarbs,
                                   ),
                                 ),
-                                SizedBox(height: 30),
+                                const SizedBox(height: 35),
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => NutrientView(
+                                                  nutrientName: 'Saturated Fat',
+                                                  date: selectedDate,
+                                                  total: totalSaturatedFat,
+                                                  target: targetSaturatedFat,
+                                                )));
+                                  },
+                                  child: NutrientProgressBar(
+                                    nutrientName: 'Saturated Fat',
+                                    consumed: totalSaturatedFat,
+                                    dailyGoal: targetSaturatedFat,
+                                  ),
+                                ),
+                                const SizedBox(height: 35),
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => NutrientView(
+                                                  nutrientName: 'Cholesterol',
+                                                  date: selectedDate,
+                                                  total: totalCholesterol,
+                                                  target: targetCholesterol,
+                                                )));
+                                  },
+                                  child: NutrientProgressBar(
+                                    nutrientName: 'Cholesterol',
+                                    consumed: totalCholesterol,
+                                    dailyGoal: targetCholesterol,
+                                  ),
+                                ),
+                                const SizedBox(height: 35),
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => NutrientView(
+                                                  nutrientName: 'Sodium',
+                                                  date: selectedDate,
+                                                  total: totalSodium,
+                                                  target: targetSodium,
+                                                )));
+                                  },
+                                  child: NutrientProgressBar(
+                                    nutrientName: 'Sodium',
+                                    consumed: totalSodium,
+                                    dailyGoal: targetSodium,
+                                  ),
+                                ),
+                                const SizedBox(height: 35),
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => NutrientView(
+                                                  nutrientName: 'Dietary Fiber',
+                                                  date: selectedDate,
+                                                  total: totalFiber,
+                                                  target: targetFiber,
+                                                )));
+                                  },
+                                  child: NutrientProgressBar(
+                                    nutrientName: 'Dietary Fiber',
+                                    consumed: totalFiber,
+                                    dailyGoal: targetFiber,
+                                  ),
+                                ),
+                                const SizedBox(height: 35),
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => NutrientView(
+                                                  nutrientName: 'Sugars',
+                                                  date: selectedDate,
+                                                  total: totalSugar,
+                                                  target: targetSugar,
+                                                )));
+                                  },
+                                  child: NutrientProgressBar(
+                                    nutrientName: 'Sugars',
+                                    consumed: totalSugar,
+                                    dailyGoal: targetSugar,
+                                  ),
+                                ),
+                                const SizedBox(height: 35),
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => NutrientView(
+                                                  nutrientName: 'Potassium',
+                                                  date: selectedDate,
+                                                  total: totalPotassium,
+                                                  target: targetPotassium,
+                                                )));
+                                  },
+                                  child: NutrientProgressBar(
+                                    nutrientName: 'Potassium',
+                                    consumed: totalPotassium,
+                                    dailyGoal: targetPotassium,
+                                  ),
+                                ),
+                                const SizedBox(height: 30),
                               ],
                             ),
                           ),
@@ -751,13 +904,13 @@ class _AnalysisViewState extends State<AnalysisView> {
               Column(
                 children: [
                   Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Colors.white,
                     ),
                     child: DatePicker(
-                      selectedDate.subtract(Duration(days: 5)),
-                      dayTextStyle:
-                          TextStyle(color: Colors.transparent, fontSize: 0),
+                      selectedDate.subtract(const Duration(days: 5)),
+                      dayTextStyle: const TextStyle(
+                          color: Colors.transparent, fontSize: 0),
                       controller: dateController,
                       initialSelectedDate: selectedDate,
                       daysCount: 11,
@@ -793,19 +946,19 @@ class _AnalysisViewState extends State<AnalysisView> {
     return Row(
       children: [
         Text(foodName,
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.w700,
               color: purpleColor,
               fontSize: 15,
             )),
-        Spacer(),
+        const Spacer(),
         Row(
           children: [
             Text(
               calorie,
-              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
+              style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
             ),
-            Text(
+            const Text(
               " kcal",
               style: TextStyle(fontSize: 15),
             )

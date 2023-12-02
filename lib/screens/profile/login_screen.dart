@@ -277,7 +277,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   // Implement the login logic here.
                   await signInWithEmailAndPassword();
                   if (authService.currentUser != null && status) {
-                    Navigator.pushReplacementNamed(context, '/');
+                    if (mounted) {
+                      Navigator.pushReplacementNamed(context, '/');
+                    }
                   }
                 } finally {
                   setState(() {

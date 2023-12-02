@@ -6,6 +6,7 @@ import 'package:calpal/screens/components/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:liquid_progress_indicator_v2/liquid_progress_indicator.dart';
 
 class NutrientView extends StatefulWidget {
   const NutrientView({
@@ -45,10 +46,47 @@ class _NutrientViewState extends State<NutrientView> {
         queryLabel = "fat";
       } else if (widget.nutrientName == "Carbs") {
         queryLabel = "carbs";
+      } else if (widget.nutrientName == "Saturated Fat") {
+        queryLabel = "saturatedFat";
+      } else if (widget.nutrientName == "Cholesterol") {
+        queryLabel = "cholesterol";
+      } else if (widget.nutrientName == "Sodium") {
+        queryLabel = "sodium";
+      } else if (widget.nutrientName == "Dietary Fiber") {
+        queryLabel = "fiber";
+      } else if (widget.nutrientName == "Sugars") {
+        queryLabel = "sugar";
+      } else if (widget.nutrientName == "Potassium") {
+        queryLabel = "potassium";
       } else {
         queryLabel = "none";
       }
     });
+  }
+
+  static Path buildHeartPath(double width, double height) {
+    Path path = Path()
+      ..moveTo(55, 15)
+      ..cubicTo(55, 12, 50, 0, 30, 0)
+      ..cubicTo(0, 0, 0, 37.5, 0, 37.5)
+      ..cubicTo(0, 55, 20, 77, 55, 95)
+      ..cubicTo(90, 77, 110, 55, 110, 37.5)
+      ..cubicTo(110, 37.5, 110, 0, 80, 0)
+      ..cubicTo(65, 0, 55, 12, 55, 15)
+      ..close();
+
+    Rect bounds = path.getBounds();
+    double pathWidth = bounds.width;
+    double pathHeight = bounds.height;
+
+    double scaleX = width / pathWidth;
+    double scaleY = height / pathHeight;
+
+    final scaledPath = path.transform(
+      Matrix4.diagonal3Values(scaleX, scaleY, 1.0).storage,
+    );
+
+    return scaledPath;
   }
 
   @override
@@ -57,7 +95,7 @@ class _NutrientViewState extends State<NutrientView> {
       appBar: AppBar(
         title: Text(
           '${widget.date.day.toString().padLeft(2, '0')} ${dateModel.monthAbbreviation[widget.date.month]} - ${widget.nutrientName}',
-          style: TextStyle(
+          style: const TextStyle(
               color: Colors.black, fontWeight: FontWeight.w800, fontSize: 25),
         ),
       ),
@@ -67,6 +105,91 @@ class _NutrientViewState extends State<NutrientView> {
           padding: const EdgeInsets.all(30.0),
           child: Column(
             children: [
+              // Nutrient Summary
+              Container(
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        blurRadius: 10,
+                        offset: const Offset(0, 3))
+                  ],
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      top: 15, left: 15, right: 15, bottom: 25),
+                  child: Column(children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text("Nutrient Summary",
+                          style: const TextStyle(
+                              fontWeight: FontWeight.w700, fontSize: 18)),
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      children: [
+                        LiquidCustomProgressIndicator(
+                          value: percentage / 100,
+                          direction: Axis.vertical,
+                          backgroundColor: Colors.grey[200],
+                          valueColor: AlwaysStoppedAnimation(
+                              percentage > 100 ? Colors.red : primaryColor),
+                          shapePath: buildHeartPath(50, 50),
+                        ),
+                        // If landscape mode, add more spacing
+                        MediaQuery.of(context).orientation ==
+                                Orientation.landscape
+                            // Landscape mode
+                            ? const SizedBox(width: 40)
+                            // Portrait mode
+                            : percentage > 100
+                                ? const SizedBox(width: 15)
+                                : const SizedBox(width: 25),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            percentage > 100
+                                ? Text(
+                                    "You've exceeded your goal!",
+                                    style: TextStyle(
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 17),
+                                  )
+                                : Text(
+                                    "You're on track!",
+                                    style: TextStyle(
+                                        color: primaryColor,
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 17),
+                                  ),
+                            const SizedBox(height: 5),
+                            percentage > 100
+                                ? Text(
+                                    "Try to reduce your intake.",
+                                    style: TextStyle(
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16),
+                                  )
+                                : Text(
+                                    "Keep it up!",
+                                    style: TextStyle(
+                                        color: primaryColor,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16),
+                                  )
+                          ],
+                        )
+                      ],
+                    ),
+                  ]),
+                ),
+              ),
+              const SizedBox(height: 20),
               // Total Consumed
               Container(
                 decoration: BoxDecoration(
@@ -76,7 +199,7 @@ class _NutrientViewState extends State<NutrientView> {
                     BoxShadow(
                         color: Colors.grey.withOpacity(0.5),
                         blurRadius: 10,
-                        offset: Offset(0, 3))
+                        offset: const Offset(0, 3))
                   ],
                 ),
                 child: Padding(
@@ -86,10 +209,10 @@ class _NutrientViewState extends State<NutrientView> {
                       children: [
                         Text(
                           "Total ${widget.nutrientName} Consumed",
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontWeight: FontWeight.w700, fontSize: 18),
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
@@ -99,7 +222,7 @@ class _NutrientViewState extends State<NutrientView> {
                                   percentage > 100
                                       ? Text(
                                           "${percentage.toString()}%",
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontSize: 36,
                                               color: Colors.red,
                                               fontWeight: FontWeight.w900),
@@ -107,19 +230,19 @@ class _NutrientViewState extends State<NutrientView> {
                                         )
                                       : Text(
                                           "${percentage.toString()}%",
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontSize: 36,
                                               color: Colors.lightGreen,
                                               fontWeight: FontWeight.w900),
                                           textAlign: TextAlign.end,
                                         ),
                             ),
-                            SizedBox(width: 8),
+                            const SizedBox(width: 8),
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.only(bottom: 12),
                                 child: Container(
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                       border: Border(
                                         bottom: BorderSide(
                                           color: Colors.grey,
@@ -134,16 +257,28 @@ class _NutrientViewState extends State<NutrientView> {
                                             MainAxisAlignment.end,
                                         children: [
                                           Text(widget.total.toStringAsFixed(1),
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   fontWeight: FontWeight.w800,
                                                   color: purpleColor,
                                                   fontSize: 20)),
-                                          Text(
-                                            " g / ${widget.target.toStringAsFixed(1)} g",
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w500),
-                                          ),
+                                          if (widget.nutrientName ==
+                                                  'Cholesterol' ||
+                                              widget.nutrientName == 'Sodium' ||
+                                              widget.nutrientName ==
+                                                  'Potassium')
+                                            Text(
+                                              " mg / ${widget.target.toStringAsFixed(1)} mg",
+                                              style: const TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w500),
+                                            )
+                                          else
+                                            Text(
+                                              " g / ${widget.target.toStringAsFixed(1)} g",
+                                              style: const TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
                                         ],
                                       ),
                                     )),
@@ -151,34 +286,70 @@ class _NutrientViewState extends State<NutrientView> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 20),
-                        // If widget.nutrientName is protein, show Your body uses protein to build and repair muscles and bones and to make hormones and enzymes.
-                        // Else if widget.nutrientName is fat, show Your body relies on fat as a crucial energy source and uses it to absorb fat-soluble vitamins (A, D, E, and K). Additionally, fat plays a vital role in cell structure, insulation, and the production of hormones.
-                        // Else if widget.nutrientName is carbs, show Your body uses carbs as its main fuel source. Complex carbs are broken down into glucose, which is used to fuel cells like those of your brain and muscles. Additionally, carbs are stored in your muscles and liver as glycogen, which is used for energy.
-                        // Else show widget.nutrientName is not protein, fat or carbs
+                        const SizedBox(height: 20),
                         widget.nutrientName == "Proteins"
-                            ? Text(
-                                "Your body uses protein to build and repair muscles and bones and to make hormones and enzymes.",
+                            ? const Text(
+                                proteinDescription,
                                 textAlign: TextAlign.justify,
                               )
                             : widget.nutrientName == "Fat"
-                                ? Text(
-                                    "Your body relies on fat as a crucial energy source and uses it to absorb fat-soluble vitamins (A, D, E, and K). Additionally, fat plays a vital role in cell structure, insulation, and the production of hormones.",
+                                ? const Text(
+                                    fatDescription,
                                     textAlign: TextAlign.justify,
                                   )
                                 : widget.nutrientName == "Carbs"
-                                    ? Text(
-                                        "Your body uses carbs as its main fuel source. Complex carbs are broken down into glucose, which is used to fuel cells like those of your brain and muscles. Additionally, carbs are stored in your muscles and liver as glycogen, which is used for energy.",
+                                    ? const Text(
+                                        carbsDescription,
                                         textAlign: TextAlign.justify,
                                       )
-                                    : Text(
-                                        "${widget.nutrientName} is not proteins, fat or carbs",
-                                        textAlign: TextAlign.justify,
-                                      ),
+                                    : widget.nutrientName == "Saturated Fat"
+                                        ? const Text(
+                                            saturatedFatDescription,
+                                            textAlign: TextAlign.justify,
+                                          )
+                                        : widget.nutrientName == "Cholesterol"
+                                            ? const Text(
+                                                cholesterolDescription,
+                                                textAlign: TextAlign.justify,
+                                              )
+                                            : widget.nutrientName == "Sodium"
+                                                ? const Text(
+                                                    sodiumDescription,
+                                                    textAlign:
+                                                        TextAlign.justify,
+                                                  )
+                                                : widget.nutrientName ==
+                                                        "Dietary Fiber"
+                                                    ? const Text(
+                                                        fiberDescription,
+                                                        textAlign:
+                                                            TextAlign.justify,
+                                                      )
+                                                    : widget.nutrientName ==
+                                                            "Sugars"
+                                                        ? const Text(
+                                                            sugarDescription,
+                                                            textAlign: TextAlign
+                                                                .justify,
+                                                          )
+                                                        : widget.nutrientName ==
+                                                                "Potassium"
+                                                            ? const Text(
+                                                                potassiumDescription,
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .justify,
+                                                              )
+                                                            : const Text(
+                                                                "Sorry information about this nutrient is not available.",
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .justify,
+                                                              ),
                       ]),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               // Top 3 Contributors
               Container(
                 decoration: BoxDecoration(
@@ -188,7 +359,7 @@ class _NutrientViewState extends State<NutrientView> {
                     BoxShadow(
                         color: Colors.grey.withOpacity(0.5),
                         blurRadius: 10,
-                        offset: Offset(0, 3))
+                        offset: const Offset(0, 3))
                   ],
                 ),
                 child: Padding(
@@ -196,12 +367,12 @@ class _NutrientViewState extends State<NutrientView> {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           "Top 3 Contributors",
                           style: TextStyle(
                               fontWeight: FontWeight.w700, fontSize: 18),
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         FutureBuilder<List<FoodItem>>(
                           future: controller.getTopFoodItems(queryLabel,
                               DateFormat('yyyyMMdd').format(widget.date)),
@@ -209,8 +380,7 @@ class _NutrientViewState extends State<NutrientView> {
                             if (snapshot.connectionState ==
                                 ConnectionState.waiting) {
                               return Container(
-                                  width:
-                                      MediaQuery.of(context).size.width,
+                                  width: MediaQuery.of(context).size.width,
                                   alignment: Alignment.center,
                                   child: const CircularProgressIndicator());
                             } else if (snapshot.hasError) {
@@ -220,7 +390,7 @@ class _NutrientViewState extends State<NutrientView> {
                               return Container(
                                   width: MediaQuery.of(context).size.width,
                                   alignment: Alignment.center,
-                                  child: Text("No data available",
+                                  child: const Text("No data available",
                                       style: TextStyle(
                                           color: primaryColor, fontSize: 20)));
                             } else {
@@ -241,9 +411,37 @@ class _NutrientViewState extends State<NutrientView> {
                                                 ? foodItem.fat.toString()
                                                 : queryLabel == "carbs"
                                                     ? foodItem.carbs.toString()
-                                                    : "N/A",
+                                                    : queryLabel ==
+                                                            "saturatedFat"
+                                                        ? foodItem.saturatedFat
+                                                            .toString()
+                                                        : queryLabel ==
+                                                                "cholesterol"
+                                                            ? foodItem
+                                                                .cholesterol
+                                                                .toString()
+                                                            : queryLabel ==
+                                                                    "sodium"
+                                                                ? foodItem
+                                                                    .sodium
+                                                                    .toString()
+                                                                : queryLabel ==
+                                                                        "fiber"
+                                                                    ? foodItem
+                                                                        .fiber
+                                                                        .toString()
+                                                                    : queryLabel ==
+                                                                            "sugar"
+                                                                        ? foodItem
+                                                                            .sugar
+                                                                            .toString()
+                                                                        : queryLabel ==
+                                                                                "potassium"
+                                                                            ? foodItem.potassium.toString()
+                                                                            : "N/A",
+                                        widget.nutrientName,
                                       ),
-                                      SizedBox(height: 8),
+                                      const SizedBox(height: 8),
                                     ],
                                   );
                                 }).toList(),
@@ -262,26 +460,34 @@ class _NutrientViewState extends State<NutrientView> {
     );
   }
 
-  Row contributorRow(String foodName, String value) {
+  Row contributorRow(String foodName, String value, String nutrient) {
     return Row(
       children: [
         Text(foodName,
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.w700,
               color: purpleColor,
               fontSize: 15,
             )),
-        Spacer(),
+        const Spacer(),
         Row(
           children: [
             Text(
               value,
-              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
+              style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
             ),
-            Text(
-              " g",
-              style: TextStyle(fontSize: 15),
-            )
+            if (nutrient == 'Cholesterol' ||
+                nutrient == 'Sodium' ||
+                nutrient == 'Potassium')
+              const Text(
+                " mg",
+                style: TextStyle(fontSize: 15),
+              )
+            else
+              const Text(
+                " g",
+                style: TextStyle(fontSize: 15),
+              )
           ],
         )
       ],

@@ -10,6 +10,12 @@ class FoodItem {
   final double? fat;
   final double? carbs;
   final String? docId;
+  final double? saturatedFat;
+  final double? cholesterol;
+  final double? sodium;
+  final double? fiber;
+  final double? sugar;
+  final double? potassium;
 
   FoodItem({
     this.name,
@@ -21,6 +27,12 @@ class FoodItem {
     this.fat,
     this.carbs,
     this.docId,
+    this.saturatedFat,
+    this.cholesterol,
+    this.sodium,
+    this.fiber,
+    this.sugar,
+    this.potassium,
   });
 
   // Convert a FoodItem into a Map object
@@ -34,6 +46,12 @@ class FoodItem {
       'protein': protein,
       'fat': fat,
       'carbs': carbs,
+      'saturatedFat': saturatedFat,
+      'cholesterol': cholesterol,
+      'sodium': sodium,
+      'fiber': fiber,
+      'sugar': sugar,
+      'potassium': potassium,
     };
   }
 
@@ -51,6 +69,12 @@ class FoodItem {
       fat: (data['fat'] as num?)?.toDouble() ?? 0.0,
       carbs: (data['carbs'] as num?)?.toDouble() ?? 0.0,
       docId: data['docId'],
+      saturatedFat: (data['saturatedFat'] as num?)?.toDouble() ?? 0.0,
+      cholesterol: (data['cholesterol'] as num?)?.toDouble() ?? 0.0,
+      sodium: (data['sodium'] as num?)?.toDouble() ?? 0.0,
+      fiber: (data['fiber'] as num?)?.toDouble() ?? 0.0,
+      sugar: (data['sugar'] as num?)?.toDouble() ?? 0.0,
+      potassium: (data['potassium'] as num?)?.toDouble() ?? 0.0,
     );
   }
 

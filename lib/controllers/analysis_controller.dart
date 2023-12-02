@@ -65,4 +65,78 @@ class AnalysisController extends GetxController {
     // 1g of carbs = 4 calories
     return (targetCalories * 0.50) / 4;
   }
+
+  // Get target saturated fat that the user should consume
+  double getTargetSaturatedFat(double targetCalories) {
+    // Reference: https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/in-depth/fat/art-20045550
+    // Target saturated fat is 5% of total calories
+    // 1g of saturated fat = 9 calories
+    return (targetCalories * 0.05) / 9;
+  }
+
+  // Get target cholesterol that the user should consume
+  double getTargetCholesterol() {
+    // Reference: https://www.ahajournals.org/doi/10.1161/01.cir.102.18.2284
+    // Target cholesterol is 300mg per day
+    return 300;
+  }
+
+  // Get target sodium that the user should consume
+  double getTargetSodium() {
+    // Reference: https://www.fda.gov/food/nutrition-education-resources-materials/sodium-your-diet
+    // Target sodium is 2300mg per day
+    return 2300;
+  }
+
+  // Get target fiber that the user should consume
+  double getTargetFiber(double targetCalories, int age, String gender) {
+    // Reference: https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/in-depth/fiber/art-20043983
+    // 38 grams for Male aged 50 or younger or 30 grams for Male aged 51 or older
+    // 25 grams for Female aged 50 or younger or 21 grams for Female aged 51 or older
+    double targetFiber;
+    if (gender.toLowerCase() == 'male') {
+      if (age <= 50) {
+        targetFiber = 38; // grams for males aged 50 or younger
+      } else {
+        targetFiber = 30; // grams for males aged 51 or older
+      }
+    } else if (gender.toLowerCase() == 'female') {
+      if (age <= 50) {
+        targetFiber = 25; // grams for females aged 50 or younger
+      } else {
+        targetFiber = 21; // grams for females aged 51 or older
+      }
+    } else {
+      targetFiber =
+          0; // Set default value to 0 if gender is not specified or recognized
+    }
+    return targetFiber;
+  }
+
+  // Get target sugar that the user should consume
+  double getTargetSugar(String gender) {
+    // Reference: https://www.heart.org/en/healthy-living/healthy-eating/eat-smart/sugar/how-much-sugar-is-too-much
+    double targetSugar;
+
+    if (gender.toLowerCase() == 'male') {
+      targetSugar = 36; // grams for men
+    } else {
+      targetSugar = 25; // grams for women
+    }
+
+    return targetSugar;
+  }
+
+  // Get target potassium that the user should consume
+  double getTargetPotassium(String gender) {
+    // Reference: https://www.heart.org/en/health-topics/high-blood-pressure/changes-you-can-make-to-manage-high-blood-pressure/how-potassium-can-help-control-high-blood-pressure
+    // 3400mg for Male and 2600mg for Female
+    double targetPotassium;
+    if (gender.toLowerCase() == "male") {
+      targetPotassium = 3400;
+    } else {
+      targetPotassium = 2600;
+    }
+    return targetPotassium;
+  }
 }

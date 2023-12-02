@@ -59,3 +59,21 @@ By using CalPal, you agree to this Privacy Policy. It's important to review this
 
 This Privacy Policy was last updated on [27/11/2023].
 ''';
+const String carbsDescription =
+    'Carbohydrates are a macronutrient that provides the body with energy. They are a primary source of fuel for the brain, kidneys, heart, muscles, and central nervous system. Carbs are also essential for intestinal health and waste elimination.';
+const String proteinDescription =
+    'Protein is an essential macronutrient that plays a vital role in building and repairing tissues, producing enzymes and hormones, and maintaining healthy bones, muscles, cartilage, skin, and blood. Protein is also a key component of a healthy diet, as it helps you feel full for longer, reducing hunger and appetite.';
+const String fatDescription =
+    'Fat is a macronutrient that provides the body with energy and aids in the absorption of fat-soluble vitamins. Fat is also a vital component of cell membranes, nerve sheaths, and hormones. It also helps regulate body temperature, cushion vital organs, and maintain healthy hair and skin.';
+const String saturatedFatDescription =
+    'Saturated fat is a type of fat that is solid at room temperature. It is primarily found in animal products, such as meat, dairy, and eggs. Saturated fat is also present in some plant-based foods, such as coconut oil, palm oil, and cocoa butter.';
+const String cholesterolDescription =
+    'Cholesterol is a waxy substance found in the blood. It is essential for building healthy cells, producing vitamin D, and making hormones. However, high levels of cholesterol can increase the risk of heart disease.';
+const String sodiumDescription =
+    'Sodium is an essential mineral that plays a vital role in maintaining fluid balance, regulating blood pressure, and transmitting nerve impulses. However, excessive sodium intake can lead to high blood pressure, heart disease, and stroke.';
+const String fiberDescription =
+    'Fiber is a type of carbohydrate that the body cannot digest. It is essential for maintaining a healthy digestive system and regulating bowel movements. Fiber also helps lower cholesterol levels and control blood sugar levels.';
+const String sugarDescription =
+    'Sugar is a type of carbohydrate that provides the body with energy. It is naturally present in fruits, vegetables, and dairy products. However, added sugar is a common ingredient in processed foods and beverages, such as candy, cakes, cookies, and soft drinks.';
+const String potassiumDescription =
+    'Potassium is an essential mineral that plays a vital role in regulating fluid balance, muscle contractions, and nerve signals. It also helps lower blood pressure and reduce the risk of kidney stones.';

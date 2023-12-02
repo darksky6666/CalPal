@@ -65,6 +65,12 @@ class FoodRepository extends GetxController {
           'fat': food.fat,
           'protein': food.protein,
           'carbs': food.carbs,
+          'saturatedFat': food.saturatedFat,
+          'cholesterol': food.cholesterol,
+          'sodium': food.sodium,
+          'fiber': food.fiber,
+          'sugar': food.sugar,
+          'potassium': food.potassium,
         })
         .whenComplete(() => Fluttertoast.showToast(
               msg: "Successfully updated",

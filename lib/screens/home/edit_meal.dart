@@ -151,6 +151,10 @@ class _EditMealState extends State<EditMeal> {
                     double.tryParse(servingSize) == null) {
                   throw const FormatException('Invalid serving size');
                 }
+                if (foodData == null) {
+                  throw const FormatException(
+                      'Please wait for food data to load');
+                }
                 // Update the food data
                 final food = FoodItem(
                   docId: widget.docId,
@@ -162,6 +166,18 @@ class _EditMealState extends State<EditMeal> {
                       foodData!['nf_total_carbohydrate'].toString()),
                   fat: double.parse(foodData!['nf_total_fat'].toString()),
                   protein: double.parse(foodData!['nf_protein'].toString()),
+                  saturatedFat: double.parse(
+                      foodData!['nf_saturated_fat']?.toString() ?? '0.0'),
+                  cholesterol: double.parse(
+                      foodData!['nf_cholesterol']?.toString() ?? '0.0'),
+                  sodium:
+                      double.parse(foodData!['nf_sodium']?.toString() ?? '0.0'),
+                  fiber: double.parse(
+                      foodData!['nf_dietary_fiber']?.toString() ?? '0.0'),
+                  sugar:
+                      double.parse(foodData!['nf_sugars']?.toString() ?? '0.0'),
+                  potassium: double.parse(
+                      foodData!['nf_potassium']?.toString() ?? '0.0'),
                 );
                 controller.updateFood(food, widget.date);
                 Navigator.pop(context);
@@ -173,6 +189,14 @@ class _EditMealState extends State<EditMeal> {
                       transitionDuration: Duration.zero,
                       reverseTransitionDuration: Duration.zero,
                     ));
+              } on FormatException catch (e) {
+                Fluttertoast.showToast(
+                    msg: e.message,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: Colors.redAccent.withOpacity(0.1),
+                    textColor: Colors.red,
+                    fontSize: 16.0);
               } catch (e) {
                 log(e.toString());
                 Fluttertoast.showToast(

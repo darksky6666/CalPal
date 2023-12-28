@@ -366,8 +366,8 @@ class _FoodDetailState extends State<FoodDetail> {
                               'g',
                               'piece',
                               'slice',
-                              'cup',
                               'tbsp',
+                              'bowl',
                               'ml',
                             ].map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(

@@ -248,7 +248,7 @@ class _UserProfileState extends State<UserProfile> {
                             medical = newValue!;
                           });
                         },
-                        items: <String>['None', 'Heart', 'Diabetes']
+                        items: <String>['None', 'Hyperlipidemia', 'Diabetes']
                             .map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,

@@ -151,11 +151,16 @@ class FoodAlertController {
       String foodName, String medicalCondition) {
     final foodData = foodInformation[foodName];
 
+    String health = medicalCondition.toLowerCase();
+    if (health == "hyperlipidemia") {
+      health = "heart";
+    }
+
     if (foodData != null) {
       final notSuitableFor = foodData["notSuitable"] ?? "";
       final conditions = notSuitableFor.split(",");
 
-      if (conditions.contains(medicalCondition.toLowerCase())) {
+      if (conditions.contains(health)) {
         return foodData;
       }
     }

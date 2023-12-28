@@ -152,7 +152,7 @@ class _RegistrationPage2State extends State<RegistrationPage2> {
                       setState(() {});
                       registrationController.updateMedicalCondition(newValue!);
                     },
-                    items: <String>['None', 'Heart', 'Diabetes']
+                    items: <String>['None', 'Hyperlipidemia', 'Diabetes']
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,

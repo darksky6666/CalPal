@@ -8,6 +8,7 @@ import 'package:calpal/screens/components/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heroicons_flutter/heroicons_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:ionicons/ionicons.dart';
 
 class GoalView extends StatefulWidget {
@@ -20,6 +21,7 @@ class GoalView extends StatefulWidget {
 class _GoalViewState extends State<GoalView> {
   final controller = Get.put(UserController());
   final healthController = Get.put(HealthCalculatorController());
+  String currentDate = DateFormat('dd/MM/yyyy').format(DateTime.now());
   String targetDate = "";
   int calDeficit = 0;
   int daysToTarget = 0;
@@ -335,8 +337,28 @@ class _GoalViewState extends State<GoalView> {
                         onTap: () {
                           navigateToEditGoal();
                         },
+                        child: weightGoalRow(Ionicons.calendar_number_outline,
+                            "Current Date", currentDate, ""),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          navigateToEditGoal();
+                        },
                         child: weightGoalRow(Ionicons.calendar_outline,
                             "Target Date", targetDate, ""),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          navigateToEditGoal();
+                        },
+                        child: weightGoalRow(Ionicons.hourglass_outline,
+                            "Total Days to Goal", daysToTarget, "days"),
                       ),
                     ],
                   ),

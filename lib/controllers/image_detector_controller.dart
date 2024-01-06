@@ -127,10 +127,10 @@ class FoodDetectorController extends GetxController {
         for (var i = 0; i < detector.length; i++) {
           double confidenceValue = detector[i]['confidence'];
 
-          if (confidenceValue >= 0.6) {
+          // if (confidenceValue >= 0.6) {
             detectionResult.value = "${detector[i]['label']}";
             detectionConfidence.value = confidenceValue.toStringAsFixed(2);
-          }
+          //}
         }
       }
     } on Exception catch (e) {
